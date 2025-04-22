@@ -1,0 +1,160 @@
+@import "./styles/variables.scss";
+
+.studio-container {
+  color: $primary-font-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+}
+
+.studio-picture {
+  display: flex;
+  justify-content: center;
+  img {
+    max-width: 80%;
+  }
+}
+.studio-line {
+  height: 2px;
+  background-color: white;
+  margin: 10px 30px;
+}
+.studio-main {
+  padding: 10px 20px 20px 20px;
+  display: flex;
+  flex-direction: column;
+}
+.studio-titles {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  font-family: $primary-font-family;
+  h1 {
+    text-transform: uppercase;
+    margin-left: 30px;
+    font-size: 2.5rem;
+  }
+}
+.studio-title-description {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  flex-direction: row;
+  padding-right: 20px;
+  gap: 10px;
+  img {
+    height: 20px;
+  }
+}
+
+.studio-paragraph {
+  margin-top: 10px;
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    font-family: $primary-font-family;
+  }
+}
+
+.studio-caroussel {
+  img {
+    padding: 0 10px;
+    margin-top: 20px;
+  }
+}
+@media (min-width: 667px) and (max-width: 932px) and (orientation: landscape) {
+  .studio-header-mobile-landscape {
+    display: flex;
+    flex-direction: row;
+  }
+  .studio-picture {
+    img {
+      max-width: 90%;
+      justify-content: flex-start;
+    }
+    flex: 1;
+  }
+  .studio-titles {
+    flex: 2;
+  }
+  .studio-caroussel {
+    display: flex;
+    justify-content: center;
+  }
+  .studio-paragraph p {
+    font-size: 1.5rem;
+  }
+}
+@media (min-width: 768px) and (orientation: portrait) {
+  .studio-titles {
+    h1 {
+      margin-left: 60px;
+      font-size: 3rem;
+    }
+  }
+  .studio-title-description {
+    padding-right: 60px;
+    img {
+      height: 40px;
+    }
+    font-size: 1.5rem;
+  }
+  .studio-line {
+    margin: 20px 60px;
+  }
+  .studio-main {
+    padding: 10px 60px 20px 60px;
+  }
+  .studio-caroussel {
+    img {
+      padding: 30px;
+    }
+  }
+  .studio-paragraph {
+    p {
+      font-size: 2rem;
+    }
+  }
+}
+
+@media (min-width: 1024px) and (orientation: landscape) {
+  .studio-header-mobile-landscape {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .studio-picture {
+    flex: 1;
+  }
+  .studio-title-description {
+    font-size: 2rem;
+  }
+  .studio-caroussel-container {
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+  }
+  .studio-caroussel {
+    margin-top: 20px;
+    border: 1px solid white;
+  }
+  .studio-titles {
+    flex: 2;
+    h1 {
+      font-size: 4rem;
+    }
+    h3 {
+      font-size: 4rem;
+    }
+  }
+  .studio-paragraph {
+    padding: 30px;
+    p {
+      font-size: 2.5rem;
+    }
+  }
+  .studio-main {
+    padding: 20px;
+  }
+}

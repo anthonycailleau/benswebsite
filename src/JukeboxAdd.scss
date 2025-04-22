@@ -1,0 +1,81 @@
+@import "./styles/variables.scss";
+
+.jukebox-add-container {
+  color: $primary-font-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 20px;
+  height: 100vh;
+}
+.jukebox-add-header {
+  display: flex;
+  flex-direction: row;
+}
+.jukebox-add-picture {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  height: 50%;
+}
+.jukebox-add-title-line {
+  height: 2px;
+  background-color: white;
+  margin: 10px 30px;
+}
+
+.jukebox-add-main {
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: $primary-font-family;
+  height: 100vh;
+  h1 {
+    text-transform: uppercase;
+    margin-left: 30px;
+    font-size: 5rem;
+  }
+  .jukebox-add-title {
+   h1 {
+      font-family: $primary-font-family;
+      color: $primary-font-color;
+      font-size: 6rem;
+      margin-left: 30px;
+    }
+  }
+  .jukebox-add-user-title {
+    h4 {
+      font-family: $primary-font-family;
+      color: $primary-font-color;
+      font-size: 5rem;
+      text-align: right;
+      margin-right: 30px;
+    }
+  }
+  .jukebox-add-download-title {
+    h5 {
+      font-family: $primary-font-family;
+      color: $primary-font-color;
+      font-size: 4rem;
+      margin-left: 30px;
+    }
+  }
+  .jukebox-add-download-container {
+    display: flex;
+    flex-direction: column;
+    :nth-child(2) {
+      align-self: center;
+    }
+  }
+  .jukebox-add-button {
+    background-color: black;
+    color: rgb(255, 255, 255);
+    font-size: 4rem;
+    font-weight: bold;
+    padding: 20px;
+    border: 2px solid rgb(255, 255, 255);
+    background-color: transparent;
+    width: 80%;
+  }
+}

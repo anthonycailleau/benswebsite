@@ -1,0 +1,245 @@
+@import "./styles/variables.scss";
+.contact-content {
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.contact-form {
+  background-color: rgba(255, 255, 255, 0);
+  backdrop-filter: blur(10px);
+  border: 1px solid white;
+  width: 100%;
+  padding: 20px;
+}
+.contact-form form {
+  display: flex;
+  flex-direction: column;
+}
+.contact-form div {
+  display: flex;
+  flex-direction: column;
+}
+.contact-form label {
+  margin: 10px 0 10px 0;
+  font-size: 1.3rem;
+}
+.contact-form input {
+  border: 1px solid rgb(255, 255, 255);
+  background-color: transparent;
+  backdrop-filter: blur (10px);
+  padding: 10px;
+  color: rgb(255, 255, 255);
+  font-size: 1rem;
+  border-radius: 2px;
+}
+.contact-form textarea {
+  padding: 10px;
+  border: 1px solid rgb(255, 255, 255);
+  background-color: transparent;
+  color: rgb(255, 255, 255);
+
+  font-size: 1rem;
+  border-radius: 2px;
+}
+.contact-form button {
+  background-color: black;
+  color: rgb(255, 255, 255);
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 20px;
+  padding: 10px;
+  border: 2px solid rgb(255, 255, 255);
+  background-color: transparent;
+  backdrop-filter: blur (10px);
+  border-radius: 2px;
+}
+.contact-button {
+  background-color: transparent;
+  border-radius: 2px;
+  padding: 10px 25px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 200px;
+}
+.popup-message {
+  padding: 10px;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  position: fixed;
+  z-index: 1;
+  color: white;
+  background-color: rgba(0, 0, 0, 1); /* Un peu plus sombre */
+  border: 2px solid rgb(255, 101, 101);
+  width: 90%;
+}
+
+.success-message {
+  font-size: 1.5rem;
+}
+.error-message {
+  font-size: 1.5rem;
+}
+.contact-container {
+  color: $primary-font-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+}
+
+.contact-picture {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  img {
+    max-width: 80%;
+  }
+}
+.contact-line {
+  height: 2px;
+  background-color: white;
+  margin: 10px 30px;
+}
+
+.contact-titles {
+  flex: 2;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  font-family: $primary-font-family;
+  h1 {
+    text-transform: uppercase;
+    margin-left: 30px;
+    font-size: 2.5rem;
+  }
+}
+.contact-title-description {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  flex-direction: row;
+  padding-right: 20px;
+  gap: 10px;
+  img {
+    height: 20px;
+  }
+}
+
+@media (min-width: 667px) and (max-width: 932px) and (orientation: landscape) {
+  .contact-header-mobile-landscape {
+    display: flex;
+    flex-direction: row;
+  }
+  .contact-picture {
+    img {
+      padding: 10px;
+      max-width: 90%;
+    }
+    flex: 1;
+  }
+  .contact-main {
+    flex: 2;
+  }
+  .contact-content {
+    padding: 20px;
+  }
+}
+
+@media (min-width: 768px) and (orientation: portrait) {
+  .contact-form {
+    border: 2px solid white;
+  }
+  .contact-form label {
+    font-size: 2rem;
+  }
+  .contact-form input {
+    border: 2px solid rgb(255, 255, 255);
+    font-size: 2rem;
+  }
+  .contact-form textarea {
+    border: 2px solid rgb(255, 255, 255);
+    font-size: 2rem;
+  }
+  .contact-form button {
+    font-size: 2rem;
+    border: 3px solid rgb(255, 255, 255);
+  }
+  .popup-message {
+    border: 3px solid rgb(255, 101, 101);
+  }
+  .success-message {
+    font-size: 2rem;
+  }
+  .error-message {
+    font-size: 2rem;
+  }
+  .contact-titles {
+    h1 {
+      margin-left: 60px;
+      font-size: 3rem;
+    }
+  }
+  .contact-title-description {
+    padding-right: 60px;
+    img {
+      height: 40px;
+    }
+    font-size: 1.5rem;
+  }
+  .contact-line {
+    margin: 20px 60px;
+  }
+  .contact-main {
+    padding: 10px 60px 20px 60px;
+  }
+}
+@media (min-width: 1024px) and (orientation: landscape) {
+  .contact-header-mobile-landscape {
+    display: flex;
+    flex-direction: row;
+  }
+  .contact-picture {
+    flex: 1;
+  }
+  .contact-main {
+    padding: 30px;
+  }
+  .contact-titles {
+    flex: 2;
+    h1 {
+      font-size: 4rem;
+    }
+    h3 {
+      font-size: 4rem;
+    }
+  }
+  .contact-title-description {
+    font-size: 2rem;
+  }
+  .contact-form label,
+  .contact-form input,
+  .contact-form textarea,
+  .contact-form button {
+    font-size: 2rem;
+  }
+}
+@media (min-width: 1280px) {
+  .contact-form {
+    border: 2px solid;
+    input,
+    label {
+      font-size: 3rem;
+    }
+    textarea {
+      font-size: 3rem;
+      border: 2px solid;
+    }
+    button {
+      font-size: 3rem;
+    }
+  }
+}

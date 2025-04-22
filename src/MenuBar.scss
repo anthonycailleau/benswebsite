@@ -1,0 +1,62 @@
+@import "./styles/variables.scss";
+.menu-bar-container {
+  z-index: 3;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px); // Safari
+  background-color: rgba(0, 0, 0, 0.683);
+}
+.menu-bar-tabs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding: 20px 10px 0 10px;
+
+  button {
+    all: unset;
+    color: $primary-font-color;
+    font-family: $primary-font-family;
+    text-transform: uppercase;
+    font-size: $secondary-font-size-mobile;
+  }
+}
+
+.logo-translate img {
+  max-width: 30px;
+}
+
+.menu-bar-line {
+  margin-top: 20px;
+  height: 1px;
+  background-color: white;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .menu-bar-tabs {
+    button {
+      font-size: $secondary-font-size-tablet;
+    }
+  }
+  .logo-translate img {
+    max-width: 60px;
+  }
+  .menu-bar-line {
+    height: 2px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .menu-bar-tabs {
+    padding: 20px;
+    button {
+      font-size: $secondary-font-size-desktop;
+    }
+    .logo-translate img {
+      max-width: 100px;
+    }
+  }
+}

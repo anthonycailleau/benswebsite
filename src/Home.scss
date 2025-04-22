@@ -1,0 +1,145 @@
+@import "./styles/variables.scss";
+
+.home-container {
+  color: $primary-font-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+  height: 100vh;
+}
+
+.home-picture {
+  display: flex;
+  justify-content: center;
+  img {
+    max-width: 80%;
+  }
+}
+
+.home-titles {
+  margin-top: 20px;
+}
+.home-line {
+  height: 2px;
+  background-color: white;
+  margin: 10px 30px;
+}
+
+.home-main {
+  display: flex;
+  flex-direction: column;
+  h1,
+  h3 {
+    text-align: center;
+  }
+}
+
+.home-titles {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: $primary-font-family;
+  text-transform: uppercase;
+  h1 {
+    font-size: 2.5rem;
+  }
+  h3 {
+    font-size: 1.5rem;
+  }
+  h1,
+  h3 {
+    text-align: center;
+  }
+}
+.home-main {
+  padding: 20px 20px 20px 20px;
+}
+.home-paragraph {
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    font-family: $primary-font-family;
+  }
+}
+.home-footer {
+  font-size: 1.2rem;
+  font-family: $primary-font-family;
+  text-align: right;
+}
+@media (min-width: 667px) and (max-width: 932px) and (orientation: landscape) {
+  .home-header {
+    display: flex;
+    flex-direction: row;
+  }
+  .home-picture {
+    img {
+      max-width: 90%;
+      justify-content: flex-start;
+    }
+    flex: 1;
+  }
+  .home-titles {
+    flex: 2;
+  }
+  .home-paragraph {
+    p {
+      font-size: 1.5rem;
+    }
+  }
+}
+@media (min-width: 768px) and (orientation: portrait) {
+  .home-titles {
+    h1 {
+      font-size: 3rem;
+    }
+    h3 {
+      font-size: 2rem;
+    }
+    h1,
+    h3 {
+      text-align: center;
+    }
+  }
+  .home-line {
+    margin: 20px 60px;
+  }
+  .home-main {
+    padding: 20px 60px 20px 60px;
+  }
+  .home-paragraph {
+    p {
+      font-size: 2rem;
+    }
+  }
+  .home-footer {
+    font-size: 2rem;
+  }
+}
+@media (min-width: 1024px) and (orientation:landscape) {
+  .home-header {
+    display: flex;
+    flex-direction: row;
+  }
+  .home-picture {
+    flex: 1;
+  }
+  .home-titles {
+    h1 {
+      font-size: 4rem;
+    }
+    h3 {
+      font-size: 3rem;
+    }
+    flex: 2;
+  }
+  .home-paragraph {
+    padding: 30px;
+    p {
+      font-size: 2.5rem;
+    }
+  }
+  .home-footer {
+    font-size: 2rem;
+  }
+}

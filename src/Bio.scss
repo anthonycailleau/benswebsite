@@ -1,0 +1,152 @@
+@import "./styles/variables.scss";
+
+.bio-container {
+  color: $primary-font-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+}
+
+.bio-picture {
+  display: flex;
+  justify-content: center;
+  img {
+    max-width: 80%;
+  }
+}
+
+.bio-line {
+  height: 2px;
+  background-color: white;
+  margin: 10px 30px;
+}
+.bio-main {
+  padding: 10px 20px 20px 20px;
+  display: flex;
+  flex-direction: column;
+}
+.bio-titles {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  font-family: $primary-font-family;
+  h1 {
+    text-transform: uppercase;
+    margin-left: 30px;
+    font-size: 2.5rem;
+  }
+}
+.bio-title-description {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  flex-direction: row;
+  padding-right: 20px;
+  gap: 10px;
+  img {
+    height: 20px;
+  }
+}
+.bio-video {
+  img {
+    padding: 10px;
+  }
+}
+.bio-paragraph {
+  margin-top: 10px;
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    font-family: $primary-font-family;
+  }
+}
+
+@media (min-width: 667px) and (max-width: 932px) and (orientation: landscape) {
+  .bio-header-mobile-landscape {
+    display: flex;
+    flex-direction: row;
+  }
+  .bio-picture {
+    img {
+      max-width: 90%;
+      justify-content: flex-start;
+    }
+    flex: 1;
+  }
+  .bio-titles {
+    flex: 2;
+  }
+
+  .bio-video {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    img {
+      max-width: 100%;
+    }
+  }
+
+  .bio-paragraph p {
+    font-size: 1.5rem;
+  }
+}
+@media (min-width: 768px) and (orientation: portrait) {
+  .bio-titles {
+    h1 {
+      margin-left: 60px;
+      font-size: 3rem;
+    }
+  }
+  .bio-title-description {
+    padding-right: 60px;
+    img {
+      height: 40px;
+    }
+    font-size: 1.5rem;
+  }
+  .bio-line {
+    margin: 20px 60px;
+  }
+  .bio-main {
+    padding: 20px 60px 20px 60px;
+  }
+  .bio-paragraph {
+    p {
+      font-size: 2rem;
+    }
+  }
+}
+@media (min-width: 1024px) and (orientation: landscape) {
+  .bio-header-mobile-landscape {
+    display: flex;
+    flex-direction: row;
+  }
+  .bio-picture {
+    flex: 1;
+  }
+  .bio-title-description {
+    font-size: 2rem;
+  }
+  .bio-video-container {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+  }
+
+  .bio-titles {
+    flex: 2;
+    h1 {
+      font-size: 4rem;
+    }
+  }
+  .bio-paragraph {
+    padding: 30px;
+    p {
+      font-size: 2.5rem;
+    }
+  }
+  .bio-main {
+    padding: 20px;
+  }
+}
