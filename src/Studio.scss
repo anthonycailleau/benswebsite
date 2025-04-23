@@ -60,11 +60,42 @@
 }
 
 .studio-caroussel {
+  display: flex;
+  align-items: center; /* verticalement centré */
+  justify-content: center; /* centré horizontalement */
+  /* espace entre les éléments, optionnel */
   img {
+    max-width: 90%;
     padding: 0 10px;
-    margin-top: 20px;
+    object-fit: cover;
+    opacity: 1;
+    transition: opacity 2s ease-in-out;
+    &.fade-in {
+      opacity: 1;
+    }
+
+    &.fade-out {
+      opacity: 0;
+    }
   }
 }
+.studio-caroussel-description {
+  padding: 10px;
+  :nth-child(1) {
+    font-size: 1.7rem;
+    font-family: $primary-font-family;
+    border-bottom: 1px solid white;
+  }
+  :nth-child(2) {
+    font-size: 1.5rem;
+    font-family: $primary-font-family;
+  }
+  :nth-child(3) {
+    font-size: 1.2rem;
+    font-family: $primary-font-family;
+  }
+}
+
 @media (min-width: 667px) and (max-width: 932px) and (orientation: landscape) {
   .studio-container {
     padding: 12% 10px 10px 10px;
@@ -93,7 +124,12 @@
 }
 @media (min-width: 768px) and (orientation: portrait) {
   .studio-container {
-    padding: 10% 10px 10px 10px;
+    padding: 20% 10px 10px 10px;
+  }
+  .studio-picture {
+    img {
+      max-width: 60%;
+    }
   }
   .studio-titles {
     h1 {
@@ -129,7 +165,7 @@
 @media (min-width: 1024px) and (orientation: landscape) {
   .studio-container {
     padding: 10% 10px 10px 10px;
-}
+  }
   .studio-header-mobile-landscape {
     display: flex;
     flex-direction: row;
@@ -143,12 +179,28 @@
   }
   .studio-caroussel-container {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     padding: 50px;
   }
   .studio-caroussel {
+    display: flex;
+    flex-direction: row;
+    max-width: 60%;
     margin-top: 20px;
-    border: 1px solid white;
+  }
+  .studio-caroussel-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 5%;
+    font-family: $primary-font-family;
+    font-size: 3rem;
+    :nth-child(2) {
+      font-size: 2.5rem;
+    }
+    :nth-child(3) {
+      font-size: 2rem;
+    }
   }
   .studio-titles {
     flex: 2;

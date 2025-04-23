@@ -156,7 +156,13 @@
 
 @media (min-width: 768px) and (orientation: portrait) {
   .contact-container {
-    padding: 10% 10px 10px 10px;
+    padding: 20% 10px 10px 10px;
+  }
+  .contact-picture {
+    img {
+      max-width: 60%;
+    }
+    
   }
   .contact-form {
     border: 2px solid white;

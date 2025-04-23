@@ -13,7 +13,7 @@
   display: flex;
   justify-content: center;
   img {
-    max-width: 80%;
+    max-width: 60%;
   }
 }
 
@@ -27,8 +27,8 @@
   display: flex;
   flex-direction: column;
 }
-.bio-titles {
 
+.bio-titles {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
@@ -51,12 +51,10 @@
     height: 20px;
   }
 }
-.bio-video {
-  img {
-    padding: 10px;
-  }
-}
+
 .bio-paragraph {
+
+
   margin-top: 10px;
   p {
     font-size: 1.2rem;
@@ -99,8 +97,9 @@
 }
 @media (min-width: 768px) and (orientation: portrait) {
   .bio-container {
-    padding: 10% 10px 10px 10px;
+    padding: 20% 10px 10px 10px;
   }
+
   .bio-titles {
     h1 {
       margin-left: 60px;
@@ -129,7 +128,7 @@
 @media (min-width: 1024px) and (orientation: landscape) {
   .bio-container {
     padding: 10% 10px 10px 10px;
-}
+  }
   .bio-header-mobile-landscape {
     display: flex;
     flex-direction: row;

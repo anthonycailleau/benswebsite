@@ -255,13 +255,19 @@
 }
 
 @media (min-width: 768px) and (orientation: portrait) {
+
   .music-container {
-    padding: 10% 10px 10px 10px;
+    padding: 20% 10px 10px 10px;
   }
   .music-titles {
     h1 {
       margin-left: 60px;
       font-size: 3rem;
+    }
+  }
+  .music-picture {
+    img {
+      max-width: 60%;
     }
   }
   .music-title-description {
@@ -285,6 +291,7 @@
     padding: 20px 60px 20px 60px;
   }
   .music-player-container {
+    height: 500px;
     border: 2px solid white;
   }
   .music-player-artist-container {
