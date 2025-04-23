@@ -21,7 +21,7 @@ const Bio = () => {
                 </div>
                 <div className='bio-video-container'>
                     <video controls width="100%" poster="/bio-cover.png">
-                        <source src="bio.mov" type="video/mp4"  />
+                        <source src="https://www.dropbox.com/scl/fi/e18ww9z5mw14rgdrfu00v/Partition-d-un-Reve-VF.mov?rlkey=b987olus6c9shxmlt1lxoytu1&raw=1" type="video/mp4"  />
                         Votre navigateur ne supporte pas la lecture de vidéo.
                     </video>
                 </div>
