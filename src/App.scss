@@ -1,0 +1,10 @@
+@media (min-width: 667px) and (orientation:landscape) {
+    .app-container {
+        padding-top: 5%;
+    }
+}
+@media (min-width: 1024px) and (orientation:landscape) {
+    .app-container {
+        padding-top: 0;
+    }
+}   

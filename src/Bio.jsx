@@ -20,8 +20,8 @@ const Bio = () => {
                     </div>
                 </div>
                 <div className='bio-video-container'>
-                    <video controls width="100%">
-                        <source src="bio.mov" type="video/mp4" />
+                    <video controls width="100%" poster="/bio-cover.png">
+                        <source src="bio.mov" type="video/mp4"  />
                         Votre navigateur ne supporte pas la lecture de vidéo.
                     </video>
                 </div>
