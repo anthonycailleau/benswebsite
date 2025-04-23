@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding-top: 10%;
   padding: 10px;
   height: 100vh;
 }
@@ -68,7 +69,10 @@
   text-align: right;
 }
 @media (min-width: 667px) and (max-width: 932px) and (orientation: landscape) {
-
+  .home-container {
+    padding: 20% 10px 10px 10px;
+    height: 100vh;
+  }
   .home-header {
     display: flex;
     flex-direction: row;
@@ -90,6 +94,11 @@
   }
 }
 @media (min-width: 768px) and (orientation: portrait) {
+  .home-container {
+
+      padding: 10% 10px 10px 10px;
+
+  }
   .home-titles {
     h1 {
       font-size: 3rem;
@@ -118,6 +127,9 @@
   }
 }
 @media (min-width: 1024px) and (orientation:landscape) {
+  .home-container {
+      padding: 5% 10px 10px 10px;
+  }
   .home-header {
     display: flex;
     flex-direction: row;

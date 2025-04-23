@@ -1,3 +1,6 @@
+import React from 'react';
+import { Element } from 'react-scroll';
+
 import MenuBar from './MenuBar';
 import Home from './Home';
 import Bio from './Bio';
@@ -14,17 +17,20 @@ import './App.scss';
 
 const App = () => {
   return (
-    <div className='app-container'>
+
+      <div className='app-container'>
       <MenuBar />
-      <Home />
-      <Bio />
-      <Music />
-      <Studio />
-      <Contact />
-      {/* <JukeboxHome />
+      <Element name="home"><Home /></Element>
+      <Element name="bio"><Bio /></Element>
+      <Element name="music"><Music /></Element>
+      <Element name="studio"><Studio /></Element>
+      <Element name="contact"><Contact /></Element>
+        {/* <JukeboxHome />
       <JukeboxPlayer />
       <JukeboxAdd /> */}
-    </div>
+      </div>
+
+
   );
 };
 

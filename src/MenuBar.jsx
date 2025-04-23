@@ -1,20 +1,22 @@
+import { Link } from 'react-scroll';
 import './MenuBar.scss';
 
 const MenuBar = () => {
-    return (
-        <div className='menu-bar-container'>
-            <div className='menu-bar-tabs'>
-                <button role='tab' aria-selected='false' aria-controls='section-about' id='tab-home'>Accueil</button>
-                <button role='tab' aria-selected='false' aria-controls='section-bio' id='tab-bio'>Bio</button>
-                <button role='tab' aria-selected='false' aria-controls='section-music' id='tab-music'>Musique</button>
-                <button role='tab' aria-selected='false' aria-controls='section-studio' id='tab-studio'>Studio</button>
-                <button role='tab' aria-selected='false' aria-controls='section-contact' id='tab-contact'>Contact</button>
-                <div className='logo-translate'>
-                    <img src="french-logo.png" alt="logo de traduction français-anglais" />
-                </div>
-            </div>
-            <div className='menu-bar-line'></div>
+  return (
+    <div className='menu-bar-container'>
+      <div className='menu-bar-tabs'>
+        <Link to="home" smooth={true} duration={500}><button>Accueil</button></Link>
+        <Link to="bio" smooth={true} duration={500}><button>Bio</button></Link>
+        <Link to="music" smooth={true} duration={500}><button>Musique</button></Link>
+        <Link to="studio" smooth={true} duration={500}><button>Studio</button></Link>
+        <Link to="contact" smooth={true} duration={500}><button>Contact</button></Link>
+        <div className='logo-translate'>
+          <img src="french-logo.png" alt="logo de traduction français-anglais" />
         </div>
-    );
+      </div>
+      <div className='menu-bar-line'></div>
+    </div>
+  );
 };
-export default MenuBar; 
+
+export default MenuBar;

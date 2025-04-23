@@ -6,6 +6,7 @@
   flex-direction: column;
   justify-content: center;
   padding: 10px;
+  padding-top: 20%;
 }
 
 .studio-picture {
@@ -65,6 +66,9 @@
   }
 }
 @media (min-width: 667px) and (max-width: 932px) and (orientation: landscape) {
+  .studio-container {
+    padding: 12% 10px 10px 10px;
+  }
   .studio-header-mobile-landscape {
     display: flex;
     flex-direction: row;
@@ -88,6 +92,9 @@
   }
 }
 @media (min-width: 768px) and (orientation: portrait) {
+  .studio-container {
+    padding: 10% 10px 10px 10px;
+  }
   .studio-titles {
     h1 {
       margin-left: 60px;
@@ -120,6 +127,9 @@
 }
 
 @media (min-width: 1024px) and (orientation: landscape) {
+  .studio-container {
+    padding: 10% 10px 10px 10px;
+}
   .studio-header-mobile-landscape {
     display: flex;
     flex-direction: row;
