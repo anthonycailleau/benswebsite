@@ -127,6 +127,50 @@
 .error-message {
   font-size: 1.5rem;
 }
+/* Contact.scss */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Assombrir l'arrière-plan */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  color: white;
+  background-color: black;
+  font-family: $primary-font-family;
+  font-size: 1.5rem;
+  border: 1px solid white;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal h2 {
+  margin-bottom: 20px;
+}
+
+.modal button {
+  font-size: 1rem;
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: black;
+  color: white;
+  border: none;
+  border: 1px solid white;
+  cursor: pointer;
+}
+
+.modal button:hover {
+  background-color: #0056b3;
+}
 
 @media (min-width: 667px) and (max-width: 932px) and (orientation: landscape) {
   .contact-container {
@@ -195,6 +239,13 @@
       font-size: 3rem;
     }
   }
+  .modal {
+    font-size: 2rem;
+  }
+
+  .modal button {
+    font-size: 2rem;
+  }
   .contact-title-description {
     padding-right: 60px;
     img {
@@ -240,6 +291,13 @@
     margin: 10px 0;
     font-size: 2rem;
   }
+  .modal {
+    font-size: 2rem;
+  }
+
+  .modal button {
+    font-size: 2rem;
+  }
 }
 @media (min-width: 1280px) {
   .contact-form {
@@ -255,9 +313,17 @@
     button {
       font-size: 3rem;
     }
-    button, 
+    button,
     textarea {
       margin-top: 1%;
     }
+  }
+  .modal {
+    font-size: 3.5rem;
+  }
+
+  .modal button {
+    border: 2px solid white;
+    font-size: 3rem;
   }
 }
