@@ -6,7 +6,7 @@
   flex-direction: column;
   justify-content: center;
   padding: 10px;
-  padding-top: 20%;
+  padding-top: 5%;
 }
 
 .studio-picture {
@@ -16,60 +16,47 @@
     max-width: 80%;
   }
 }
+.studio-titles {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: $primary-font-family;
+  margin-top: 20px;
+  text-transform: uppercase;
+  h1 {
+    font-size: $primary-font-size-mobile;
+    margin-left: 30px;
+  }
+}
+
 .studio-line {
   height: 2px;
   background-color: white;
   margin: 10px 30px;
 }
-.studio-main {
-  padding: 10px 20px 20px 20px;
-  display: flex;
-  flex-direction: column;
-}
-.studio-titles {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  font-family: $primary-font-family;
-  h1 {
-    text-transform: uppercase;
-    margin-left: 30px;
-    font-size: 2.5rem;
-  }
-}
+
 .studio-title-description {
   display: flex;
   justify-content: end;
   align-items: center;
   flex-direction: row;
-  padding-right: 20px;
+  padding-right: 30px;
   gap: 10px;
   img {
     height: 20px;
   }
 }
 
-.studio-paragraph {
-  margin-top: 10px;
-  p {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    font-family: $primary-font-family;
-  }
-}
-
 .studio-caroussel {
   display: flex;
-  align-items: center; /* verticalement centré */
-  justify-content: center; /* centré horizontalement */
-  /* espace entre les éléments, optionnel */
+  align-items: center;
+  justify-content: center;
+
   img {
-    max-width: 90%;
-    padding: 0 10px;
+    max-width: 80%;
     object-fit: cover;
     opacity: 1;
-    transition: opacity 2s ease-in-out;
+    transition: opacity 1.5s ease-in-out;
     &.fade-in {
       opacity: 1;
     }
@@ -80,25 +67,45 @@
   }
 }
 .studio-caroussel-description {
-  padding: 10px;
-  :nth-child(1) {
-    font-size: 1.7rem;
+  margin: 0 10px;
+  margin-top: 10px;
+  padding: 10px 10px;
+  h5 {
+    color: burlywood;
+    font-size: 2rem;
     font-family: $primary-font-family;
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid burlywood;
+    margin-top: 0;
+    margin-bottom: 10px;
   }
-  :nth-child(2) {
+  h6 {
     font-size: 1.5rem;
+    margin-top: 10px;
+    margin-bottom: 10px;
     font-family: $primary-font-family;
   }
-  :nth-child(3) {
+  p {
     font-size: 1.2rem;
     font-family: $primary-font-family;
+  }
+}
+.studio-main {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 30px;
+}
+.studio-paragraph {
+  margin-top: 10px;
+  p {
+    font-size: $paragraph-font-size-mobile;
+    font-family: $primary-font-family;
+    margin-bottom: 10px;
   }
 }
 
 @media (min-width: 667px) and (max-width: 932px) and (orientation: landscape) {
   .studio-container {
-    padding: 12% 10px 10px 10px;
+    padding-top: 2%;
   }
   .studio-header-mobile-landscape {
     display: flex;
@@ -106,7 +113,6 @@
   }
   .studio-picture {
     img {
-      max-width: 90%;
       justify-content: flex-start;
     }
     flex: 1;
@@ -114,21 +120,30 @@
   .studio-titles {
     flex: 2;
   }
-  .studio-caroussel {
+  .studio-caroussel-container {
     display: flex;
-    justify-content: center;
   }
-  .studio-paragraph p {
-    font-size: 1.5rem;
+  .studio-caroussel {
+    justify-self: center;
+    flex: 1.5;
+  }
+  .studio-caroussel-description {
+    flex: 1;
+  }
+  .studio-paragraph {
+    margin-top: 20px;
+    p {
+      font-size: 1.5rem;
+    }
   }
 }
 @media (min-width: 768px) and (orientation: portrait) {
   .studio-container {
-    padding: 20% 10px 10px 10px;
+    padding: 10% 10px 10px 10px;
   }
   .studio-picture {
     img {
-      max-width: 60%;
+      max-width: 70%;
     }
   }
   .studio-titles {
@@ -153,6 +168,18 @@
   .studio-caroussel {
     img {
       padding: 30px;
+    }
+  }
+  .studio-caroussel-description {
+    h5 {
+
+      font-size: 2.5rem;
+    }
+    h6 {
+      font-size: 2rem;
+    }
+    p {
+      font-size: 2rem;
     }
   }
   .studio-paragraph {
@@ -188,24 +215,11 @@
     max-width: 60%;
     margin-top: 20px;
   }
-  .studio-caroussel-description {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-left: 5%;
-    font-family: $primary-font-family;
-    font-size: 3rem;
-    :nth-child(2) {
-      font-size: 2.5rem;
-    }
-    :nth-child(3) {
-      font-size: 2rem;
-    }
-  }
+  
   .studio-titles {
     flex: 2;
     h1 {
-      font-size: 4rem;
+      font-size: $primary-font-size-laptop;
     }
     h3 {
       font-size: 4rem;
@@ -219,5 +233,23 @@
   }
   .studio-main {
     padding: 20px;
+  }
+  .studio-caroussel-description {
+    align-self: center;
+    h5 {
+
+      font-size: 4rem;
+    }
+    h6 {
+      font-size: 3rem;
+    }
+    p {
+      font-size: 2.5rem;
+    }
+  }
+  .studio-paragraph {
+    p {
+      font-size: 2.5rem;
+    }
   }
 }

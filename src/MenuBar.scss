@@ -6,7 +6,15 @@
   width: 100%;
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px); // Safari
-  background-color: rgba(0, 0, 0, 0.683);
+  background-color: rgba(0, 0, 0, 0.293);
+  transition: transform 0.2s ease;
+}
+.menu-bar-container.hidden {
+  transform: translateY(-100%); 
+}
+
+.menu-bar-container.visible {
+  transform: translateY(0);
 }
 .menu-bar-tabs {
   display: flex;
@@ -14,12 +22,21 @@
   align-items: center;
   justify-content: space-around;
   padding: 20px 10px 0 10px;
+  transition: opacity 0.5s ease-in-out; 
+  opacity: 1; 
+
+  &.fade-out {
+    opacity: 0;; 
+  }
+  &.fade-in {
+    opacity: 1;
+  }
 
   button {
     all: unset;
+    text-transform: uppercase;
     color: $primary-font-color;
     font-family: $primary-font-family;
-    text-transform: uppercase;
     font-size: $secondary-font-size-mobile;
   }
 }
@@ -53,7 +70,7 @@
   .menu-bar-tabs {
     padding: 20px;
     button {
-      font-size: $secondary-font-size-desktop;
+      font-size: $secondary-font-size-laptop;
     }
     .logo-translate img {
       max-width: 100px;

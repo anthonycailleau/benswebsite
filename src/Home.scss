@@ -5,8 +5,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-top: 10%;
   padding: 10px;
+  padding-top: 20%;
   height: 100vh;
 }
 
@@ -14,25 +14,7 @@
   display: flex;
   justify-content: center;
   img {
-    max-width: 60%;
-  }
-}
-
-.home-titles {
-  margin-top: 20px;
-}
-.home-line {
-  height: 2px;
-  background-color: white;
-  margin: 10px 30px;
-}
-
-.home-main {
-  display: flex;
-  flex-direction: column;
-  h1,
-  h3 {
-    text-align: center;
+    max-width: 80%;
   }
 }
 
@@ -42,8 +24,9 @@
   justify-content: center;
   font-family: $primary-font-family;
   text-transform: uppercase;
+  margin-top: 20px;
   h1 {
-    font-size: 2.5rem;
+    font-size: $primary-font-size-mobile;
   }
   h3 {
     font-size: 1.5rem;
@@ -53,33 +36,46 @@
     text-align: center;
   }
 }
+
+.home-line {
+  height: 2px;
+  background-color: white;
+  margin: 10px 30px;
+}
+
 .home-main {
-  padding: 20px 20px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 30px;
+  h1,
+  h3 {
+    text-align: center;
+  }
 }
 .home-paragraph {
   p {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
     font-family: $primary-font-family;
+    font-size: $secondary-font-size-mobile;
+    margin-bottom: 10px;
   }
 }
 .home-footer {
-  font-size: 1.2rem;
   font-family: $primary-font-family;
+  font-size: 1rem;
   text-align: right;
 }
+
 @media (min-width: 667px) and (max-width: 932px) and (orientation: landscape) {
   .home-container {
-    padding: 20% 10px 10px 10px;
-    height: 100vh;
+    padding-top: 2%;
   }
   .home-header {
     display: flex;
     flex-direction: row;
+    align-items: center;
   }
   .home-picture {
     img {
-      max-width: 90%;
       justify-content: flex-start;
     }
     flex: 1;
@@ -89,17 +85,21 @@
   }
   .home-paragraph {
     p {
-      font-size: 1.5rem;
+      font-size: $secondary-font-size-mobile-landscape;
     }
   }
 }
 @media (min-width: 768px) and (orientation: portrait) {
+  .home-picture img {
+    max-width: 70%;
+    margin-bottom: 10px;
+  }
   .home-container {
     padding: 10% 10px 10px 10px;
   }
   .home-titles {
     h1 {
-      font-size: 3rem;
+      font-size: $primary-font-size-tablet;
     }
     h3 {
       font-size: 2rem;
@@ -117,7 +117,7 @@
   }
   .home-paragraph {
     p {
-      font-size: 2rem;
+      font-size: $paragraph-font-size-tablet;
     }
   }
   .home-footer {
@@ -128,29 +128,41 @@
   .home-container {
     padding: 5% 10px 10px 10px;
   }
-  .home-header {
-    display: flex;
-    flex-direction: row;
-  }
   .home-picture {
     flex: 1;
   }
+  .home-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
   .home-titles {
     h1 {
-      font-size: 4rem;
+      font-size: $primary-font-size-laptop;
     }
     h3 {
-      font-size: 3rem;
+      font-size: $secondary-font-size-laptop;
     }
     flex: 2;
   }
   .home-paragraph {
-    padding: 30px;
+    padding: 30px 10px;
     p {
-      font-size: 2.5rem;
+      font-size: $paragraph-font-size-laptop;
     }
   }
   .home-footer {
     font-size: 2rem;
+  }
+}
+@media (min-width: 1280px) and (orientation: landscape) {
+  .home-paragraph {
+    padding: 20px 40px;
+    p {
+      font-size: $paragraph-font-size-laptop;
+    }
+  }
+  .home-footer {
+    font-size: 2.5rem;
   }
 }

@@ -6,46 +6,50 @@
   flex-direction: column;
   justify-content: center;
   padding: 10px;
-  padding-top: 20%;
+  padding-top: 5%;
 }
 
 .bio-picture {
   display: flex;
   justify-content: center;
   img {
-    max-width: 60%;
+    max-width: 80%;
   }
 }
 
+.bio-titles {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: $primary-font-family;
+  margin-top: 20px;
+  text-transform: uppercase;
+  h1 {
+    font-size: $primary-font-size-mobile;
+    margin-left: 30px;
+  }
+}
 .bio-line {
   height: 2px;
   background-color: white;
   margin: 10px 30px;
 }
 .bio-main {
-  padding: 10px 20px 20px 20px;
   display: flex;
   flex-direction: column;
+  padding: 20px 30px;
 }
 
-.bio-titles {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  font-family: $primary-font-family;
-  h1 {
-    text-transform: uppercase;
-    margin-left: 30px;
-    font-size: 2.5rem;
-  }
+.bio-video-container {
+  padding: 0 30px 0 30px;
 }
+
 .bio-title-description {
   display: flex;
   justify-content: end;
   align-items: center;
   flex-direction: row;
-  padding-right: 20px;
+  padding-right: 30px;
   gap: 10px;
   img {
     height: 20px;
@@ -53,19 +57,26 @@
 }
 
 .bio-paragraph {
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
 
-
+  &.fade-out {
+    opacity: 0;
+  }
+  &.fade-in {
+    opacity: 1;
+  }
   margin-top: 10px;
   p {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
+    font-size: $paragraph-font-size-mobile;
     font-family: $primary-font-family;
+    margin-bottom: 10px;
   }
 }
 
 @media (min-width: 667px) and (max-width: 932px) and (orientation: landscape) {
   .bio-container {
-    padding: 12% 10px 10px 10px;
+    padding-top: 2%;
   }
   .bio-header-mobile-landscape {
     display: flex;
@@ -73,7 +84,6 @@
   }
   .bio-picture {
     img {
-      max-width: 90%;
       justify-content: flex-start;
     }
     flex: 1;
@@ -82,28 +92,28 @@
     flex: 2;
   }
 
-  .bio-video {
+  .bio-video-container {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
-    img {
-      max-width: 100%;
-    }
   }
 
   .bio-paragraph p {
-    font-size: 1.5rem;
+    font-size: $secondary-font-size-mobile-landscape;
   }
 }
 @media (min-width: 768px) and (orientation: portrait) {
+  .bio-picture img {
+    max-width: 70%;
+    margin-bottom: 10px;
+  }
   .bio-container {
-    padding: 20% 10px 10px 10px;
+    padding: 10% 10px 10px 10px;
   }
 
   .bio-titles {
     h1 {
+      font-size: $primary-font-size-tablet;
       margin-left: 60px;
-      font-size: 3rem;
     }
   }
   .bio-title-description {
@@ -111,7 +121,7 @@
     img {
       height: 40px;
     }
-    font-size: 1.5rem;
+    font-size: $secondary-font-size-tablet;
   }
   .bio-line {
     margin: 20px 60px;
@@ -121,7 +131,7 @@
   }
   .bio-paragraph {
     p {
-      font-size: 2rem;
+      font-size: $paragraph-font-size-tablet;
     }
   }
 }
@@ -148,13 +158,13 @@
   .bio-titles {
     flex: 2;
     h1 {
-      font-size: 4rem;
+      font-size: $primary-font-size-laptop;
     }
   }
   .bio-paragraph {
     padding: 30px;
     p {
-      font-size: 2.5rem;
+      font-size: $paragraph-font-size-laptop;
     }
   }
   .bio-main {

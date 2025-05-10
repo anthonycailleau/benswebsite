@@ -2,6 +2,7 @@ import React from 'react';
 import { Element } from 'react-scroll';
 
 import MenuBar from './MenuBar';
+import MusicPlayer from './MusicPlayer';
 import Home from './Home';
 import Bio from './Bio';
 import Music from './Music';

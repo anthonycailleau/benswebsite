@@ -1,6 +1,26 @@
+import MusicPlayer from './MusicPlayer';
+import { useRef, useState } from 'react';
 import './Music.scss';
 
 const Music = () => {
+    const [activePlayerId, setActivePlayerId] = useState(null);
+    const [playingPlayerId, setPlayingPlayerId] = useState(null);
+
+    const playerRefs = [
+        useRef(null),
+        useRef(null),
+        useRef(null),
+    ]
+
+    const scrollToPlayer = (index) => {
+        setActivePlayerId(index+1);
+        playerRefs[index].current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest', // Évite le scroll vertical 
+            inline: 'start', // Scroll horizontal vers la gauche
+        });
+    };
+
     return (
         <section>
             <div className='music-container'>
@@ -25,639 +45,45 @@ const Music = () => {
 
                 <div className='music-main'>
 
-                    <div className='music-player-contain'>
+                    <div className='music-player-music-contain'>
                         <div className='music-button-container'>
-                            <button> Lecteur 1</button>
-                            <button> Lecteur 2</button>
-                            <button> Lecteur 3</button>
+                            <button onClick={() => scrollToPlayer(0)}>Lecteur 1</button>
+                            <button onClick={() => scrollToPlayer(1)}>Lecteur 2</button>
+                            <button onClick={() => scrollToPlayer(2)}>Lecteur 3</button>
+
                         </div>
                         <div className='music-carousel'>
-                            <div className='music-player-container'>
-
-                                <div className='music-player-top'>
-                                    <div className='music-player-picture-container'>
-                                        <div className='music-player-picture'></div>
-                                    </div>
-                                    <div className='music-player-artist-container'>
-                                        <div className='music-player-artist-title'>
-                                            Artist
-                                        </div>
-                                        <div className='music-player-track-title'>
-                                            Soundtrack
-                                        </div>
-                                        <div className='music-player-timeline'></div>
-                                        <div className='music-player-duration'>
-                                            1:30
-                                        </div>
-                                        <div className='music-player-buttons'>
-                                            <img src="prev.png" alt="bouton précédent" />
-                                            <img src="play.png" alt="bouton précédent" />
-                                            <img src="pause.png" alt="bouton précédent" />
-                                            <img src="next.png" alt="bouton précédent" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='music-player-bottom'>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='music-player-container-1'>
-
-                                <div className='music-player-top'>
-                                    <div className='music-player-picture-container'>
-                                        <div className='music-player-picture'></div>
-                                    </div>
-                                    <div className='music-player-artist-container'>
-                                        <div className='music-player-artist-title'>
-                                            Artist
-                                        </div>
-                                        <div className='music-player-track-title'>
-                                            Soundtrack
-                                        </div>
-                                        <div className='music-player-timeline'></div>
-                                        <div className='music-player-duration'>
-                                            1:30
-                                        </div>
-                                        <div className='music-player-buttons'>
-                                            <img src="prev.png" alt="bouton précédent" />
-                                            <img src="play.png" alt="bouton précédent" />
-                                            <img src="pause.png" alt="bouton précédent" />
-                                            <img src="next.png" alt="bouton précédent" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='music-player-bottom'>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='music-player-container-2'>
-
-                                <div className='music-player-top'>
-                                    <div className='music-player-picture-container'>
-                                        <div className='music-player-picture'></div>
-                                    </div>
-                                    <div className='music-player-artist-container'>
-                                        <div className='music-player-artist-title'>
-                                            Artist
-                                        </div>
-                                        <div className='music-player-track-title'>
-                                            Soundtrack
-                                        </div>
-                                        <div className='music-player-timeline'></div>
-                                        <div className='music-player-duration'>
-                                            1:30
-                                        </div>
-                                        <div className='music-player-buttons'>
-                                            <img src="prev.png" alt="bouton précédent" />
-                                            <img src="play.png" alt="bouton précédent" />
-                                            <img src="pause.png" alt="bouton précédent" />
-                                            <img src="next.png" alt="bouton précédent" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='music-player-bottom'>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                    <div className='music-player-artist-list-container'>
-                                        <div className='music-player-title-list'>Artist - </div>
-                                        <div className='music-player-track-list'>Track</div>
-                                        <div className='music-player-duration-list'>1:30</div>
-                                    </div>
-                                </div>
-                            </div>
+                            <MusicPlayer
+                                themeColor="white"
+                                id={1}
+                                activePlayerId={activePlayerId}
+                                setActivePlayerId={setActivePlayerId}
+                                playingPlayerId={playingPlayerId}
+                                setPlayingPlayerId={setPlayingPlayerId}
+                                playerRefs={playerRefs}
+                                ref={playerRefs[0]}
+                            />
+                            <MusicPlayer
+                                themeColor="turquoise"
+                                id={2}
+                                activePlayerId={activePlayerId}
+                                setActivePlayerId={setActivePlayerId}
+                                playingPlayerId={playingPlayerId}
+                                setPlayingPlayerId={setPlayingPlayerId}
+                                playerRefs={playerRefs}
+                                ref={playerRefs[1]}
+                            />
+                            <MusicPlayer
+                                themeColor="orange"
+                                id={3}
+                                activePlayerId={activePlayerId}
+                                setActivePlayerId={setActivePlayerId}
+                                playingPlayerId={playingPlayerId}
+                                setPlayingPlayerId={setPlayingPlayerId}
+                                playerRefs={playerRefs}
+                                ref={playerRefs[2]}
+                            />
                         </div>
-
                     </div>
                 </div>
             </div>

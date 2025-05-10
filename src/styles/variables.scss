@@ -2,9 +2,17 @@
 $primary-font-family: helvetica; 
 
 // font-size
+ 
+$primary-font-size-mobile: 2.5rem; 
 $secondary-font-size-mobile: 1.2rem; 
-$secondary-font-size-tablet: 2rem;
-$secondary-font-size-desktop: 3rem;
+$paragraph-font-size-mobile: 1.2rem; 
+$primary-font-size-tablet: 3rem;
+$secondary-font-size-tablet: 1.5rem;
+$paragraph-font-size-tablet: 2rem; 
+$secondary-font-size-mobile-landscape: 1.5rem;
+$primary-font-size-laptop: 4rem;
+$secondary-font-size-laptop: 3rem;
+$paragraph-font-size-laptop: 2.5rem;
 
 // font-color
 $primary-font-color: white; 
