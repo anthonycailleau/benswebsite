@@ -19,7 +19,7 @@ const Music = () => {
             try {
                 for (let i = 0; i < 3; i++) {
                     const lecteurName = `lecteur${i + 1}`;
-                    const response = await fetch(`http://localhost:5001/api/tracks?lecteur=${lecteurName}`);
+                    const response = await fetch(`/api/tracks?lecteur=${lecteurName}`);
 
                     if (response.ok) {
                         const data = await response.json();

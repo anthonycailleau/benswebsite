@@ -43,7 +43,7 @@ const JukeboxAdd = () => {
       try {
         for (let i = 0; i < 3; i++) {
           const lecteurName = `lecteur${i + 1}`;
-          const response = await fetch(`http://localhost:5001/api/tracks?lecteur=${lecteurName}`, {
+          const response = await fetch(`/api/tracks?lecteur=${lecteurName}`, {
             headers: {
               'Content-Type': 'application/json',
             },
@@ -181,7 +181,7 @@ const JukeboxAdd = () => {
             contentType: pair.audioFile.type || 'audio/mpeg',
           });
 
-          const audioRes = await fetch(`http://localhost:5001/api/upload-url?${audioParams.toString()}`, {
+          const audioRes = await fetch(`/api/upload-url?${audioParams.toString()}`, {
             headers: { 'Content-Type': 'application/json' },
           });
           
@@ -214,7 +214,7 @@ const JukeboxAdd = () => {
                 contentType: pair.imgFile.type || 'image/jpeg',
               });
 
-              const imgRes = await fetch(`http://localhost:5001/api/upload-url?${imgParams.toString()}`, {
+              const imgRes = await fetch(`/api/upload-url?${imgParams.toString()}`, {
                 headers: { 'Content-Type': 'application/json' },
               });
 
@@ -265,7 +265,7 @@ const JukeboxAdd = () => {
       }
 
       // Sauvegarder les nouvelles pistes dans tracks.json - APPEND MODE
-      const saveRes = await fetch('http://localhost:5001/api/tracks', {
+      const saveRes = await fetch('/api/tracks', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -358,14 +358,14 @@ const removeUploadedTrack = async (playerIndex, trackTitle) => {
     // Suppression côté serveur
     const deletePromises = [];
     if (trackToRemove.src) {
-      deletePromises.push(fetch('http://localhost:5001/api/delete-file', {
+      deletePromises.push(fetch('/api/delete-file', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ fileUrl: trackToRemove.src, lecteur: lecteurName }),
       }));
     }
     if (trackToRemove.imgSrc) {
-      deletePromises.push(fetch('http://localhost:5001/api/delete-file', {
+      deletePromises.push(fetch('/api/delete-file', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ fileUrl: trackToRemove.imgSrc, lecteur: lecteurName }),
@@ -377,7 +377,7 @@ const removeUploadedTrack = async (playerIndex, trackTitle) => {
     const updatedTracks = uploadedFiles[playerIndex].filter(track => track.src !== trackToRemove.src);
 
     if (updatedTracks.length === 0) {
-      await fetch(`http://localhost:5001/api/tracks?lecteur=${lecteurName}`, {
+      await fetch(`/api/tracks?lecteur=${lecteurName}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -403,7 +403,7 @@ const removeUploadedTrack = async (playerIndex, trackTitle) => {
       uploadedAt: new Date().toISOString(),
     }));
 
-    const saveRes = await fetch('http://localhost:5001/api/tracks', {
+    const saveRes = await fetch('/api/tracks', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -448,7 +448,7 @@ const removeUploadedTrack = async (playerIndex, trackTitle) => {
         contentType: imageFile.type,
       });
 
-      const imgRes = await fetch(`http://localhost:5001/api/upload-url?${imgParams.toString()}`, {
+      const imgRes = await fetch(`/api/upload-url?${imgParams.toString()}`, {
         headers: { 'Content-Type': 'application/json' },
       });
 
@@ -468,7 +468,7 @@ const removeUploadedTrack = async (playerIndex, trackTitle) => {
       const oldTrack = uploadedFiles[playerIndex][trackIndex];
       if (oldTrack.imgSrc) {
         try {
-          await fetch('http://localhost:5001/api/delete-file', {
+          await fetch('/api/delete-file', {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -498,7 +498,7 @@ const removeUploadedTrack = async (playerIndex, trackTitle) => {
         uploadedAt: new Date().toISOString(),
       }));
 
-      const saveRes = await fetch('http://localhost:5001/api/tracks', {
+      const saveRes = await fetch('/api/tracks', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

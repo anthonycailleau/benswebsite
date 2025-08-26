@@ -12,7 +12,7 @@ const JukeboxHome = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const data = await fetchApi("http://localhost:5001/api/login", {
+            const data = await fetchApi("/api/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),

@@ -29,7 +29,7 @@ const Contact = () => {
         e.preventDefault(); // Empêche le rechargement de la page
 
         try {
-            const response = await fetch('http://localhost:5001/send-mail', {
+            const response = await fetch('/api/send-mail',  {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
