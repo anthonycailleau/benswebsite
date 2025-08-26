@@ -187,11 +187,11 @@ const JukeboxAdd = () => {
           });
 
           if (!audioRes.ok) {
-            const errorText = await audioRes.text();
-            throw new Error(`Erreur récupération URL audio (${audioRes.status}): ${errorText}`);
+            // audioRes est déjà un objet avec { error: "..."} si ton API renvoie un JSON
+            throw new Error(`Erreur récupération URL audio: ${audioRes.error || 'unknown error'}`);
           }
 
-          const { uploadUrl: audioUploadUrl, fileUrl: audioFileUrl } = await audioRes.json();
+          const { uploadUrl: audioUploadUrl, fileUrl: audioFileUrl } = audioRes;
 
           // Upload audio avec timeout personnalisé
           const audioUploadRes = await fetch(audioUploadUrl, {
@@ -269,16 +269,11 @@ const JukeboxAdd = () => {
       const saveRes = await fetchApi('/api/tracks', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          lecteur: lecteurName,
-          tracks: newTracks,
-          replace: false // Mode ajout, pas remplacement
-        }),
+        body: JSON.stringify({ lecteur: lecteurName, tracks: newTracks, replace: false }),
       });
 
       if (!saveRes.ok) {
-        const errorText = await saveRes.text();
-        throw new Error(`Erreur sauvegarde tracks.json (${saveRes.status}): ${errorText}`);
+        throw new Error(`Erreur sauvegarde tracks.json: ${saveRes.error || 'unknown error'}`);
       }
 
       // Mettre à jour l'état local avec les nouvelles pistes

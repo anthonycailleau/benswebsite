@@ -22,10 +22,10 @@ export default async function handler(req, res) {
     return; // Requête OPTIONS traitée
   }
 
-  if (req.method !== 'DELETE') {
-    return res.status(405).json({ error: 'Method not allowed' });
+  if (req.method !== "DELETE") {
+    return res.status(405).json({ error: "Method not allowed" });
   }
-  
+
   try {
     const { fileUrl, lecteur } = req.body;
 
