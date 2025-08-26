@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import MusicPlayer from './MusicPlayer';
 import musicTexts from './data/musicTexts';
 import './Music.scss';
-import { fetchApi } from '../fetchApi.js';
+import { fetchApi } from './fetchApi.js';
 
 const Music = () => {
     const [activePlayerId, setActivePlayerId] = useState(null);

@@ -1,7 +1,7 @@
 import './JukeboxHome.scss';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchApi } from '../fetchApi.js';
+import { fetchApi } from './fetchApi.js';
 
 const JukeboxHome = () => {
     const [email, setEmail] = useState('');

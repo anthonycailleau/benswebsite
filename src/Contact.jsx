@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './Contact.scss';
-import { fetchApi } from '../fetchApi.js';
+import { fetchApi } from './fetchApi.js';
 
 const Contact = () => {
 

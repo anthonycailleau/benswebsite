@@ -2,7 +2,7 @@ import './JukeboxAdd.scss';
 import MusicPlayer from './MusicPlayer';
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchApi } from '../fetchApi.js';
+import { fetchApi } from './fetchApi.js';
 
 const JukeboxAdd = () => {
   const [activePlayerId, setActivePlayerId] = useState(null);
