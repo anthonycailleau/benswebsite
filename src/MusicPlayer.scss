@@ -17,7 +17,7 @@
   scroll-snap-stop: always;
   display: flex;
   flex-direction: column;
-  max-width: 330px;
+  min-width: 330px;
   box-sizing: border-box;
   height: 60vh;
   padding: 20px;
@@ -273,14 +273,21 @@
 }
 @media (min-width: 390px) and (orientation: portrait) {
   .music-player-contain {
-    max-width: 370px;
+    min-width: 350px;
   }
 }
 @media (min-width: 414px) and (orientation: portrait) {
   .music-player-contain {
-    max-width: 380px;
+    min-width: 370px;
   }
 }
+
+@media (min-width: 430px) and (orientation: portrait) {
+  .music-player-contain {
+    min-width: 380px;
+  }
+}
+
 
 @media (min-width: 667px) and (orientation: landscape) {
   .music-player-picture {
@@ -428,7 +435,7 @@
   .music-player-artist-container {
     padding: 10px;
   }
-  
+
   .music-player-title-list,
   .music-player-track-list,
   .music-player-duration-list {
