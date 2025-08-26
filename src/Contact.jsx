@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './Contact.scss';
+import { fetchApi } from '../fetchApi.js';
 
 const Contact = () => {
 
@@ -29,7 +30,7 @@ const Contact = () => {
         e.preventDefault(); // Empêche le rechargement de la page
 
         try {
-            const response = await fetch('/api/send-mail',  {
+            const response = await fetchApi('/api/send-mail', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),

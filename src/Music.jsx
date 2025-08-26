@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import MusicPlayer from './MusicPlayer';
 import musicTexts from './data/musicTexts';
 import './Music.scss';
+import { fetchApi } from '../fetchApi.js';
 
 const Music = () => {
     const [activePlayerId, setActivePlayerId] = useState(null);
@@ -19,7 +20,7 @@ const Music = () => {
             try {
                 for (let i = 0; i < 3; i++) {
                     const lecteurName = `lecteur${i + 1}`;
-                    const response = await fetch(`/api/tracks?lecteur=${lecteurName}`);
+                    const response = await fetchApi(`/api/tracks?lecteur=${lecteurName}`);
 
                     if (response.ok) {
                         const data = await response.json();

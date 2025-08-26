@@ -19,7 +19,7 @@
 .vscode/
 *.swp
 
-# server
+# server (legacy - peut être supprimé si plus de dossier server/)
 server/.env
 server/test-bcrypt.js
 server/hash.js
@@ -28,4 +28,10 @@ server/hash.js
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Vercel
 .vercel
+
+# Optionnel: fichiers temporaires
+*.log
+.cache/

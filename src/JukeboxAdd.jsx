@@ -2,6 +2,7 @@ import './JukeboxAdd.scss';
 import MusicPlayer from './MusicPlayer';
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { fetchApi } from '../fetchApi.js';
 
 const JukeboxAdd = () => {
   const [activePlayerId, setActivePlayerId] = useState(null);
@@ -43,7 +44,7 @@ const JukeboxAdd = () => {
       try {
         for (let i = 0; i < 3; i++) {
           const lecteurName = `lecteur${i + 1}`;
-          const response = await fetch(`/api/tracks?lecteur=${lecteurName}`, {
+          const response = await fetchApi(`/api/tracks?lecteur=${lecteurName}`, {
             headers: {
               'Content-Type': 'application/json',
             },
@@ -141,7 +142,7 @@ const JukeboxAdd = () => {
   // Ouvrir dialogue sélection audio
   const handleAudioButtonClick = (playerIndex) => {
     if (isUploading[playerIndex]) return; // Empêcher ajout pendant upload
-    
+
     const input = audioFileInputs[playerIndex]?.current;
     if (!input) return;
     input.value = '';
@@ -181,10 +182,10 @@ const JukeboxAdd = () => {
             contentType: pair.audioFile.type || 'audio/mpeg',
           });
 
-          const audioRes = await fetch(`/api/upload-url?${audioParams.toString()}`, {
+          const audioRes = await fetchApi(`/api/upload-url?${audioParams.toString()}`, {
             headers: { 'Content-Type': 'application/json' },
           });
-          
+
           if (!audioRes.ok) {
             const errorText = await audioRes.text();
             throw new Error(`Erreur récupération URL audio (${audioRes.status}): ${errorText}`);
@@ -214,7 +215,7 @@ const JukeboxAdd = () => {
                 contentType: pair.imgFile.type || 'image/jpeg',
               });
 
-              const imgRes = await fetch(`/api/upload-url?${imgParams.toString()}`, {
+              const imgRes = await fetchApi(`/api/upload-url?${imgParams.toString()}`, {
                 headers: { 'Content-Type': 'application/json' },
               });
 
@@ -265,7 +266,7 @@ const JukeboxAdd = () => {
       }
 
       // Sauvegarder les nouvelles pistes dans tracks.json - APPEND MODE
-      const saveRes = await fetch('/api/tracks', {
+      const saveRes = await fetchApi('/api/tracks', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -303,13 +304,13 @@ const JukeboxAdd = () => {
       });
 
       // Afficher modal succès
-      const message = successCount === filesToUploadByPlayer[playerIndex].length 
+      const message = successCount === filesToUploadByPlayer[playerIndex].length
         ? `${successCount} fichier(s) uploadé(s) avec succès pour Lecteur ${playerIndex + 1} !`
         : `${successCount}/${filesToUploadByPlayer[playerIndex].length} fichier(s) uploadé(s) pour Lecteur ${playerIndex + 1}`;
-      
+
       setModalMessage(message);
       setShowModal(true);
-      
+
     } catch (err) {
       console.error('Erreur upload complète:', err);
       alert(`Erreur upload : ${err.message}`);
@@ -332,11 +333,11 @@ const JukeboxAdd = () => {
       if (index !== -1) {
         const pair = updated[playerIndex][index];
         console.log(`Suppression preview: ${trackTitle}`);
-        
+
         // Nettoyer les URLs blob
         if (pair.audioPreviewUrl) URL.revokeObjectURL(pair.audioPreviewUrl);
         if (pair.imgPreviewUrl) URL.revokeObjectURL(pair.imgPreviewUrl);
-        
+
         // Retirer de la liste
         updated[playerIndex] = updated[playerIndex].filter((_, i) => i !== index);
       }
@@ -345,90 +346,90 @@ const JukeboxAdd = () => {
     });
   };
 
-// Supprimer une piste uploadée sans supprimer toutes les autres
-const removeUploadedTrack = async (playerIndex, trackTitle) => {
-  try {
-    const lecteurName = `lecteur${playerIndex + 1}`;
-    const trackToRemove = uploadedFiles[playerIndex].find(track => track.title === trackTitle);
+  // Supprimer une piste uploadée sans supprimer toutes les autres
+  const removeUploadedTrack = async (playerIndex, trackTitle) => {
+    try {
+      const lecteurName = `lecteur${playerIndex + 1}`;
+      const trackToRemove = uploadedFiles[playerIndex].find(track => track.title === trackTitle);
 
-    if (!trackToRemove) return;
+      if (!trackToRemove) return;
 
-    console.log(`Suppression piste uploadée: ${trackToRemove.title} (${trackToRemove.src})`);
+      console.log(`Suppression piste uploadée: ${trackToRemove.title} (${trackToRemove.src})`);
 
-    // Suppression côté serveur
-    const deletePromises = [];
-    if (trackToRemove.src) {
-      deletePromises.push(fetch('/api/delete-file', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fileUrl: trackToRemove.src, lecteur: lecteurName }),
+      // Suppression côté serveur
+      const deletePromises = [];
+      if (trackToRemove.src) {
+        deletePromises.push(fetchApi('/api/delete-file', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fileUrl: trackToRemove.src, lecteur: lecteurName }),
+        }));
+      }
+      if (trackToRemove.imgSrc) {
+        deletePromises.push(fetchApi('/api/delete-file', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fileUrl: trackToRemove.imgSrc, lecteur: lecteurName }),
+        }));
+      }
+      await Promise.all(deletePromises);
+
+      // ⚠️ Filtrer uniquement sur la clé unique `src`
+      const updatedTracks = uploadedFiles[playerIndex].filter(track => track.src !== trackToRemove.src);
+
+      if (updatedTracks.length === 0) {
+        await fetchApi(`/api/tracks?lecteur=${lecteurName}`, {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        setUploadedFiles(prev => {
+          const updated = [...prev];
+          updated[playerIndex] = [];
+          return updated;
+        });
+
+        setModalMessage(`"${trackToRemove.title}" supprimé. Le lecteur ${playerIndex + 1} est maintenant vide.`);
+        setShowModal(true);
+        return;
+      }
+
+      // Sauvegarder la liste mise à jour
+      const tracksToSave = updatedTracks.map(track => ({
+        audio: track.src,
+        title: track.title,
+        artist: track.artist || '',
+        type: track.type || 'audio/mpeg',
+        image: track.imgSrc || null,
+        uploadedAt: new Date().toISOString(),
       }));
-    }
-    if (trackToRemove.imgSrc) {
-      deletePromises.push(fetch('/api/delete-file', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fileUrl: trackToRemove.imgSrc, lecteur: lecteurName }),
-      }));
-    }
-    await Promise.all(deletePromises);
 
-    // ⚠️ Filtrer uniquement sur la clé unique `src`
-    const updatedTracks = uploadedFiles[playerIndex].filter(track => track.src !== trackToRemove.src);
-
-    if (updatedTracks.length === 0) {
-      await fetch(`/api/tracks?lecteur=${lecteurName}`, {
-        method: 'DELETE',
+      const saveRes = await fetchApi('/api/tracks', {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          lecteur: lecteurName,
+          tracks: tracksToSave,
+          replace: true
+        }),
       });
+
+      if (!saveRes.ok) throw new Error('Erreur mise à jour tracks.json');
 
       setUploadedFiles(prev => {
         const updated = [...prev];
-        updated[playerIndex] = [];
+        updated[playerIndex] = updatedTracks;
         return updated;
       });
 
-      setModalMessage(`"${trackToRemove.title}" supprimé. Le lecteur ${playerIndex + 1} est maintenant vide.`);
+      setModalMessage(`"${trackToRemove.title}" supprimé avec succès`);
       setShowModal(true);
-      return;
+
+    } catch (err) {
+      console.error('Erreur suppression complète:', err);
+      alert(`Erreur suppression piste : ${err.message}`);
     }
-
-    // Sauvegarder la liste mise à jour
-    const tracksToSave = updatedTracks.map(track => ({
-      audio: track.src,
-      title: track.title,
-      artist: track.artist || '',
-      type: track.type || 'audio/mpeg',
-      image: track.imgSrc || null,
-      uploadedAt: new Date().toISOString(),
-    }));
-
-    const saveRes = await fetch('/api/tracks', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        lecteur: lecteurName,
-        tracks: tracksToSave,
-        replace: true
-      }),
-    });
-
-    if (!saveRes.ok) throw new Error('Erreur mise à jour tracks.json');
-
-    setUploadedFiles(prev => {
-      const updated = [...prev];
-      updated[playerIndex] = updatedTracks;
-      return updated;
-    });
-
-    setModalMessage(`"${trackToRemove.title}" supprimé avec succès`);
-    setShowModal(true);
-
-  } catch (err) {
-    console.error('Erreur suppression complète:', err);
-    alert(`Erreur suppression piste : ${err.message}`);
-  }
-};
+  };
 
   // Fonction pour mettre à jour l'image d'une piste existante
   const updateTrackImage = async (playerIndex, trackTitle, imageFile) => {
@@ -448,7 +449,7 @@ const removeUploadedTrack = async (playerIndex, trackTitle) => {
         contentType: imageFile.type,
       });
 
-      const imgRes = await fetch(`/api/upload-url?${imgParams.toString()}`, {
+      const imgRes = await fetchApi(`/api/upload-url?${imgParams.toString()}`, {
         headers: { 'Content-Type': 'application/json' },
       });
 
@@ -468,7 +469,7 @@ const removeUploadedTrack = async (playerIndex, trackTitle) => {
       const oldTrack = uploadedFiles[playerIndex][trackIndex];
       if (oldTrack.imgSrc) {
         try {
-          await fetch('/api/delete-file', {
+          await fetchApi('/api/delete-file', {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -498,7 +499,7 @@ const removeUploadedTrack = async (playerIndex, trackTitle) => {
         uploadedAt: new Date().toISOString(),
       }));
 
-      const saveRes = await fetch('/api/tracks', {
+      const saveRes = await fetchApi('/api/tracks', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -558,9 +559,9 @@ const removeUploadedTrack = async (playerIndex, trackTitle) => {
                   <div className={`music-player-${id}`} key={id}>
                     <div className={`music-player-title-${id}`}>
                       <h4>
-                        Lecteur {id} 
+                        Lecteur {id}
                         {isUploading[playerIndex] && ' (Upload en cours...)'}
-                        {filesToUploadByPlayer[playerIndex].length > 0 && 
+                        {filesToUploadByPlayer[playerIndex].length > 0 &&
                           ` (${filesToUploadByPlayer[playerIndex].length} en attente)`
                         }
                       </h4>
@@ -607,7 +608,7 @@ const removeUploadedTrack = async (playerIndex, trackTitle) => {
                         style={{ display: 'none' }}
                         onChange={(e) => handleAudioSelection(playerIndex, e)}
                       />
-                      <button 
+                      <button
                         onClick={() => handleAudioButtonClick(playerIndex)}
                         disabled={isUploading[playerIndex]}
                       >
@@ -618,8 +619,8 @@ const removeUploadedTrack = async (playerIndex, trackTitle) => {
                         disabled={filesToUploadByPlayer[playerIndex].length === 0 || isUploading[playerIndex]}
                         onClick={() => uploadFiles(playerIndex)}
                       >
-                        {isUploading[playerIndex] 
-                          ? 'Upload en cours...' 
+                        {isUploading[playerIndex]
+                          ? 'Upload en cours...'
                           : `Confirmer l'envoi${filesToUploadByPlayer[playerIndex].length > 0 ? ` (${filesToUploadByPlayer[playerIndex].length})` : ''}`
                         }
                       </button>

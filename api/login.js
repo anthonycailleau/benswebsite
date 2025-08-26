@@ -1,37 +1,42 @@
 import bcrypt from "bcrypt";
+import { handleCors } from "../utils/cors.js";
+
+// Utilisateur admin avec mot de passe hashé
+const USERS = [
+  {
+    email: "benbridgenpro@gmail.com",
+    passwordHash: "$2b$10$j3ORjgV68nO5MUYmuSclBuw69c2.0zT8KjN4jashit5koV3VbeQx2",
+  },
+];
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Méthode non autorisée" });
+  // Handle CORS
+  if (handleCors(req, res)) {
+    return; // Requête OPTIONS traitée
   }
 
-  const { username, password } = req.body;
-
-  if (!username || !password) {
-    return res.status(400).json({ error: "Identifiants manquants" });
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // Identifiants sécurisés dans .env
-  const USER = process.env.ADMIN_USER || "admin";
-  const HASHED_PASS = process.env.ADMIN_PASS_HASH;
+  const { email, password } = req.body;
 
-  if (!HASHED_PASS) {
-    return res.status(500).json({ error: "Mot de passe non configuré" });
+  if (!email || !password) {
+    return res.json({ success: false });
   }
+
+  const user = USERS.find((u) => u.email === email);
+  if (!user) return res.json({ success: false });
 
   try {
-    if (username !== USER) {
-      return res.status(401).json({ error: "Utilisateur incorrect" });
+    const match = await bcrypt.compare(password, user.passwordHash);
+    if (match) {
+      return res.json({ success: true });
+    } else {
+      return res.json({ success: false });
     }
-
-    const isValid = await bcrypt.compare(password, HASHED_PASS);
-    if (!isValid) {
-      return res.status(401).json({ error: "Mot de passe incorrect" });
-    }
-
-    return res.status(200).json({ success: true, message: "Connexion réussie" });
-  } catch (error) {
-    console.error("Erreur login:", error);
-    return res.status(500).json({ error: "Erreur serveur" });
+  } catch (err) {
+    console.error("Login error:", err);
+    return res.json({ success: false });
   }
 }
