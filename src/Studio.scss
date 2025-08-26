@@ -1,255 +1,504 @@
 @import "./styles/variables.scss";
-
+.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
 .studio-container {
   color: $primary-font-color;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 10px;
-  padding-top: 5%;
+  height: 100vh;
 }
 
 .studio-picture {
-  display: flex;
-  justify-content: center;
-  img {
-    max-width: 80%;
-  }
+  position: fixed;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+
+  filter: blur(3px) brightness(40%);
+  transition: filter 0.5s ease;
 }
-.studio-titles {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  font-family: $primary-font-family;
-  margin-top: 20px;
-  text-transform: uppercase;
-  h1 {
-    font-size: $primary-font-size-mobile;
-    margin-left: 30px;
+
+.studio-header {
+  .studio-titles {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-transform: uppercase;
+
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 600;
+      font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+      text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+      margin-left: 5%;
+    }
   }
 }
 
 .studio-line {
   height: 2px;
   background-color: white;
-  margin: 10px 30px;
+  width: 90%;
+  margin: 10px auto;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
 }
 
 .studio-title-description {
+  font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+  text-transform: uppercase;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
-  flex-direction: row;
-  padding-right: 30px;
   gap: 10px;
+  margin-right: 5%;
+  h5 {
+    font-size: 0.9rem;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+  }
   img {
-    height: 20px;
+    height: 30px;
   }
 }
 
-.studio-caroussel {
+.studio-paragraph {
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid #fff;
+  padding: 20px;
+  margin: 2% 5%;
+  overflow-y: auto;
+
+  p {
+    font-size: 1.5rem;
+    font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+}
+
+.studio-buttons {
+  width: 90%;
+  margin: 20px auto;
   display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.studio-btn {
+  width: 100%;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid #fff;
+  color: #fff;
+  text-transform: uppercase;
+  font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+}
+
+.studio-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6); /* même opacité que Bio */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  z-index: 999;
+  animation: overlayFadeIn 0.1s ease-out forwards;
+
+  &.fade-out {
+    animation: overlayFadeOut 0.6s ease-out forwards;
+  }
+}
+
+.studio-popup-wrapper {
+  width: 95%;
+  display: flex;
+  flex-direction: column; /* empile contenu + bouton */
+  height: calc(
+    100vh - 3rem
+  ); /* 3rem = padding total de .studio-overlay (1.5rem haut + bas) */
+  max-height: none; /* on ne veut pas de max-height qui bouge */
+  padding-bottom: 80px; /* réserve pour ton menu bas (ajuste la valeur) */
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(20px);
+  animation: popupFadeIn 0.3s ease-out forwards;
+
+  .return-btn {
+    width: 100%;
+  }
+}
+
+.equipment-wrapper {
+  font-weight: 600;
+  font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 20px;
+  margin-bottom: 10px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid #fff;
+  color: #fff;
+  backdrop-filter: blur(2px);
+
+  .equipment-category {
+    margin-bottom: 1.5rem;
+
+    h4 {
+      font-size: 2rem;
+      text-transform: uppercase;
+      color: burlywood;
+      border-bottom: 1px solid burlywood;
+      margin-bottom: 0.5rem;
+    }
+
+    ul {
+      list-style: disc;
+      li {
+        font-size: 1.5rem;
+      }
+    }
+  }
+}
+
+.studio-carousel-wrapper {
+  flex: 1 1 auto; /* occupe l'espace dispo */
+  min-height: 0; /* indispensable pour que le contenu puisse rétrécir */
+  display: flex;
+  flex-direction: column; /* base mobile/portrait */
   align-items: center;
   justify-content: center;
+}
 
+.main-image-container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  border: 1px solid white;
   img {
-    max-width: 80%;
-    object-fit: cover;
-    opacity: 1;
-    transition: opacity 1.5s ease-in-out;
+    width: 100%;
+    max-height: 40vh;
+    object-fit: contain;
+    transition: opacity 1s ease;
+
     &.fade-in {
       opacity: 1;
     }
-
     &.fade-out {
       opacity: 0;
     }
   }
-}
-.studio-caroussel-description {
-  margin: 0 10px;
-  margin-top: 10px;
-  padding: 10px 10px;
-  h5 {
-    color: burlywood;
-    font-size: 2rem;
-    font-family: $primary-font-family;
-    border-bottom: 1px solid burlywood;
-    margin-top: 0;
-    margin-bottom: 10px;
-  }
-  h6 {
-    font-size: 1.5rem;
+  .image-credit {
+    background-color: black;
+    width: 100%;
+    text-align: right;
+    padding: 10px 20px;
+    font-size: 0.8rem;
+    color: #aaa;
     margin-top: 10px;
-    margin-bottom: 10px;
-    font-family: $primary-font-family;
-  }
-  p {
-    font-size: 1.2rem;
-    font-family: $primary-font-family;
-  }
-}
-.studio-main {
-  display: flex;
-  flex-direction: column;
-  padding: 10px 30px;
-}
-.studio-paragraph {
-  margin-top: 10px;
-  p {
-    font-size: $paragraph-font-size-mobile;
-    font-family: $primary-font-family;
-    margin-bottom: 10px;
+    font-weight: 600;
+    font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
   }
 }
 
-@media (min-width: 667px) and (max-width: 932px) and (orientation: landscape) {
-  .studio-container {
-    padding-top: 2%;
-  }
-  .studio-header-mobile-landscape {
-    display: flex;
-    flex-direction: row;
-  }
-  .studio-picture {
-    img {
-      justify-content: flex-start;
+.thumbnail-carousel {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px 0;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  scroll-snap-type: x mandatory;
+
+  .thumbnail {
+    height: 60px;
+    object-fit: cover;
+    border: 2px solid transparent;
+    cursor: pointer;
+    scroll-snap-align: center;
+    transition: border 0.3s ease;
+
+    &.active {
+      border: 2px solid white;
     }
-    flex: 1;
   }
-  .studio-titles {
-    flex: 2;
+}
+
+.popup-open {
+  .studio-header,
+  .studio-paragraph,
+  .studio-buttons {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s;
   }
-  .studio-caroussel-container {
-    display: flex;
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
   }
-  .studio-caroussel {
-    justify-self: center;
-    flex: 1.5;
+  to {
+    opacity: 1;
   }
-  .studio-caroussel-description {
-    flex: 1;
+}
+@keyframes overlayFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes popupFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.studio-carousel img {
+  max-width: 100%;
+}
+.studio-btn {
+  font-size: 1rem;
+  padding: 10px 18px;
+}
+
+@media (min-width: 667px) and (orientation: landscape) {
+  .studio-container {
+    margin-top: 5%;
+    justify-content: flex-start;
+  }
+  .studio-popup-wrapper {
+    margin-top: 1%;
+    justify-content: center;
+    padding-bottom: 3%;
   }
   .studio-paragraph {
-    margin-top: 20px;
+    height: 20%;
+  }
+  .studio-buttons {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+  }
+  .equipment-wrapper {
+    max-height: 130px;
+  }
+  .studio-carousel-wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  .thumbnail-carousel {
+    img {
+      max-height: 40px;
+    }
+  }
+  .main-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    border: 1px solid white;
+    max-width: 1000px;
+  }
+  .return-btn.diaporama-return {
+    display: none;
+  }
+}
+@media (min-width: 768px) and (orientation: portrait) {
+  .studio-header {
+    .studio-titles {
+      h1 {
+        font-size: 4.5rem;
+      }
+    }
+    .studio-title-description {
+      h5 {
+        font-size: 1.5rem;
+      }
+    }
+  }
+  .studio-paragraph {
     p {
+      font-size: 2rem;
+    }
+  }
+  .equipment-wrapper {
+    .equipment-category {
+      h4 {
+        font-size: 2.5rem;
+      }
+
+      ul {
+        li {
+          font-size: 2rem;
+        }
+      }
+    }
+  }
+  .image-credit {
+    font-size: 2rem;
+    color: #aaa;
+    margin-top: 10px;
+    font-weight: 600;
+    font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+  }
+  .studio-buttons,
+  .studio-btn {
+    font-size: 1.5rem;
+  }
+  .main-image-container {
+    .image-credit {
       font-size: 1.5rem;
     }
   }
 }
-@media (min-width: 768px) and (orientation: portrait) {
-  .studio-container {
-    padding: 10% 10px 10px 10px;
-  }
-  .studio-picture {
-    img {
-      max-width: 70%;
-    }
-  }
-  .studio-titles {
-    h1 {
-      margin-left: 60px;
-      font-size: 3rem;
-    }
-  }
-  .studio-title-description {
-    padding-right: 60px;
-    img {
-      height: 40px;
-    }
-    font-size: 1.5rem;
-  }
-  .studio-line {
-    margin: 20px 60px;
-  }
-  .studio-main {
-    padding: 10px 60px 20px 60px;
-  }
-  .studio-caroussel {
-    img {
-      padding: 30px;
-    }
-  }
-  .studio-caroussel-description {
-    h5 {
-
-      font-size: 2.5rem;
-    }
-    h6 {
-      font-size: 2rem;
-    }
-    p {
-      font-size: 2rem;
-    }
-  }
-  .studio-paragraph {
-    p {
-      font-size: 2rem;
-    }
-  }
-}
-
 @media (min-width: 1024px) and (orientation: landscape) {
   .studio-container {
-    padding: 10% 10px 10px 10px;
+    margin-top: 0;
+    justify-content: center;
   }
-  .studio-header-mobile-landscape {
-    display: flex;
-    flex-direction: row;
+  .studio-header {
+    .studio-title-description {
+      h5 {
+        font-size: 1.5rem;
+      }
+      img {
+        width: 40px;
+        height: 40px;
+      }
+    }
   }
+  .studio-paragraph {
+    p {
+      font-size: 2rem;
+    }
+  }
+  .equipment-wrapper {
+    min-height: 400px;
+    .equipment-category {
+      h4 {
+        font-size: 2.5rem;
+      }
 
-  .studio-picture {
-    flex: 1;
+      ul {
+        li {
+          font-size: 2rem;
+        }
+      }
+    }
   }
-  .studio-title-description {
-    font-size: 2rem;
+  .studio-popup-wrapper {
+    button {
+      margin-bottom: 0;
+    }
   }
-  .studio-caroussel-container {
+  .studio-buttons,
+  .studio-btn {
+    font-size: 1.5rem;
+  }
+  .main-image-container {
+    height: auto;
     display: flex;
-    justify-content: left;
-    padding: 50px;
+
+    img {
+      width: 100%;
+    }
+    .image-credit {
+      font-size: 1.5rem;
+    }
   }
-  .studio-caroussel {
-    display: flex;
-    flex-direction: row;
-    max-width: 60%;
-    margin-top: 20px;
+  .return-btn.diaporama-return {
+    margin-bottom: 10%;
+    display: block;
+  }
+}
+@media (min-width: 1920px) {
+  .studio-header {
+    .studio-titles {
+      h1 {
+        font-size: 5rem;
+      }
+    }
+    .studio-title-description {
+      h5 {
+        font-size: 1.5rem;
+      }
+      img {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  }
+  .studio-paragraph {
+    height: 150px;
+    padding: 40px;
+    p {
+      font-size: 2rem;
+    }
+  }
+  .equipment-wrapper {
+    .equipment-category {
+      h4 {
+        font-size: 2.5rem;
+      }
+
+      ul {
+        li {
+          font-size: 2rem;
+        }
+      }
+    }
   }
   
-  .studio-titles {
-    flex: 2;
-    h1 {
-      font-size: $primary-font-size-laptop;
-    }
-    h3 {
-      font-size: 4rem;
-    }
-  }
-  .studio-paragraph {
-    padding: 30px;
-    p {
-      font-size: 2.5rem;
-    }
-  }
-  .studio-main {
-    padding: 20px;
-  }
-  .studio-caroussel-description {
-    align-self: center;
-    h5 {
+  .main-image-container {
+    display: flex;
+    justify-content: center;
 
-      font-size: 4rem;
+    img {
+      object-fit: contain;
+      transition: opacity 1s ease;
+      &.fade-in {
+        opacity: 1;
+      }
+      &.fade-out {
+        opacity: 0;
+      }
     }
-    h6 {
-      font-size: 3rem;
-    }
-    p {
+    .image-credit {
       font-size: 2.5rem;
     }
   }
-  .studio-paragraph {
-    p {
-      font-size: 2.5rem;
-    }
+
+  .studio-buttons,
+  .studio-btn {
+    font-size: 2rem;
   }
 }

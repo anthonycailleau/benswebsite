@@ -1,43 +1,58 @@
 @import "./styles/variables.scss";
+
 .menu-bar-container {
   z-index: 3;
   position: fixed;
-  top: 0;
+  bottom: 0;
   width: 100%;
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px); // Safari
   background-color: rgba(0, 0, 0, 0.293);
-  transition: transform 0.2s ease;
-}
-.menu-bar-container.hidden {
-  transform: translateY(-100%); 
+  transform: translateY(100%);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  opacity: 0;
+
+  &.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &.hide-menu {
+    opacity: 0;
+    transform: translateY(100%);
+  }
 }
 
-.menu-bar-container.visible {
-  transform: translateY(0);
-}
 .menu-bar-tabs {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  padding: 20px 10px 0 10px;
-  transition: opacity 0.5s ease-in-out; 
-  opacity: 1; 
+  padding: 20px 10px;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
 
   &.fade-out {
-    opacity: 0;; 
+    opacity: 0;
   }
   &.fade-in {
     opacity: 1;
   }
 
-  button {
+  button,
+  a {
     all: unset;
+    cursor: pointer;
     text-transform: uppercase;
     color: $primary-font-color;
-    font-family: $primary-font-family;
+    font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+    font-weight: 500;
     font-size: $secondary-font-size-mobile;
+    text-decoration: none;
+
+    &.active {
+      text-decoration: underline; 
+    }
   }
 }
 
@@ -48,32 +63,81 @@
 .menu-bar-line {
   margin-top: 20px;
   height: 1px;
-  background-color: white;
   width: 100%;
 }
-
-@media (min-width: 768px) {
+@media (min-width: 667px) and (orientation: landscape) {
   .menu-bar-tabs {
-    button {
-      font-size: $secondary-font-size-tablet;
+    padding: 10px;
+
+    button,
+    a {
+      font-size: 1rem;
     }
   }
+
   .logo-translate img {
-    max-width: 60px;
-  }
-  .menu-bar-line {
-    height: 2px;
+    max-width: 30px;
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 768px) and (orientation: portrait) {
   .menu-bar-tabs {
     padding: 20px;
-    button {
-      font-size: $secondary-font-size-laptop;
-    }
-    .logo-translate img {
-      max-width: 100px;
+
+    button,
+    a {
+      font-size: 1.5rem;
     }
   }
+
+  .logo-translate img {
+    max-width: 30px;
+  }
 }
+
+@media (min-width: 1024px) and (orientation: landscape) {
+  .menu-bar-tabs {
+    padding: 20px;
+
+    button,
+    a {
+      font-size: 1.5rem;
+    }
+  }
+
+  .logo-translate img {
+    max-width: 40px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .menu-bar-tabs {
+    padding: 40px;
+
+    button,
+    a {
+      font-size: 2rem;
+    }
+  }
+
+  .logo-translate img {
+    max-width: 40px;
+  }
+}
+
+/*
+@media (min-width: 768px) and (max-width: 1024px) {
+  .menu-bar-tabs {
+    padding: 40px 10px 10px 10px;
+
+    button,
+    a {
+      font-size: 2rem;
+    }
+  }
+
+  .logo-translate img {
+    max-width: 50px;
+  }
+}
+*/

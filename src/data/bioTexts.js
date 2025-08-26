@@ -1,65 +1,48 @@
 const BioTexts = {
   fr: [
-    `Ben Bridgen est compositeur, musicien multi-instrumentiste (piano, guitare, basse, percussions, chant), 
-arrangeur et ingénieur du son.
-Sa culture anglaise laisse une empreinte sur sa musique, ainsi que sur sa façon 
-autodidacte et créative de travailler. Il a réalisé plus de 30 albums de musique originale, 
-ainsi qu'une dizaine de EPs, dont il est souvent compositeur et/ou arrangeur. 
-Quelques réalisations pour divers artistes sont disponibles à l'écoute en suivant 
-le menu music / for antists ci-haut. 
-Curieux de découvertes, et amoureux de la musique dans sa globalité, il ne met pas de barrière 
-de styles ou d'influences, travaillant dans des genres aussi divers que la chanson française, 
-le hip-hop et le dancehall antillais, passant par la pop rock. la musique latine, le hip-hop, 
-la musique malgache, le punk, le rock, même la musette (avec une touche londonienne malgré tout!)...`,
+    `Pas si simple… Compositeur ? Oui. Instrumentiste ? Oui. Piano ? Oui. Guitare ? Oui.
+Basse, percussions, chant ? Oui, oui, oui. Arrangeur ? Oui. Ingénieur du son ? Oui !`,
 
-    `Il a aussi une grande expérience du travail de compositeur pour
-l'audiovisuel, que ce soit pour l'habillage intégrale de radios (Sun, EURadio), 
-des musiques pour la télévision éditées par EMI Londres, ou des collaborations
-avec divers productions de disques, publicités, et évènements. Il a fait des voix off pour des bandes annonces, 
-jingles, et il a chanté pour des dessins animés.
-Depuis 2018 il collabore avec la maison d'édition Cézame à Paris sur des nouvelles créations. Il prête sa voix actuellement à l'habillage de la radio
-EUradio, et à l'agence Détour Graphic.`,
 
-    `En 2022 Ben a intégré le Collectif Mordu, compagnie de danse jeune public, en tant que compositeur et musicien. Le fruit de cette
-collaboration s'appelle "La fable de l'autruche" et se produit actuellement. En 2024 une nouvelle création intitulé "Le Kramazü" s'annonce, qui impliquera une création musicale en direct sur scène.`,
+    `Un pied sur son île maternelle de la Bretagne Grande et l’autre dans sa French Life, sa
+double culture franco-britannique le guide vers de multiples styles musicaux et influences.
+Pas de frontières avec Ben Bridgen ! On fait de la musique comme on voyage, d’albums
+en albums.`,
 
-    `Sur scène il joue actuellement du blues et swing New Orleans avec Denis Agenet et Nolapsters, tout en participant à son album "Peace of
-Land". Depuis 2022 il collabore avec le chanteur Gaume sur des nouvelles créations. Il accompagne régulièrement sur scène les chanteurs du projet Irafic d'Airs, association qui défend et développe la pratique amateur de la nouvelle chanson française.
-Il a eu l'occasion d'intégrer le backing band du bluesman de Chicago Joey J Saye pour une tournée au printemps 2023, et d'apparaitre dans le groupe des bluesman Bo Weavil et Tom Holland.
-Par le passé, il a fait des apparitions dans bien d'autres groupes, dont Chernobillly Boogie, Bouskidou, le Bal des Variétistes. Little Tom Band, Nina Kibuanda, Jaywood, La troupe de la Lina et bien d'autres.`,
+    `Pas de limites non plus pour explorer différents terrains où faire résonner sa musique :
+dans son studio, sur scène avec des groupes, pour le spectacle vivant, dans
+l’accompagnement de la pratique amateur, pour des projets audiovisuels, radio et
+télévision, des bandes annonces et jingles, des dessins animés.`,
+
+    `(texte de Julie Cloarec-Michaud)`,
   ],
 
   en: [
-    `Ben Bridgen is a composer, a multi instrumentalist (piano, guitar. bass, percussion and vocals), an arranger and a sound engineer. 
-An Englishman abroad, whose native culture influences his spontaneous. self-taught and creative way of making music,
-setting him apart
-from his French counterparts. He has produced more than 25 albums of original music, of which he is often the composer, 
-or co-composer and arranger. His curiosity for new discoveries, and his love for music in all its forms mean that he doesn't 
-place restrictions on styles or influences, so he has worked in genres as diverse as French pop music with a string quartet, 
-West Indian dancehall, not to mention pop rock, Latin American music, hip-hop, Malagasy music, punk, rock. even "musette", 
-traditional French accordion based songs. All of the above with great sensitivity, great passion, and very high standards`,
+    `That’s not easy… A composer ? Yes. A musician ? Yes. Pianist ? Yes. Guitarist ? Yes.
+Bass, percussion, vocals ? Yes, yes, yes. Arranger ? Yes. Sound Engineer ? Yes !`,
 
-    `He has also amassed considerable experience as a composer for
-multimedia, whether producing complete radio sound identities and jingles, music for television published by EMl, 
-or collaborating on recording, advertising, and events. He has also done voice-over work for trailers and jingles, as well as occasionally singing for cartoons.
-Since 2018 he has been working with the parisian music publisher
-Cézame on creating new music for their catalogue.`,
+    `With one foot in his native England, and the other in his “vie française”, his hybrid culture
+guides him towards multiple musical genres and influences. No borders with Ben Bridgen !
+We make music as we travel, from album to album.`,
 
-    `In 2022 Ben joined the contemporary dance company Le Collectif
-Mordu as resident composer and musician. Their first collaborative show "La fable de l'autruche" 
-is touring now, and there is a new production planned in 2024 which will involve music being created 
-and performed live on stage.`,
+    `No limits either to exploring other places where his music can resonate : in his studio, on
+stage with bands or other live shows, accompanying amateurs, for audio visual projects,
+radio and television, trailers and jingles, cartoons.`,
 
-    `Sur scène il joue actuellement du blues et swing New Orleans avec Denis Agenet et Nolapsters, 
-tout en participant à son album "Peace of
-Land". Depuis 2022 il collabore avec le chanteur Gaume sur des
-nouvelles créations. Il accompagne régulièrement sur scène les chanteurs du projet Irafic d'Airs, association qui 
-défend et développe la pratique amateur de la nouvelle chanson française.
-Il a eu l'occasion d'intégrer le backing band du bluesman de Chicago Joey 
-J Saye pour une tournée au printemps 2023, et d'apparaitre dans le groupe des bluesman Bo Weavil et Tom Holland.
-Par le passé, il a fait des apparitions dans bien d'autres groupes, dont Chernobillly Boogie, Bouskidou, le Bal 
-des Variétistes. Little Tom Band, Nina Kibuanda, Jaywood, La troupe de la Lina et bien d'autres.`,
+    `(written by Julie Cloarec-Michaud)`,
   ],
+  buttons: {
+    fr: {
+      collaboration: "Collaboration",
+      video: "Voir la vidéo",
+      backToBio: "Retour à la bio"
+    },
+    en: {
+      collaboration: "Collaboration",
+      video: "Watch the video",
+      backToBio: "Back to bio"
+    }
+  }
 };
 
-export default BioTexts; 
+export default BioTexts;

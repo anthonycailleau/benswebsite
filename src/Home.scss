@@ -4,165 +4,238 @@
   color: $primary-font-color;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  padding: 10px;
-  padding-top: 20%;
+  position: relative;
   height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 }
 
 .home-picture {
-  display: flex;
-  justify-content: center;
-  img {
-    max-width: 80%;
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &.blurred {
+    filter: blur(3px);
+    transition: filter 0.5s ease;
   }
 }
 
 .home-titles {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  font-family: $primary-font-family;
+  text-align: center;
   text-transform: uppercase;
-  margin-top: 20px;
+  z-index: 1;
+  transition: opacity 1s ease, transform 1s ease;
+
   h1 {
-    font-size: $primary-font-size-mobile;
+    font-size: 3.5rem;
+    font-weight: 600;
+    font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
   }
+
   h3 {
     font-size: 1.5rem;
-  }
-  h1,
-  h3 {
-    text-align: center;
+    font-weight: 500;
+    font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
   }
 }
 
-.home-line {
-  height: 2px;
-  background-color: white;
-  margin: 10px 30px;
+.hide-title {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.home-paragraph-wrapper {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  z-index: 2;
 }
 
 .home-main {
-  display: flex;
-  flex-direction: column;
-  padding: 20px 30px;
-  h1,
-  h3 {
-    text-align: center;
+  position: relative;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease, transform 1s ease;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid white;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  z-index: 2;
+
+  &.show-paragraph {
+    opacity: 1;
+    transform: translateY(0);
   }
-}
-.home-paragraph {
+
+  &.hide-paragraph {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+  }
+
   p {
-    font-family: $primary-font-family;
-    font-size: $secondary-font-size-mobile;
-    margin-bottom: 10px;
+    font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: white;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+    margin: 0;
   }
-}
-.home-footer {
-  font-family: $primary-font-family;
-  font-size: 1rem;
-  text-align: right;
+  .home-fade-in-text {
+    display: inline-block;
+    animation: fadeIn 0.6s ease;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
-@media (min-width: 667px) and (max-width: 932px) and (orientation: landscape) {
-  .home-container {
-    padding-top: 2%;
+.home-title-description {
+  font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+  text-transform: uppercase;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  z-index: 2;
+
+  h5 {
+    font-size: 0.9rem;
+    color: white;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+    margin: 0;
   }
-  .home-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+
+  img {
+    height: 30px;
   }
-  .home-picture {
-    img {
-      justify-content: flex-start;
-    }
-    flex: 1;
+}
+
+.fade-text {
+  position: relative;
+  display: inline-block;
+  height: 2em;
+  line-height: 2em;
+  vertical-align: middle;
+
+  span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transition: opacity 1s ease;
+    display: block;
+    width: 100%;
   }
+
+  span.active {
+    opacity: 1;
+    position: relative;
+  }
+}
+
+// Tablette portrait
+@media (min-width: 768px) and (orientation: portrait) {
   .home-titles {
-    flex: 2;
+    h1 {
+      font-size: 4.5rem;
+    }
+    h3 {
+      font-size: 2.5rem;
+    }
   }
-  .home-paragraph {
-    p {
-      font-size: $secondary-font-size-mobile-landscape;
+
+  .home-main p {
+    font-size: 2rem;
+  }
+  .home-title-description {
+    h5 {
+      font-size: 1.5rem;
     }
   }
 }
-@media (min-width: 768px) and (orientation: portrait) {
-  .home-picture img {
-    max-width: 70%;
-    margin-bottom: 10px;
-  }
-  .home-container {
-    padding: 10% 10px 10px 10px;
-  }
+
+// Tablette Paysage
+@media (min-width: 1024px) and (orientation: landscape) {
   .home-titles {
     h1 {
-      font-size: $primary-font-size-tablet;
+      font-size: 4.5rem;
     }
     h3 {
+      font-size: 2.5rem;
+    }
+  }
+  .home-main p {
+    font-size: 2rem;
+  }
+  .home-title-description {
+    h5 {
+      font-size: 1.5rem;
+    }
+    img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+}
+
+// Responsive grand écran
+@media (min-width: 1920px) {
+  .home-titles {
+    h1 {
+      font-size: 5rem;
+    }
+
+    h3 {
+      font-size: 3rem;
+    }
+  }
+
+  .home-main {
+    padding: 40px;
+    p {
       font-size: 2rem;
     }
-    h1,
-    h3 {
-      text-align: center;
+  }
+  .home-title-description {
+    h5 {
+      font-size: 1.5rem;
     }
-  }
-  .home-line {
-    margin: 20px 60px;
-  }
-  .home-main {
-    padding: 20px 60px 20px 60px;
-  }
-  .home-paragraph {
-    p {
-      font-size: $paragraph-font-size-tablet;
-    }
-  }
-  .home-footer {
-    font-size: 2rem;
-  }
-}
-@media (min-width: 1024px) and (orientation: landscape) {
-  .home-container {
-    padding: 5% 10px 10px 10px;
-  }
-  .home-picture {
-    flex: 1;
-  }
-  .home-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-  .home-titles {
-    h1 {
-      font-size: $primary-font-size-laptop;
-    }
-    h3 {
-      font-size: $secondary-font-size-laptop;
-    }
-    flex: 2;
-  }
-  .home-paragraph {
-    padding: 30px 10px;
-    p {
-      font-size: $paragraph-font-size-laptop;
-    }
-  }
-  .home-footer {
-    font-size: 2rem;
-  }
-}
-@media (min-width: 1280px) and (orientation: landscape) {
-  .home-paragraph {
-    padding: 20px 40px;
-    p {
-      font-size: $paragraph-font-size-laptop;
-    }
-  }
-  .home-footer {
-    font-size: 2.5rem;
+    img {
+        width: 40px;
+        height: 40px;
+      }
   }
 }

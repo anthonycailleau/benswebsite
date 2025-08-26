@@ -1,62 +1,83 @@
 @import "./styles/variables.scss";
+.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
 .contact-container {
   color: $primary-font-color;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 10px;
-  padding-top: 5%;
+  position: relative;
 }
 .contact-picture {
-  display: flex;
-  justify-content: center;
-  img {
-    max-width: 80%;
+  position: fixed;
+  z-index: -1000;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-position: top;
+  background-repeat: no-repeat;
+  z-index: -1;
+
+  &.blurred {
+    filter: blur(0px) brightness(50%);
+    transition: filter 0.5s ease;
   }
 }
 .contact-titles {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-family: $primary-font-family;
-  margin-top: 20px;
+  font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
   text-transform: uppercase;
+  margin-top: 5%;
   h1 {
-    font-size: $primary-font-size-mobile;
-    margin-left: 30px;
+    font-size: 3.5rem;
+    font-weight: 600;
+    font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+    margin-left: 5%;
   }
 }
 .contact-line {
   height: 2px;
   background-color: white;
-  margin: 10px 30px;
+  width: 90%;
+  margin: 10px auto;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
 }
 .contact-title-description {
+  font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+  text-transform: uppercase;
   display: flex;
   justify-content: end;
   align-items: center;
   flex-direction: row;
-  padding-right: 30px;
+  margin-right: 5%;
   gap: 10px;
+  h5 {
+    font-size: 0.9rem;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+  }
   img {
-    height: 20px;
+    height: 30px;
   }
 }
 .contact-content {
-  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.5rem;
+  font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+  font-weight: 600;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
-  padding: 20px 30px;
 }
 .contact-form {
-  background-color: rgba(255, 255, 255, 0);
-  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(2px);
   border: 1px solid white;
   width: 100%;
   padding: 20px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+  margin: 1% 5% 10% 5%;
 }
 .contact-form form {
   display: flex;
@@ -78,33 +99,41 @@
   color: rgb(255, 255, 255);
   font-size: 1rem;
   border-radius: 2px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
 }
 .contact-form textarea {
   padding: 10px;
   border: 1px solid rgb(255, 255, 255);
   background-color: transparent;
   color: rgb(255, 255, 255);
-
   font-size: 1rem;
   border-radius: 2px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
 }
 .contact-form button {
-  background-color: black;
-  color: rgb(255, 255, 255);
   font-size: 1rem;
-  font-weight: bold;
-  margin-top: 20px;
-  padding: 10px;
-  border: 2px solid rgb(255, 255, 255);
-  background-color: transparent;
-  backdrop-filter: blur (10px);
-  border-radius: 2px;
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px 16px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid white;
+  text-transform: uppercase;
+  color: white;
+  font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+  font-weight: 600;
+  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
 }
 .contact-button {
   background-color: transparent;
   border-radius: 2px;
   padding: 10px 25px;
-  font-size: 1.5rem;
+  font-size: 1.5srem;
   cursor: pointer;
   width: 200px;
 }
@@ -116,7 +145,7 @@
   position: fixed;
   z-index: 1;
   color: white;
-  background-color: rgba(0, 0, 0, 1); /* Un peu plus sombre */
+  background-color: rgba(0, 0, 0, 1);
   border: 2px solid rgb(255, 101, 101);
   width: 90%;
 }
@@ -127,7 +156,6 @@
 .error-message {
   font-size: 1.5rem;
 }
-/* Contact.scss */
 
 .modal-overlay {
   position: fixed;
@@ -145,7 +173,7 @@
 .modal {
   color: white;
   background-color: black;
-  font-family: $primary-font-family;
+  font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
   font-size: 1.5rem;
   border: 1px solid white;
   padding: 40px;
@@ -172,158 +200,133 @@
   background-color: #0056b3;
 }
 
-@media (min-width: 667px) and (max-width: 932px) and (orientation: landscape) {
-  .contact-container {
-    padding-top: 15%;
-  }
-  .contact-header-mobile-landscape {
-    display: flex;
-    flex-direction: row;
-  }
-  .contact-picture {
-    img {
-      justify-content: flex-start;
-    }
-    flex: 1;
-  }
-  .contact-titles {
-    flex: 2;
-  }
-  .contact-content {
-    padding: 20px;
-  }
+form {
+  text-transform: uppercase;
 }
 
 @media (min-width: 768px) and (orientation: portrait) {
   .contact-container {
-    padding: 10% 10px 10px 10px;
-  }
-  .contact-picture {
-    img {
-      max-width: 60%;
-    }
-  }
-  .contact-content {
-    padding: 20px 30px;
-  }
-  .contact-form {
-    border: 2px solid white;
-  }
-  .contact-form label {
-    font-size: 2rem;
-  }
-  .contact-form input {
-    border: 2px solid rgb(255, 255, 255);
-    font-size: 2rem;
-  }
-  .contact-form textarea {
-    border: 2px solid rgb(255, 255, 255);
-    font-size: 2rem;
-  }
-  .contact-form button {
-    font-size: 2rem;
-    border: 3px solid rgb(255, 255, 255);
-  }
-  .popup-message {
-    border: 3px solid rgb(255, 101, 101);
-  }
-  .success-message {
-    font-size: 2rem;
-  }
-  .error-message {
-    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10%;
   }
   .contact-titles {
     h1 {
-      margin-left: 60px;
-      font-size: 3rem;
+      font-size: 4.5rem;
     }
-  }
-  .modal {
-    font-size: 2rem;
-  }
-
-  .modal button {
-    font-size: 2rem;
   }
   .contact-title-description {
-    padding-right: 60px;
-    img {
-      height: 40px;
+    h5 {
+      font-size: 1.5rem;
     }
-    font-size: 1.5rem;
   }
-  .contact-line {
-    margin: 20px 60px;
+  .contact-form {
+    label {
+      font-size: 2rem;
+    }
+    input {
+      font-size: 1.5rem;
+    }
+    textarea {
+      font-size: 1.5rem;
+    }
+    button {
+      font-size: 1.5rem;
+    }
+  }
+}
+@media (min-width: 834px) and (orientation: portrait) {
+  .contact-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15%;
+  }
+}
+@media (min-width: 1024px) and (orientation: portrait) {
+  .contact-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20%;
   }
 }
 @media (min-width: 1024px) and (orientation: landscape) {
   .contact-container {
-    padding: 10% 10px 10px 10px;
-  }
-  .contact-header-mobile-landscape {
-    display: flex;
-    flex-direction: row;
-  }
-  .contact-picture {
-    flex: 1;
-  }
-
-  .contact-titles {
-    flex: 2;
-    h1 {
-      font-size: 4rem;
-    }
-    h3 {
-      font-size: 4rem;
-    }
+    margin-top: 10%;
   }
   .contact-title-description {
-    font-size: 2rem;
+    h5 {
+      font-size: 1.5rem;
+    }
+    img {
+      width: 40px;
+      height: 40px;
+    }
   }
   .contact-form {
-    padding: 2%;
-  }
-  .contact-form label,
-  .contact-form input,
-  .contact-form textarea,
-  .contact-form button {
-    margin: 10px 0;
-    font-size: 2rem;
-  }
-  .modal {
-    font-size: 2rem;
-  }
-
-  .modal button {
-    font-size: 2rem;
-  }
-}
-@media (min-width: 1280px) {
-  .contact-form {
-    border: 2px solid;
-    input,
     label {
-      font-size: 3rem;
+      font-size: 2rem;
+    }
+    input {
+      font-size: 1.5rem;
     }
     textarea {
-      font-size: 3rem;
-      border: 2px solid;
+      font-size: 1.5rem;
+    }
+    button {
+      margin-top: 20px;
+      font-size: 1.5rem;
+    }
+  }
+}
+@media (min-width: 1280px) and (orientation: landscape) {
+  .contact-container {
+    margin: 0;
+  }
+}
+@media (min-width: 1920px) {
+  .contact-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+  }
+  .modal-overlay {
+    h4 {
+      font-size: 3.5rem;
     }
     button {
       font-size: 3rem;
     }
-    button,
-    textarea {
-      margin-top: 1%;
+  }
+  .contact-titles {
+    h1 {
+      font-size: 5rem;
+    }
+    .contact-title-description {
+      h5 {
+        font-size: 1.5;
+      }
+    }
+    img {
+      width: 40px;
+      height: 40px;
     }
   }
-  .modal {
-    font-size: 3.5rem;
-  }
-
-  .modal button {
-    border: 2px solid white;
-    font-size: 3rem;
+  .contact-form {
+    padding: 40px;
+    label {
+      font-size: 2rem;
+    }
+    input {
+      padding: 20px;
+      font-size: 2rem;
+    }
+    textarea {
+      padding: 20px;
+      font-size: 2rem;
+    }
+    button {
+      margin-top: 30px;
+      font-size: 2rem;
+    }
   }
 }

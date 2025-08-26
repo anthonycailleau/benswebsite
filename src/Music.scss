@@ -1,19 +1,27 @@
 @import "./styles/variables.scss";
-
+.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
 .music-container {
   color: $primary-font-color;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 10px;
-  padding-top: 5%;
+  height: 100vh;
 }
 
 .music-picture {
-  display: flex;
-  justify-content: center;
-  img {
-    max-width: 80%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+
+  &.blurred {
+    filter: blur(3px) brightness(40%);
+    transition: filter 0.5s ease;
   }
 }
 
@@ -22,42 +30,52 @@
   flex-direction: column;
   justify-content: center;
   font-family: $primary-font-family;
-  margin-top: 20px;
+  margin-top: 5%;
   text-transform: uppercase;
   h1 {
-    font-size: $primary-font-size-mobile;
-    margin-left: 30px;
+    font-size: 3.5rem;
+    font-weight: 600;
+    font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+    margin-left: 5%;
   }
 }
 
 .music-line {
   height: 2px;
   background-color: white;
-  margin: 10px 30px;
+  width: 90%;
+  margin: 10px auto;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
 }
 .music-main {
   display: flex;
   flex-direction: column;
-  padding: 20px 30px;
 }
 
 .music-title-description {
+  font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
   display: flex;
   justify-content: end;
   align-items: center;
   flex-direction: row;
-  padding-right: 30px;
+  margin-right: 5%;
   gap: 10px;
+  h5 {
+    font-size: 0.9rem;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+  }
   img {
-    height: 20px;
+    height: 30px;
   }
 }
 
 .music-button-container {
-  margin: 10px 0 10px 0;
   display: flex;
   justify-content: center;
+  margin: 2% 5% 0 5%;
   gap: 10px;
+
   :nth-child(2) {
     color: rgb(50, 201, 212);
     border: 1px solid rgb(50, 201, 212);
@@ -67,229 +85,111 @@
     color: rgb(245, 157, 57);
   }
   button {
+    width: 100%;
+    padding: 10px 16px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid white;
     text-transform: uppercase;
-    padding: 10px;
-    font-family: $primary-font-family;
-    color: $primary-font-color;
-    background-color: transparent;
-    border: 1px solid rgb(208, 207, 210);
+    color: white;
+    font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+    font-weight: 600;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
   }
 }
 .music-carousel {
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  gap: 1rem;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  gap: 5%;
+
+  box-sizing: content-box;
 }
 .music-carousel::-webkit-scrollbar {
   display: none;
 }
 
-// .music-player-container-1 {
-//   flex: 0 0 100%;
-//   scroll-snap-align: center;
-//   scroll-snap-stop: always;
-//   display: flex;
-//   flex-direction: column;
-//   min-width: 250px;
-//   height: 350px;
-//   border: 1px solid rgb(50, 201, 212);
-//   padding: 20px;
-//   .music-player-picture {
-//     border: 1px solid rgb(50, 201, 212);
-//   }
-//   .music-player-timeline {
-//     border: 1px solid rgb(50, 201, 212);
-//   }
-
-//   :nth-child(1) {
-//     color: rgb(50, 201, 212);
-//   }
-//   :nth-child(2) {
-//     color: rgb(50, 201, 212);
-//   }
-//   :nth-child(3) {
-//     color: rgb(50, 201, 212);
-//   }
-//   :nth-child(4) {
-//     color: rgb(50, 201, 212);
-//   }
-// }
-// .music-player-container-2 {
-//   flex: 0 0 100%;
-//   scroll-snap-align: center;
-//   scroll-snap-stop: always;
-//   display: flex;
-//   flex-direction: column;
-//   min-width: 250px;
-//   height: 350px;
-//   border: 1px solid rgb(245, 157, 57);
-//   padding: 20px;
-//   .music-player-picture {
-//     border: 1px solid rgb(245, 157, 57);
-//   }
-//   .music-player-timeline {
-//     border: 1px solid rgb(245, 157, 57);
-//   }
-//   :nth-child(1) {
-//     color: rgb(245, 157, 57);
-//   }
-//   :nth-child(2) {
-//     color: rgb(245, 157, 57);
-//   }
-//   :nth-child(3) {
-//     color: rgb(245, 157, 57);
-//   }
-//   :nth-child(4) {
-//     color: rgb(245, 157, 57);
-//   }
-// }
-
-@media (min-width: 667px) and (max-width: 932px) and (orientation: landscape) {
-  .music-container {
-    padding-top: 2%;
-  }
-  .music-header-mobile-landscape {
-    display: flex;
-    flex-direction: row;
-  }
+// Téléphone paysage
+@media (min-width: 667px) and (orientation: landscape) {
   .music-picture {
-    img {
-      justify-content: flex-start;
-    }
-    flex: 1;
+    background-position: center 15%;
   }
-  .music-titles {
-    flex: 2;
+  .music-player-music-contain {
+    display: flex;
+  }
+  .music-button-container {
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 6%;
   }
 }
 
+// Tablette portrait
 @media (min-width: 768px) and (orientation: portrait) {
-  .music-container {
-    padding: 10% 10px 10px 10px;
-  }
-
-  .music-picture {
-    img {
-      max-width: 70%;
-      margin-bottom: 10px;
-    }
-  }
-
   .music-titles {
     h1 {
-      font-size: $primary-font-size-tablet;
-      margin-left: 60px;
+      font-size: 4.5rem;
     }
   }
-
   .music-title-description {
-    padding-right: 60px;
-    img {
-      height: 40px;
+    h5 {
+      font-size: 1.5rem;
     }
-    font-size: $secondary-font-size-tablet;
   }
   .music-button-container {
-    button {
-      border: 1px solid white;
-      font-size: 2rem;
-      background-color: transparent;
+    font-size: 1.5rem;
+  }
+}
+
+// Tablette paysage
+@media (min-width: 1024px) and (orientation: landscape) {
+  .music-titles {
+    h1 {
+      font-size: 4.5rem;
     }
-  }
-  .music-line {
-    margin: 20px 60px;
-  }
-  .music-main {
-    padding: 20px 60px;
+    img {
+      width: 40px;
+      height: auto;
+    }
   }
 
-  .music-player-artist-container {
-    div {
-      font-size: 3rem;
-    }
-    .music-player-duration {
-      font-size: 2.5rem;
+  .music-button-container,
+  .music-title-description h5 {
+    font-size: 1.5rem;
+  }
+}
+@media (min-width: 1280px) {
+  .music-player-music-contain {
+    display: flex;
+    align-items: center;
+  }
+  .music-button-container {
+    flex-direction: column;
+    margin-left: 5%;
+  }
+}
+@media (min-width: 1920px) {
+  .music-titles {
+    h1 {
+      font-size: 5rem;
     }
   }
-  .music-player-timeline {
-    height: 20px;
-  }
-  .music-player-buttons {
-    padding: 10px 0;
+  .music-title-description {
+    h5 {
+      font-size: 1.5rem;
+    }
     img {
       width: 40px;
     }
   }
-  .music-player-artist-list-container {
-    div {
-      font-size: 2.5rem;
-    }
-  }
-}
-@media (min-width: 1024px) and (orientation: landscape) {
-  .music-container {
-    padding: 10% 10px 10px 10px;
-  }
-  .music-header-mobile-landscape {
-    display: flex;
-    flex-direction: row;
-  }
-  .music-picture {
-    flex: 1;
-  }
-  .music-title-description {
-    font-size: 2rem;
-  }
-  .music-titles {
-    flex: 2;
-    h1 {
-      font-size: $primary-font-size-laptop;
-    }
-  }
-
   .music-button-container {
     font-size: 2rem;
-    margin: 20px;
-  }
-  .music-player-artist-container {
-    div {
-      font-size: 2.5rem;
-    }
-    .music-player-duration {
-      font-size: 2rem;
-    }
-  }
-
-  .music-player-bottom {
-    div {
-      font-size: 2rem;
-    }
-  }
-  .music-player-timeline {
-    height: 20px;
-  }
-  .music-player-buttons {
-    img {
-      width: 30px;
-    }
-  }
-}
-@media (min-width: 1280px) {
-
-  .music-player-container-1 {
-    .music-player-timeline {
-      border: 2px solid;
-    }
-  }
-  .music-player-container-2 {
-    .music-player-timeline {
-      border: 2px solid;
-    }
-  }
-  .music-player-artist-list-container {
-    border-bottom: 2px solid;
   }
 }

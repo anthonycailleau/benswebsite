@@ -4,24 +4,14 @@
   color: $primary-font-color;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  padding: 20px;
-  height: 100vh;
-}
-.jukebox-home-header {
-  display: flex;
-  flex-direction: row;
-}
-.jukebox-home-picture {
-  flex: 2;
-  display: flex;
   justify-content: center;
-  height: 50%;
+  padding: 40px;
+  height: 100vh;
 }
 .jukebox-home-title-line {
   height: 2px;
   background-color: white;
-  margin: 10px 30px;
+  margin: 10px 0;
 }
 
 .jukebox-home-main {
@@ -30,63 +20,181 @@
   flex-direction: column;
   justify-content: center;
   font-family: $primary-font-family;
-  height: 100vh;
   h1 {
     text-transform: uppercase;
-    margin-left: 30px;
-    font-size: 5rem;
+    font-size: 2rem;
   }
 
   .jukebox-home-user-title {
     h4 {
       font-family: $primary-font-family;
       color: $primary-font-color;
-      font-size: 5rem;
-      margin-left: 30px;
+      font-size: 1.5rem;
     }
   }
   .jukebox-home-line {
     height: 2px;
     background-color: white;
-    margin: 10px 30px;
-    max-width: 50%;
+    margin: 10px 0;
   }
 
   .jukebox-home-contact-content {
     font-family: Arial, Helvetica, sans-serif;
     display: flex;
     flex-direction: column;
-    margin: 20px 30px;
+    margin-top: 10px;
   }
   .jukebox-home-contact-form {
     background-color: rgba(255, 255, 255, 0);
     backdrop-filter: blur(10px);
     border: 2px solid white;
-    padding: 40px;
-    font-size: 4rem;
+    padding: 20px;
+    font-size: 1rem;
   }
 
   .jukebox-home-contact-form input {
     border: 2px solid rgb(255, 255, 255);
     background-color: transparent;
     color: $primary-font-color;
-    font-size: 3.5rem;
-    padding: 20px;
+    font-size: 1rem;
+    padding: 10px;
     width: 100%;
-    margin-top: 20px;
-    margin-bottom: 40px;
+    margin-top: 10px;
+    margin-bottom: 20px;
   }
+  .forgot-password {
+    text-align: right;
+    margin-top: -10px;
+    a {
+      font-size: 1rem;
+      color: $primary-font-color;
+      text-decoration: underline;
+      cursor: pointer;
 
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
   .jukebox-home-button {
     background-color: black;
-    color: rgb(255, 255, 255);
-    font-size: 4rem;
+    color: rgb(34, 237, 102);
+    font-size: 1rem;
     font-weight: bold;
     margin-top: 20px;
-    padding: 20px 50px;
-    border: 2px solid rgb(255, 255, 255);
+    padding: 10px;
+    border: 2px solid rgb(34, 237, 102);
     background-color: transparent;
     backdrop-filter: blur (10px);
     border-radius: 2px;
+    width: 100%;
+  }
+}
+
+// Téléphone paysage
+@media (min-width: 667px) and (orientation: landscape) {
+  .jukebox-home-container {
+    margin: 50px 10px;
+  }
+}
+@media (min-width: 768px) and (orientation: portrait) {
+  .jukebox-home-main {
+    .jukebox-home-title {
+      h1 {
+        font-size: 4rem;
+      }
+    }
+    .jukebox-home-user-title {
+      h4 {
+        font-size: 3rem;
+      }
+    }
+    .jukebox-home-contact-form {
+      font-size: 2rem;
+      input {
+        font-size: 2rem;
+        padding: 20px;
+      }
+    }
+    .jukebox-home-button {
+      font-size: 2rem;
+      padding: 20px;
+    }
+  }
+}
+// Grand Tablette portrait
+@media (min-width: 834px) and (orientation: portrait) {
+  .jukebox-home-main {
+    .jukebox-home-title {
+      h1 {
+        font-size: 4rem;
+      }
+    }
+    .jukebox-home-user-title {
+      h4 {
+        font-size: 3rem;
+      }
+    }
+    .jukebox-home-contact-form {
+      font-size: 2rem;
+      input {
+        font-size: 2rem;
+        padding: 20px;
+      }
+    }
+    .forgot-password {
+      a {
+        font-size: 1.5rem;
+      }
+    }
+    .jukebox-home-button {
+      font-size: 2rem;
+      padding: 20px;
+    }
+  }
+}
+
+// Petite Tablette paysage
+@media (min-width: 1024px) and (orientation: landscape) {
+  .jukebox-home-container {
+    margin: 0;
+  }
+  .jukebox-home-main {
+    .jukebox-home-title {
+      h1 {
+        font-size: 4rem;
+      }
+    }
+    .jukebox-home-user-title {
+      h4 {
+        font-size: 3rem;
+      }
+    }
+    .jukebox-home-contact-form {
+      font-size: 2rem;
+      input {
+        font-size: 2rem;
+        padding: 15px;
+      }
+    }
+    .forgot-password {
+      a {
+        font-size: 1.5rem;
+      }
+    }
+    .jukebox-home-button {
+      font-size: 2rem;
+      padding: 10px;
+    }
+  }
+}
+@media (min-width: 1280px) and (orientation: landscape) {
+  .jukebox-home-container {
+    padding: 150px;
+  }
+}
+@media (min-width: 1920px) and (orientation: landscape) {
+  .jukebox-home-container {
+    padding: 400px;
   }
 }

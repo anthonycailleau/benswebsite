@@ -3,6 +3,12 @@ import './Contact.scss';
 
 const Contact = () => {
 
+    const toggleLanguage = () => {
+        setIsEnglish(prev => !prev);
+    };
+    // Traduction
+    const [isEnglish, setIsEnglish] = useState(false);
+
     // Déclaration des états pour la soumission du formulaire
     const [formData, setFormData] = useState({
         firstName: '',
@@ -11,7 +17,7 @@ const Contact = () => {
         message: '',
     });
     const [status, setStatus] = useState(null);
-    const [showModal, setShowModal] = useState(false); 
+    const [showModal, setShowModal] = useState(false);
 
     // Mise à jour des champs du formulaire
     const handleChange = (e) => {
@@ -33,7 +39,7 @@ const Contact = () => {
                 setStatus('success');
                 setFormData({ firstName: '', lastName: '', email: '', message: '' });
                 console.log('Message envoyé avec succès !');
-                setShowModal(true); 
+                setShowModal(true);
             } else {
                 setStatus('error');
             }
@@ -50,17 +56,28 @@ const Contact = () => {
             return () => clearTimeout(timer);
         }
     }, [status]);
-
+    useEffect(() => {
+        document.body.classList.add('no-scroll');
+        return () => {
+            document.body.classList.remove('no-scroll');
+        };
+    }, []);
     const closeModal = () => {
-        setShowModal(false); 
+        setShowModal(false);
     }
     return (
         <section id='contact'>
             <div className='contact-container'>
                 <div className='contact-header'>
+                    <div
+                        className="contact-picture blurred"
+                        style={{
+                            backgroundImage: `url('/contact.jpg')`,
+                        }}
+                    />
                     <div className='contact-header-mobile-landscape'>
                         <div className='contact-picture'>
-                            <img src="contact_carré.png" alt="photo de Ben Bridgen avec une guitare" />
+                            {/* <img src="contact_carré.png" alt="photo de Ben Bridgen avec une guitare" /> */}
                         </div>
 
                         <div className='contact-titles'>
@@ -68,9 +85,9 @@ const Contact = () => {
                                 <h1>contact</h1>
                             </div>
                             <div className='contact-line'></div>
-                            <div className='contact-title-description'>
-                                <h5>Cliquez ici pour la version anglaise</h5>
-                                <img src="english-logo.png" alt="" />
+                            <div className='contact-title-description' onClick={toggleLanguage} style={{ cursor: 'pointer' }}>
+                                <h5>{isEnglish ? 'Click here for the french version' : 'Cliquez ici pour la version anglaise'}</h5>
+                                <img src={isEnglish ? "french-logo.png" : "english-logo.png"} alt="toggle language" />
                             </div>
                         </div>
 
@@ -79,24 +96,56 @@ const Contact = () => {
                 <div className='contact-main'>
                     <div className="contact-content">
                         <div className="contact-form">
-                            <form onSubmit={handleSubmit}> 
+                            <form onSubmit={handleSubmit}>
                                 <div>
-                                    <label htmlFor="firstName">Prénom</label>
-                                    <input type="text" id="firstName" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="Prénom" required />
+                                    <label htmlFor="firstName">{isEnglish ? 'First Name' : 'Prénom'}</label>
+                                    <input
+                                        type="text"
+                                        id="firstName"
+                                        name="firstName"
+                                        value={formData.firstName}
+                                        onChange={handleChange}
+                                        placeholder={isEnglish ? 'First Name' : 'Prénom'}
+                                        required
+                                    />
 
-                                    <label htmlFor="lastName">Nom</label>
-                                    <input type="text" id="lastName" name="lastName"value={formData.lastName} onChange={handleChange} placeholder="Nom" required />
+                                    <label htmlFor="lastName">{isEnglish ? 'Last Name' : 'Nom'}</label>
+                                    <input
+                                        type="text"
+                                        id="lastName"
+                                        name="lastName"
+                                        value={formData.lastName}
+                                        onChange={handleChange}
+                                        placeholder={isEnglish ? 'Last Name' : 'Nom'}
+                                        required
+                                    />
                                 </div>
 
                                 <div>
                                     <label htmlFor="email">Email</label>
-                                    <input type="email" id="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        placeholder="Email"
+                                        required
+                                    />
 
-                                    <label htmlFor="message">Votre message</label>
-                                    <textarea id="message" name="message" rows="4" placeholder="Votre message..." value={formData.message} onChange={handleChange} required></textarea>
+                                    <label htmlFor="message">{isEnglish ? 'Your Message' : 'Votre message'}</label>
+                                    <textarea
+                                        id="message"
+                                        name="message"
+                                        rows="4"
+                                        value={formData.message}
+                                        onChange={handleChange}
+                                        placeholder={isEnglish ? 'Your message...' : 'Votre message...'}
+                                        required
+                                    />
                                 </div>
 
-                                <button type="submit">Envoyer</button>
+                                <button type="submit">{isEnglish ? 'Send' : 'Envoyer'}</button>
                             </form>
                         </div>
                     </div>
@@ -107,8 +156,8 @@ const Contact = () => {
             {showModal && (
                 <div className='modal-overlay' onClick={closeModal}>
                     <div className='modal'>
-                        <h4> Message envoyé avec succès ! </h4>
-                        <button onClick={closeModal}>Fermer</button>
+                        <h4>{isEnglish ? 'Message sent successfully!' : 'Message envoyé avec succès !'}</h4>
+                        <button onClick={closeModal}>{isEnglish ? 'Close' : 'Fermer'}</button>
                     </div>
                 </div>
             )}

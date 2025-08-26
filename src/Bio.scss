@@ -2,172 +2,501 @@
 
 .bio-container {
   color: $primary-font-color;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 10px;
-  padding-top: 5%;
+}
+
+.bio-section {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
 }
 
 .bio-picture {
-  display: flex;
-  justify-content: center;
-  img {
-    max-width: 80%;
+ position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 120vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &.blurred {
+    filter: blur(3px);
+    transition: filter 0.5s ease;
   }
 }
 
 .bio-titles {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  font-family: $primary-font-family;
-  margin-top: 20px;
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  text-align: center;
   text-transform: uppercase;
+  transition: opacity 1s ease;
+  pointer-events: auto;
+
+  &.hide-title {
+    opacity: 0;
+    pointer-events: none;
+  }
+
   h1 {
-    font-size: $primary-font-size-mobile;
-    margin-left: 30px;
+    font-size: 3.5rem;
+    font-weight: 600;
+    font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
   }
 }
+
+.hide-title {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .bio-line {
   height: 2px;
   background-color: white;
-  margin: 10px 30px;
+  margin: 10px auto;
+  width: 50%;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
 }
+
 .bio-main {
-  display: flex;
-  flex-direction: column;
-  padding: 20px 30px;
-}
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
 
-.bio-video-container {
-  padding: 0 30px 0 30px;
-}
-
-.bio-title-description {
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  flex-direction: row;
-  padding-right: 30px;
-  gap: 10px;
-  img {
-    height: 20px;
-  }
-}
-
-.bio-paragraph {
-  transition: opacity 0.5s ease-in-out;
-  opacity: 1;
-
-  &.fade-out {
-    opacity: 0;
-  }
-  &.fade-in {
+  &.show-paragraph {
     opacity: 1;
   }
-  margin-top: 10px;
-  p {
-    font-size: $paragraph-font-size-mobile;
-    font-family: $primary-font-family;
-    margin-bottom: 10px;
-  }
-}
 
-@media (min-width: 667px) and (max-width: 932px) and (orientation: landscape) {
-  .bio-container {
-    padding-top: 2%;
-  }
-  .bio-header-mobile-landscape {
-    display: flex;
-    flex-direction: row;
-  }
-  .bio-picture {
-    img {
-      justify-content: flex-start;
-    }
-    flex: 1;
-  }
-  .bio-titles {
-    flex: 2;
+  &.hide-paragraph {
+    opacity: 0;
+    pointer-events: none;
   }
 
-  .bio-video-container {
-    display: flex;
-    justify-content: center;
-  }
-
-  .bio-paragraph p {
-    font-size: $secondary-font-size-mobile-landscape;
-  }
-}
-@media (min-width: 768px) and (orientation: portrait) {
-  .bio-picture img {
-    max-width: 70%;
-    margin-bottom: 10px;
-  }
-  .bio-container {
-    padding: 10% 10px 10px 10px;
-  }
-
-  .bio-titles {
-    h1 {
-      font-size: $primary-font-size-tablet;
-      margin-left: 60px;
-    }
-  }
-  .bio-title-description {
-    padding-right: 60px;
-    img {
-      height: 40px;
-    }
-    font-size: $secondary-font-size-tablet;
-  }
-  .bio-line {
-    margin: 20px 60px;
-  }
-  .bio-main {
-    padding: 20px 60px 20px 60px;
-  }
   .bio-paragraph {
+    background-color: rgba(255, 255, 255, 0.1);
+    text-align: left;
+    border: 1px solid white;
+    padding: 20px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+    max-height: 300px;
+    overflow-y: auto;
+
+    &.fade-out {
+      opacity: 0;
+    }
+
+    &.fade-in {
+      opacity: 1;
+    }
+    .home-fade-in-text {
+      display: inline-block;
+      animation: fadeIn 0.6s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     p {
-      font-size: $paragraph-font-size-tablet;
+      font-size: 1.5rem;
+      font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+      text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+      font-weight: 600;
+      margin-bottom: 1rem;
     }
   }
-}
-@media (min-width: 1024px) and (orientation: landscape) {
-  .bio-container {
-    padding: 10% 10px 10px 10px;
-  }
-  .bio-header-mobile-landscape {
-    display: flex;
-    flex-direction: row;
-  }
-  .bio-picture {
-    flex: 1;
-  }
+
   .bio-title-description {
-    font-size: 2rem;
+    font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+    text-transform: uppercase;
+    margin-top: 20px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+
+    h5 {
+      font-size: 0.9rem;
+      text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+      margin: 0;
+    }
+
+    img {
+      height: 30px;
+    }
   }
-  .bio-video-container {
+
+  .bio-buttons {
     display: flex;
     flex-direction: column;
-    padding: 30px;
+    gap: 10px;
+    margin-top: 20px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
   }
+}
 
-  .bio-titles {
-    flex: 2;
-    h1 {
-      font-size: $primary-font-size-laptop;
-    }
+.bio-btn,
+.bio-video-cooperation,
+.bio-video-video {
+  padding: 10px 16px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid white;
+  font-size: 1rem;
+  text-transform: uppercase;
+  color: white;
+  font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+  font-weight: 600;
+  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.bio-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  z-index: 999;
+  cursor: pointer;
+  animation: overlayFadeIn 0.1s ease-out forwards;
+
+  &.fade-out {
+    animation: overlayFadeOut 0.6s ease-out forwards;
+  }
+}
+
+.collaboration-overlay {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.bio-popup-wrapper {
+  font-weight: 600;
+  font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+  width: 95%;
+  max-height: 90vh;
+  overflow: hidden;
+  cursor: default;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: popupFadeIn 0.3s ease-out forwards;
+}
+
+.bio-cooperation-content {
+  min-height: 100px;
+  max-height: 350px;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid white;
+  padding: 2rem;
+  backdrop-filter: blur(4px);
+  p {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+    color: white;
+    font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+    font-weight: 600;
+  }
+}
+
+.cooperation-category {
+  margin-bottom: 1.5rem;
+  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+  h4 {
+    font-size: 2rem;
+    text-transform: uppercase;
+    color: burlywood;
+    border-bottom: 1px solid burlywood;
+    margin-bottom: 0.5rem;
+  }
+  li {
+    font-size: 1.5rem;
+    line-height: 1.4;
+  }
+}
+
+.back-to-bio {
+  width: 95%;
+}
+
+.back-to-bio-button {
+  @extend .bio-btn;
+  display: block;
+  margin-top: 1rem;
+  padding: 10px 16px;
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid white;
+  text-transform: uppercase;
+  font-family: "PingFangHK", -apple-system, BlinkMacSystemFont;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  text-align: center;
+}
+
+.back-to-bio-video {
+  @extend .bio-btn;
+  width: 100%;
+}
+
+.bio-popup-wrapper video {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+}
+
+/* Animations */
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes overlayFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes popupFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+// Téléphone paysage
+@media (min-width: 667px) and (orientation: landscape) {
+  .bio-main {
+    position: fixed;
+  }
+  .bio-picture {
+    background-position: center 10%;
   }
   .bio-paragraph {
-    padding: 30px;
-    p {
-      font-size: $paragraph-font-size-laptop;
+    height: 120px;
+  }
+
+  .bio-main .bio-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 7%;
+
+    .bio-btn {
+      width: 100%;
+    }
+  }
+  .bio-cooperation-content {
+    min-height: 90px;
+    max-height: 150px;
+  }
+  .bio-popup-wrapper video {
+    display: flex;
+    margin: 0 25%;
+    width: 50%;
+    height: auto;
+  }
+  .back-to-bio button {
+    margin-bottom: 5%;
+  }
+  .back-to-bio-video {
+    margin: 0 25% 5% 25%;
+    width: 50%;
+  }
+}
+// Tablette portrait
+@media (min-width: 768px) and (orientation: portrait) {
+  .bio-titles {
+    h1 {
+      font-size: 4.5rem;
     }
   }
   .bio-main {
-    padding: 20px;
+    .bio-paragraph {
+      p {
+        font-size: 2rem;
+      }
+    }
+
+    .bio-title-description {
+      h5 {
+        font-size: 1.5rem;
+      }
+    }
+  }
+  .bio-cooperation-content {
+    max-height: 450px;
+  }
+
+  .cooperation-category {
+    h4 {
+      font-size: 2.5rem;
+    }
+    li {
+      font-size: 2rem;
+    }
+  }
+  .bio-btn,
+  .bio-video-cooperation,
+  .bio-video-video {
+    font-size: 1.5rem;
+  }
+  .bio-main .bio-buttons {
+    margin-bottom: 0;
+  }
+  .back-to-bio button {
+    margin-bottom: 0;
+  }
+  .back-to-bio-video {
+    margin-bottom: 0;
+  }
+}
+// Tablette paysage
+@media (min-width: 1024px) and (orientation: landscape) {
+  .bio-picture {
+  position: fixed;
+  top: 60%;
+  left: 50%;
+  width: 60vw;       // largeur réduite
+  height: 120vh;      // hauteur réduite
+  transform: translate(-50%, -50%); // centrage parfait
+  background-size: contain;         // on garde l'image entière
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+  transition: filter 0.5s ease;
+
+  &.blurred {
+    filter: blur(3px);
+  }
+}
+  .bio-main {
+    .bio-paragraph {
+      min-height: 250px;
+      p {
+        font-size: 2rem;
+      }
+    }
+    .bio-title-description {
+      h5 {
+        font-size: 1.5rem;
+      }
+      img {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  }
+  .bio-titles {
+    h1 {
+      font-size: 4.5rem;
+    }
+  }
+  .bio-cooperation-content {
+    min-height: 300px;
+  }
+  .cooperation-category {
+    h4 {
+      font-size: 2.5rem;
+    }
+    li {
+      font-size: 2rem;
+    }
+  }
+  .bio-btn,
+  .bio-video-cooperation,
+  .bio-video-video {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 1920px) {
+  .bio-titles {
+    h1 {
+      font-size: 5rem;
+    }
+  }
+  .bio-main {
+    .bio-paragraph {
+      p {
+        font-size: 2rem;
+      }
+      box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+      min-height: 280px;
+      padding: 40px;
+    }
+    .bio-title-description {
+      h5 {
+        font-size: 1.5rem;
+      }
+      img {
+        width: 40px;
+        height: auto;
+      }
+    }
+  }
+  .bio-cooperation-content {
+    padding: 40px;
+    max-height: 500px;
+  }
+  .cooperation-category {
+    h4 {
+      font-size: 2rem;
+      text-transform: uppercase;
+      color: burlywood;
+    }
+    ul {
+      li {
+        font-size: 2rem;
+      }
+    }
+  }
+  .bio-btn,
+  .bio-video-cooperation,
+  .bio-video-video {
+    font-size: 2rem;
   }
 }
