@@ -7,8 +7,8 @@ export default async function handler(req, res) {
     return; // Requête OPTIONS traitée
   }
 
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
   const { firstName, lastName, email, message } = req.body;
@@ -18,10 +18,10 @@ export default async function handler(req, res) {
   }
 
   try {
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || "smtp.gmail.com",
       port: process.env.SMTP_PORT || 587,
-      secure: false,
+      secure: false, // true si port 465
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
