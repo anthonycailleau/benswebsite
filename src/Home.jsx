@@ -310,7 +310,8 @@ const Home = () => {
             </div>
 
             <div className="home-title-description" onClick={toggleLanguageDesc} style={{ justifyContent: 'flex-end' }}>
-              <h5>{langDesc === 'fr' ? 'Cliquez ici pour la version Anglaise' : 'Click here for French version'}</h5>
+                <h5>{langDesc === 'fr' ? 'Click here for English version' : 'Cliquez ici pour la version Française'}</h5>
+
               <img
                 src={langDesc === 'fr' ? './english-logo.png' : './french-logo.png'}
                 alt="language switch"

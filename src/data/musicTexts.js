@@ -3,13 +3,13 @@ import { title } from "framer-motion/client";
 const musicTexts = {
   fr: {
     title: "musique",
-    buttons: ['Productions', 'Personnel', 'Inédit'],
-    switchLang: 'Cliquez ici pour la version anglaise',
+    buttons: ["Productions", "Personnel", "Inédit"],
+    switchLang: "Click here for the english version",
   },
   en: {
     title: "music",
-    buttons: ['Productions', 'Personal', 'Unreleased'],
-    switchLang: 'Click here for the French version',
+    buttons: ["Productions", "Personal", "Unreleased"],
+    switchLang: "Cliquez ici pour la version française",
   },
 };
 

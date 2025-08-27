@@ -87,7 +87,7 @@ const Contact = () => {
                             </div>
                             <div className='contact-line'></div>
                             <div className='contact-title-description' onClick={toggleLanguage} style={{ cursor: 'pointer' }}>
-                                <h5>{isEnglish ? 'Click here for the french version' : 'Cliquez ici pour la version anglaise'}</h5>
+                                <h5>{isEnglish ? 'Cliquez ici pour la version française' : 'Click here for the english version' }</h5>
                                 <img src={isEnglish ? "french-logo.png" : "english-logo.png"} alt="toggle language" />
                             </div>
                         </div>

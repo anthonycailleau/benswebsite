@@ -272,7 +272,7 @@ const Bio = () => {
               </div>
 
               <div className="bio-title-description" onClick={toggleLanguage}>
-                <h5>{lang === 'fr' ? 'Cliquez ici pour la version Anglaise' : 'Click here for French version'}</h5>
+                <h5>{lang === 'fr' ? 'Click here for English version' : 'Cliquez ici pour la version française'}</h5>
                 <img src={lang === 'fr' ? 'english-logo.png' : 'french-logo.png'} alt="" />
               </div>
 

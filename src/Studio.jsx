@@ -47,7 +47,7 @@ const Studio = () => {
 
   /* ---------- AUTOPLAY ---------- */
   const startAutoPlay = () => {
-    intervalRef.current = setInterval(() => setFade(false), 4000);
+    intervalRef.current = setInterval(() => setFade(false), 6000);
   };
 
   useEffect(() => {
