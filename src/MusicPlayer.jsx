@@ -176,36 +176,35 @@ const MusicPlayer = forwardRef((
   }, [playingPlayerId, id, isPlaying]);
 
   // --- Sync sélection piste à nouvelle playlist ---
-  useEffect(() => {
-    if (playlist.length === 0) {
-      setCurrentTrack(null);
-      setIsPlaying(false);
-      setProgress(0);
-      setCurrentTime(0);
-      setSelectedTrackIndex(null);
-      return;
-    }
+useEffect(() => {
+  if (playlist.length === 0) {
+    setCurrentTrack(null);
+    setIsPlaying(false);
+    setProgress(0);
+    setCurrentTime(0);
+    setSelectedTrackIndex(null);
+    return;
+  }
 
-    const validIndex = playlist.findIndex(t => (t.isLocalPreview && t.audioFile) || t.src);
+  const validIndex = playlist.findIndex(t => (t.isLocalPreview && t.audioFile) || t.src);
 
-    if (validIndex === -1) {
-      setCurrentTrack(null);
-      setSelectedTrackIndex(null);
-      setCurrentTrackIndex(0);
-      return;
-    }
+  if (validIndex === -1) {
+    setCurrentTrack(null);
+    setSelectedTrackIndex(null);
+    setCurrentTrackIndex(0);
+    return;
+  }
 
-    const currentIndexInPlaylist = playlist.findIndex(t => t.title === currentTrack?.title);
-    if (currentIndexInPlaylist === -1 || !((playlist[currentIndexInPlaylist].isLocalPreview && playlist[currentIndexInPlaylist].audioFile) || playlist[currentIndexInPlaylist].src)) {
-      // lance la première piste valide (mais sans forcer play si autoplay bloqué)
-      setCurrentTrack(playlist[validIndex]);
-      setCurrentTrackIndex(validIndex);
-      setSelectedTrackIndex(validIndex);
-    } else {
-      setSelectedTrackIndex(currentIndexInPlaylist);
-      setCurrentTrackIndex(currentIndexInPlaylist);
-    }
-  }, [playlist]); // eslint-disable-line react-hooks/exhaustive-deps
+  const currentIndexInPlaylist = playlist.findIndex(t => t.title === currentTrack?.title);
+  if (currentIndexInPlaylist === -1 || !((playlist[currentIndexInPlaylist].isLocalPreview && playlist[currentIndexInPlaylist].audioFile) || playlist[currentIndexInPlaylist].src)) {
+    setCurrentTrack(playlist[validIndex]);
+    setCurrentTrackIndex(validIndex);
+    setSelectedTrackIndex(validIndex);
+  } else {
+    setSelectedTrackIndex(currentIndexInPlaylist);
+    setCurrentTrackIndex(currentIndexInPlaylist);
+  }
+}, [playlist]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Nettoyer l'aperçu temporaire quand on change de piste sélectionnée
   useEffect(() => {
@@ -403,12 +402,16 @@ const MusicPlayer = forwardRef((
 
   // URL image à afficher : priorité à l'aperçu temporaire, sinon l'image de la piste
   const displayedImageUrl = (() => {
-    // Si on a un aperçu temporaire, on l'affiche en priorité
+    // priorité à l'aperçu temporaire
     if (tempImagePreview) return tempImagePreview;
 
     if (selectedTrackIndex === null) return null;
     const track = playlist[selectedTrackIndex];
     if (!track) return null;
+
+    // si c'est une nouvelle piste sans imgSrc, on renvoie null pour case vide
+    if (track.isLocalPreview && !track.imgSrc) return null;
+
     return track.imgSrc || null;
   })();
 
@@ -502,10 +505,10 @@ const MusicPlayer = forwardRef((
             <div
               key={`${track.title}-${index}`}
               className={`music-player-artist-list-container ${selectedTrackIndex === index ? 'selected' : ''} ${track.isLocalPreview ? 'preview-track' : ''}`}
-              style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'space-between', 
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
                 cursor: 'pointer',
                 opacity: track.isLocalPreview ? 0.7 : 1,
                 fontStyle: track.isLocalPreview ? 'italic' : 'normal'

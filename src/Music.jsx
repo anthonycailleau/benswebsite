@@ -7,7 +7,7 @@ import { fetchApi } from './fetchApi.js';
 const Music = () => {
     const [activePlayerId, setActivePlayerId] = useState(null);
     const [playingPlayerId, setPlayingPlayerId] = useState(null);
-    const [lang, setLang] = useState('fr');
+    const [lang, setLang] = useState('fr'); // état pour la langue
 
     // 🔥 Nouveau : state pour les musiques venant du backend
     const [uploadedFiles, setUploadedFiles] = useState([[], [], []]);
@@ -20,36 +20,24 @@ const Music = () => {
             try {
                 for (let i = 0; i < 3; i++) {
                     const lecteurName = `lecteur${i + 1}`;
-
-                    // fetchApi te renvoie { ok, status, data }
                     const result = await fetchApi(`/api/tracks?lecteur=${lecteurName}`);
 
                     if (result.ok && result.data?.tracks) {
                         const tracks = result.data.tracks;
-                        if (tracks.length > 0) {
-                            const formattedTracks = tracks.map(track => ({
-                                src: track.audio,
-                                title: track.title || 'Sans titre',
-                                artist: track.artist || '',
-                                type: track.type || 'audio/mpeg',
-                                imgSrc: track.image || null,
-                            }));
+                        const formattedTracks = tracks.map(track => ({
+                            src: track.audio,
+                            title: track.title || 'Sans titre',
+                            artist: track.artist || '',
+                            type: track.type || 'audio/mpeg',
+                            imgSrc: track.image || null,
+                        }));
 
-                            setUploadedFiles(prev => {
-                                const updated = [...prev];
-                                updated[i] = formattedTracks;
-                                return updated;
-                            });
-                        } else {
-                            // Aucun track pour ce lecteur
-                            setUploadedFiles(prev => {
-                                const updated = [...prev];
-                                updated[i] = [];
-                                return updated;
-                            });
-                        }
+                        setUploadedFiles(prev => {
+                            const updated = [...prev];
+                            updated[i] = formattedTracks;
+                            return updated;
+                        });
                     } else {
-                        console.warn(`Erreur récupération pistes ${lecteurName}:`, result.status);
                         setUploadedFiles(prev => {
                             const updated = [...prev];
                             updated[i] = [];
@@ -81,6 +69,11 @@ const Music = () => {
         });
     };
 
+    // 🔥 Fonction toggle identique à Contact
+    const toggleLanguage = () => {
+        setLang(prev => (prev === 'fr' ? 'en' : 'fr'));
+    };
+
     return (
         <section>
             <div className='music-container'>
@@ -97,11 +90,14 @@ const Music = () => {
                             <div className='music-line'></div>
                             <div
                                 className='music-title-description'
-                                onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
+                                onClick={toggleLanguage}
                                 style={{ cursor: 'pointer' }}
                             >
                                 <h5>{musicTexts[lang].switchLang}</h5>
-                                <img src="english-logo.png" alt="" />
+                                <img
+                                    src={lang === 'fr' ? 'english-logo.png' : 'french-logo.png'}
+                                    alt="toggle language"
+                                />
                             </div>
                         </div>
                     </div>
@@ -129,7 +125,7 @@ const Music = () => {
                                     setPlayingPlayerId={setPlayingPlayerId}
                                     uploadedFile={uploadedFiles[index]}
                                     ref={playerRefs[index]}
-                                    hideImageInput={true} // 🔥 input masqué côté front
+                                    hideImageInput={true}
                                 />
                             ))}
                         </div>

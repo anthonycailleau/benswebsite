@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import './Contact.scss';
-import { fetchApi } from './fetchApi.js';
 
 const Contact = () => {
 
@@ -27,25 +26,26 @@ const Contact = () => {
 
     // Gestion de l'envoi du formulaire
     const handleSubmit = async (e) => {
-        e.preventDefault(); // Empêche le rechargement de la page
+        e.preventDefault();
 
         try {
-            const response = await fetchApi('/api/send-mail', {
+            const response = await fetch('/api/send-mail', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
             });
 
-            if (response.success) {
+            const data = await response.json();
+
+            if (data.success) {
                 setStatus('success');
                 setFormData({ firstName: '', lastName: '', email: '', message: '' });
-                console.log('Message envoyé avec succès !');
-                setShowModal(true);
+                setShowModal(true); // ✅ ici la modale va s'afficher
             } else {
                 setStatus('error');
             }
-        } catch (error) {
-            console.error('Erreur lors de l\'envoi :', error);
+        } catch (err) {
+            console.error('Erreur:', err);
             setStatus('error');
         }
     };

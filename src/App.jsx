@@ -1,5 +1,6 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import PrivateRoute from './PrivateRoute';
 
 import MenuBar from './MenuBar';
 import Home from './Home';
@@ -92,9 +93,12 @@ const AnimatedRoutes = () => {
         <Route
           path="/admin/add"
           element={
-            <motion.div className="page-wrapper" {...pageVariantProps}>
-              <JukeboxAdd />
-            </motion.div>
+            <PrivateRoute>
+              <motion.div className="page-wrapper" {...pageVariantProps}>
+                <JukeboxAdd />
+              </motion.div>
+            </PrivateRoute>
+
           }
         />
         <Route

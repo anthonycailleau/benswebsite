@@ -15,11 +15,10 @@
   position: fixed;
   inset: 0;
   background-size: cover;
-  background-position: center;
+  background-position: 5% center;
   background-repeat: no-repeat;
   z-index: -1;
-
-  filter: blur(3px) brightness(40%);
+  filter: brightness(40%);
   transition: filter 0.5s ease;
 }
 
@@ -66,6 +65,7 @@
 }
 
 .studio-paragraph {
+  backdrop-filter: blur(2px);
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid #fff;
@@ -88,6 +88,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  backdrop-filter: blur(2px);
 }
 
 .studio-btn {
@@ -130,6 +131,7 @@
   width: 95%;
   display: flex;
   flex-direction: column; /* empile contenu + bouton */
+justify-content: center;
   height: calc(
     100vh - 3rem
   ); /* 3rem = padding total de .studio-overlay (1.5rem haut + bas) */
@@ -157,6 +159,7 @@
   border: 1px solid #fff;
   color: #fff;
   backdrop-filter: blur(2px);
+  -webkit-overflow-scrolling: touch; // active momentum scroll iOS
 
   .equipment-category {
     margin-bottom: 1.5rem;
@@ -226,13 +229,12 @@
   display: flex;
   overflow-x: auto;
   padding: 10px 0;
-  gap: 10px;
-  justify-content: center;
+  gap: 1%;
   align-items: center;
   scroll-snap-type: x mandatory;
 
   .thumbnail {
-    height: 60px;
+    height: 50px;
     object-fit: cover;
     border: 2px solid transparent;
     cursor: pointer;
@@ -309,15 +311,14 @@
     margin-top: 10px;
   }
   .equipment-wrapper {
-    max-height: 130px;
+    max-height: 190px;
   }
   .studio-carousel-wrapper {
     display: flex;
-    flex-direction: row-reverse;
   }
   .thumbnail-carousel {
     img {
-      max-height: 40px;
+      height: 20px;
     }
   }
   .main-image-container {
@@ -326,7 +327,6 @@
     align-items: center;
     background-color: black;
     border: 1px solid white;
-    max-width: 1000px;
   }
   .return-btn.diaporama-return {
     display: none;
@@ -363,6 +363,7 @@
       }
     }
   }
+  
   .image-credit {
     font-size: 2rem;
     color: #aaa;
@@ -439,6 +440,7 @@
     margin-bottom: 10%;
     display: block;
   }
+  
 }
 @media (min-width: 1920px) {
   .studio-header {
@@ -477,6 +479,8 @@
       }
     }
   }
+
+  
   
   .main-image-container {
     display: flex;
@@ -496,7 +500,7 @@
       font-size: 2.5rem;
     }
   }
-
+  
   .studio-buttons,
   .studio-btn {
     font-size: 2rem;

@@ -24,7 +24,7 @@ const Studio = () => {
   const popupRef = useRef(null);
   const carouselRef = useRef(null);
   const dragRef = useRef(null);
-  
+
 
   const imageCredits = {
     'Alice_Mullen_01.jpg': '© Alice Mullen',
@@ -177,14 +177,20 @@ const Studio = () => {
         <div
           className={`studio-overlay ${overlayFading ? 'fade-out' : ''}`}
           onTouchStart={e => {
-            const touchedOutside = !carouselRef.current?.contains(e.target);
-            if (touchedOutside) closeOverlay();
+            // Vérifie si le touch est dans un élément scrollable (carousel ou équipement)
+            const scrollableElements = [carouselRef.current, popupRef.current];
+            const touchedInside = scrollableElements.some(el => el?.contains(e.target));
+            if (!touchedInside) closeOverlay();
           }}
         >
           <div ref={popupRef} className="studio-popup-wrapper scrollable">
 
             {view === 'equipment' && (
-              <div className="equipment-wrapper">
+              <div
+                className="equipment-wrapper"
+                onTouchStart={e => e.stopPropagation()}
+                onTouchMove={e => e.stopPropagation()} // empêche le parent de capter le swipe
+              >
                 {equipmentData[lang].map(({ category, items }) => (
                   <section key={category} className="equipment-category">
                     <h4>{category}</h4>
@@ -216,10 +222,10 @@ const Studio = () => {
                       className={`thumbnail ${index === currentIndex ? 'active' : ''}`}
                       onClick={() => {
                         clearInterval(intervalRef.current);
-                        setFade(false); // déclenche le fade-out
+                        setFade(false);
                         setTimeout(() => {
-                          setCurrentIndex(index); // change l'image après le fade-out
-                          setFade(true); // fade-in
+                          setCurrentIndex(index);
+                          setFade(true);
                         }, 150);
                       }}
                     />
@@ -228,7 +234,6 @@ const Studio = () => {
               </div>
             )}
 
-            {/* Bouton retour pour desktop */}
             <button
               className={`studio-btn return-btn ${view === 'diaporama' ? 'diaporama-return' : ''}`}
               onClick={closeOverlay}

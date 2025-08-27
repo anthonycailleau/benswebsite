@@ -20,7 +20,9 @@ const JukeboxHome = () => {
 
             console.log("login response:", data);
 
-            if (data.success) {
+            if (data.ok && data.data?.success) {
+                // ✅ Stocker le token ou juste un flag
+                localStorage.setItem('token', data.data.token || 'connected'); // 'connected' si pas de token
                 setError('');
                 navigate('/admin/add');
             } else {

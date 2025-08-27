@@ -39,13 +39,6 @@ const MenuBar = () => {
         <Link to="/contact" className={location.pathname === '/contact' ? 'active' : ''}>
           {lang === 'fr' ? 'Contact' : 'Contact'}
         </Link>
-
-        <div className="logo-translate" onClick={handleLangToggle} style={{ cursor: 'pointer' }}>
-          <img
-            src={lang === 'en' ? 'french-logo.png' : 'english-logo.png'}
-            alt="logo traduction"
-          />
-        </div>
       </div>
     </div>
   );
