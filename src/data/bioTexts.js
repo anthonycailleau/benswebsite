@@ -33,12 +33,12 @@ radio and television, trailers and jingles, cartoons.`,
   ],
   buttons: {
     fr: {
-      collaboration: "Collaboration",
+      collaboration: "Collaborations",
       video: "Voir la vidéo",
       backToBio: "Retour à la bio"
     },
     en: {
-      collaboration: "Collaboration",
+      collaboration: "Collaborations",
       video: "Watch the video",
       backToBio: "Back to bio"
     }
