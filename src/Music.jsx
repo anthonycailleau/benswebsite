@@ -20,12 +20,14 @@ const Music = () => {
             try {
                 for (let i = 0; i < 3; i++) {
                     const lecteurName = `lecteur${i + 1}`;
-                    const response = await fetchApi(`/api/tracks?lecteur=${lecteurName}`);
 
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (data.tracks && data.tracks.length > 0) {
-                            const formattedTracks = data.tracks.map(track => ({
+                    // fetchApi te renvoie { ok, status, data }
+                    const result = await fetchApi(`/api/tracks?lecteur=${lecteurName}`);
+
+                    if (result.ok && result.data?.tracks) {
+                        const tracks = result.data.tracks;
+                        if (tracks.length > 0) {
+                            const formattedTracks = tracks.map(track => ({
                                 src: track.audio,
                                 title: track.title || 'Sans titre',
                                 artist: track.artist || '',
@@ -38,7 +40,21 @@ const Music = () => {
                                 updated[i] = formattedTracks;
                                 return updated;
                             });
+                        } else {
+                            // Aucun track pour ce lecteur
+                            setUploadedFiles(prev => {
+                                const updated = [...prev];
+                                updated[i] = [];
+                                return updated;
+                            });
                         }
+                    } else {
+                        console.warn(`Erreur récupération pistes ${lecteurName}:`, result.status);
+                        setUploadedFiles(prev => {
+                            const updated = [...prev];
+                            updated[i] = [];
+                            return updated;
+                        });
                     }
                 }
             } catch (err) {

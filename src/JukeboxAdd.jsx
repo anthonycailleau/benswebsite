@@ -51,17 +51,15 @@ const JukeboxAdd = () => {
           });
 
           if (response.ok) {
-            const data = await response.json();
-            if (data.tracks && data.tracks.length > 0) {
-              // Convertir le format de stockage vers le format attendu par MusicPlayer
-              const formattedTracks = data.tracks.map(track => ({
+            const res = await fetchApi(`/api/tracks?lecteur=${lecteurName}`);
+            if (res.ok && res.data?.tracks?.length) {
+              const formattedTracks = res.data.tracks.map(track => ({
                 src: track.audio,
                 title: track.title || 'Sans titre',
                 artist: track.artist || '',
                 type: track.type || 'audio/mpeg',
                 imgSrc: track.image || null,
               }));
-
               setUploadedFiles(prev => {
                 const updated = [...prev];
                 updated[i] = formattedTracks;
@@ -94,26 +92,26 @@ const JukeboxAdd = () => {
 
   // Ajout fichiers audio sélectionnés, création preview blobs
   const handleAudioSelection = (playerIndex, e) => {
-    const files = Array.from(e.target.files);
-    if (files.length === 0) return;
+  const files = Array.from(e.target.files);
+  if (files.length === 0) return;
 
-    console.log(`Sélection de ${files.length} fichier(s) pour lecteur ${playerIndex + 1}`);
+  console.log(`Sélection de ${files.length} fichier(s) pour lecteur ${playerIndex + 1}`);
 
-    const newPairs = files.map(file => ({
-      audioFile: file,
-      imgFile: null,
-      audioPreviewUrl: URL.createObjectURL(file),
-      imgPreviewUrl: null,
-    }));
+  const newPairs = files.map(file => ({
+    audioFile: file,
+    imgFile: null,              // ✅ forcer à null pour chaque nouveau morceau
+    audioPreviewUrl: URL.createObjectURL(file),
+    imgPreviewUrl: null,        // ✅ forcer à null pour la preview
+  }));
 
-    setFilesToUploadByPlayer(prev => {
-      const updated = [...prev];
-      // Ajouter les nouveaux fichiers aux fichiers existants (accumulation)
-      updated[playerIndex] = [...updated[playerIndex], ...newPairs];
-      console.log(`Total fichiers en attente pour lecteur ${playerIndex + 1}:`, updated[playerIndex].length);
-      return updated;
-    });
-  };
+  setFilesToUploadByPlayer(prev => {
+    const updated = [...prev];
+    // Ajouter les nouveaux fichiers aux fichiers existants
+    updated[playerIndex] = [...updated[playerIndex], ...newPairs];
+    console.log(`Total fichiers en attente pour lecteur ${playerIndex + 1}:`, updated[playerIndex].length);
+    return updated;
+  });
+};
 
   // Mise à jour de l'image d'une preview
   const updatePreviewImage = (playerIndex, pendingIndex, imageFile) => {
@@ -191,7 +189,7 @@ const JukeboxAdd = () => {
             throw new Error(`Erreur récupération URL audio: ${audioRes.error || 'unknown error'}`);
           }
 
-          const { uploadUrl: audioUploadUrl, fileUrl: audioFileUrl } = audioRes;
+          const { uploadUrl: audioUploadUrl, fileUrl: audioFileUrl } = audioRes.data;
 
           // Upload audio avec timeout personnalisé
           const audioUploadRes = await fetch(audioUploadUrl, {
@@ -206,6 +204,7 @@ const JukeboxAdd = () => {
 
           // Upload image si présente
           let imgFileUrl = null;
+
           if (pair.imgFile) {
             try {
               const imgParams = new URLSearchParams({
@@ -219,8 +218,9 @@ const JukeboxAdd = () => {
                 headers: { 'Content-Type': 'application/json' },
               });
 
-              if (imgRes.ok) {
-                const { uploadUrl: imgUploadUrl, fileUrl: imageFileUrl } = await imgRes.json();
+              if (imgRes.ok && imgRes.data) {
+                // Déstructuration correcte
+                const { uploadUrl: imgUploadUrl, fileUrl: uploadedImgUrl } = imgRes.data;
 
                 const imgUploadRes = await fetch(imgUploadUrl, {
                   method: 'PUT',
@@ -229,7 +229,7 @@ const JukeboxAdd = () => {
                 });
 
                 if (imgUploadRes.ok) {
-                  imgFileUrl = imageFileUrl;
+                  imgFileUrl = uploadedImgUrl; // ✅ variable correctement assignée
                 } else {
                   console.warn('Erreur upload image, continuons sans image');
                 }
@@ -373,10 +373,17 @@ const JukeboxAdd = () => {
       const updatedTracks = uploadedFiles[playerIndex].filter(track => track.src !== trackToRemove.src);
 
       if (updatedTracks.length === 0) {
-        await fetchApi(`/api/tracks?lecteur=${lecteurName}`, {
-          method: 'DELETE',
+        const saveRes = await fetchApi('/api/tracks', {
+          method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            lecteur: lecteurName,
+            tracks: [],
+            replace: true
+          }),
         });
+
+        if (!saveRes.ok) throw new Error('Erreur suppression tracks côté serveur');
 
         setUploadedFiles(prev => {
           const updated = [...prev];
@@ -450,7 +457,7 @@ const JukeboxAdd = () => {
 
       if (!imgRes.ok) throw new Error('Erreur récupération URL image');
 
-      const { uploadUrl, fileUrl } = await imgRes.json();
+      const { uploadUrl, fileUrl } = imgRes.data; // accède directement à la donnée
 
       const uploadRes = await fetch(uploadUrl, {
         method: 'PUT',
@@ -464,7 +471,7 @@ const JukeboxAdd = () => {
       const oldTrack = uploadedFiles[playerIndex][trackIndex];
       if (oldTrack.imgSrc) {
         try {
-          await fetchApi('/api/delete-file', {
+          const res = await fetchApi('/api/delete-file', {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -472,6 +479,10 @@ const JukeboxAdd = () => {
               lecteur: lecteurName,
             }),
           });
+
+          if (!res.ok) {
+            console.warn('Impossible de supprimer l’ancienne image:', oldTrack.imgSrc);
+          }
         } catch (err) {
           console.error('Erreur suppression ancienne image:', err);
         }

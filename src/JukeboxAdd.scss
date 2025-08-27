@@ -1,5 +1,7 @@
 @import "./styles/variables.scss";
-.jukebox-add-container {
+
+
+  .jukebox-add-container {
   color: $primary-font-color;
   display: flex;
   flex-direction: column;
@@ -31,7 +33,6 @@
 
     button {
       align-self: flex-end;
-      width: 15%;
       background-color: black;
       color: rgb(255, 45, 45);
       font-size: 2rem;
@@ -167,3 +168,4 @@
   background-color: white;
   color: black;
 }
+

@@ -36,7 +36,7 @@ const Contact = () => {
                 body: JSON.stringify(formData),
             });
 
-            if (response.ok) {
+            if (response.success) {
                 setStatus('success');
                 setFormData({ firstName: '', lastName: '', email: '', message: '' });
                 console.log('Message envoyé avec succès !');
