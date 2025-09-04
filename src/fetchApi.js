@@ -2,7 +2,7 @@ const getApiBaseUrl = () => {
   if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
     return 'http://localhost:3000';
   }
-  return 'https://benbridgen.com';
+  return 'https://www.benbridgen.com';
 };
 
 export const fetchApi = async (endpoint, options = {}, retries = 1) => {
