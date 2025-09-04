@@ -1,4 +1,5 @@
 @import "./styles/variables.scss";
+
 .no-scroll {
   overflow: hidden;
   height: 100vh;
@@ -453,6 +454,15 @@
   }
   .return-btn.diaporama-return {
     margin-bottom: 10%;
+    display: block;
+  }
+}
+@media (min-width: 1280px) and (orientation: landscape) {
+  .thumbnail-carousel::-webkit-scrollbar,
+  .thumbnail-scrollbar-desktop::-webkit-scrollbar {
+    width: 100%;
+    height: 20px;
+    border: 1px solid white;
     display: block;
   }
 }

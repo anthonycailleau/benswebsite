@@ -20,11 +20,12 @@ const Studio = () => {
   const [fade, setFade] = useState(true);
   const [isAutoPlay, setIsAutoPlay] = useState(false);
   const [lang, setLang] = useState('fr');
+  const [isLoading, setIsLoading] = useState(true);
+
   const intervalRef = useRef(null);
   const popupRef = useRef(null);
   const carouselRef = useRef(null);
   const dragRef = useRef(null);
-
 
   const imageCredits = {
     'Alice_Mullen_01.jpg': '© Alice Mullen',
@@ -44,6 +45,19 @@ const Studio = () => {
     'Loic_Le_Moullec_03.jpg': '© Loïc Le Moullec',
     'Loic_Le_Moullec_04.jpg': '© Loïc Le Moullec',
   };
+
+  /* ---------- PRÉCHARGEMENT DES IMAGES ---------- */
+  useEffect(() => {
+    let loadedCount = 0;
+    images.forEach(src => {
+      const img = new Image();
+      img.src = `/${src}`;
+      img.onload = () => {
+        loadedCount++;
+        if (loadedCount === images.length) setIsLoading(false);
+      };
+    });
+  }, []);
 
   /* ---------- AUTOPLAY ---------- */
   const startAutoPlay = () => {
@@ -141,6 +155,8 @@ const Studio = () => {
   }, []);
 
   /* ---------- RENDER ---------- */
+  if (isLoading) return <div className="loader">Chargement des images…</div>;
+
   return (
     <div className={`studio-container ${view ? 'popup-open' : ''}`}>
       {/* Background */}
@@ -177,19 +193,17 @@ const Studio = () => {
         <div
           className={`studio-overlay ${overlayFading ? 'fade-out' : ''}`}
           onTouchStart={e => {
-            // Vérifie si le touch est dans un élément scrollable (carousel ou équipement)
             const scrollableElements = [carouselRef.current, popupRef.current];
             const touchedInside = scrollableElements.some(el => el?.contains(e.target));
             if (!touchedInside) closeOverlay();
           }}
         >
           <div ref={popupRef} className="studio-popup-wrapper scrollable">
-
             {view === 'equipment' && (
               <div
                 className="equipment-wrapper"
                 onTouchStart={e => e.stopPropagation()}
-                onTouchMove={e => e.stopPropagation()} // empêche le parent de capter le swipe
+                onTouchMove={e => e.stopPropagation()}
               >
                 {equipmentData[lang].map(({ category, items }) => (
                   <section key={category} className="equipment-category">
@@ -214,12 +228,13 @@ const Studio = () => {
                 </div>
 
                 <div className="thumbnail-carousel" ref={dragRef}>
-                  {images.map((img, index) => (
+                                    {images.map((img, index) => (
                     <img
                       key={index}
                       src={img}
                       alt={`thumbnail ${index + 1}`}
                       className={`thumbnail ${index === currentIndex ? 'active' : ''}`}
+                      loading="lazy" // lazy loading pour optimiser
                       onClick={() => {
                         clearInterval(intervalRef.current);
                         setFade(false);
@@ -231,6 +246,8 @@ const Studio = () => {
                     />
                   ))}
                 </div>
+
+                <div className="thumbnail-scrollbar-desktop"></div>
               </div>
             )}
 
@@ -240,7 +257,6 @@ const Studio = () => {
             >
               {studioTexts[lang].buttons.back}
             </button>
-
           </div>
         </div>
       )}

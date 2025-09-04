@@ -15,6 +15,7 @@ const MusicPlayer = forwardRef((
     onUpdateTrackImage, // fonction (trackTitle, imageFile) => mise à jour image pour piste uploadée
     onUpdatePreviewImage, // fonction (trackTitle, imageFile) => mise à jour image pour preview
     hideImageInput = false, // prop pour cacher l'input image
+    onUpdatePlaylist
   },
   ref
 ) => {
@@ -28,7 +29,25 @@ const MusicPlayer = forwardRef((
   const [isDragging, setIsDragging] = useState(false);
   const [animationKey, setAnimationKey] = useState(0);
   const [audioError, setAudioError] = useState(null);
+  const handleDragStart = (e, index) => {
+    e.dataTransfer.setData('trackIndex', index);
+  };
 
+  const handleDrop = (e, dropIndex) => {
+    const dragIndex = e.dataTransfer.getData('trackIndex');
+    if (dragIndex === undefined) return;
+
+    // ⚡ On ignore si on n'a pas la fonction onUpdatePlaylist
+    if (typeof onUpdatePlaylist !== 'function') return;
+
+    const updatedPlaylist = [...uploadedFile];
+    const [movedTrack] = updatedPlaylist.splice(dragIndex, 1);
+    updatedPlaylist.splice(dropIndex, 0, movedTrack);
+
+    onUpdatePlaylist(updatedPlaylist);
+  };
+
+  const handleDragOver = (e) => e.preventDefault();
   // URL blob actuelle pour piste locale
   const lastBlobUrlRef = useRef(null);
 
@@ -176,35 +195,35 @@ const MusicPlayer = forwardRef((
   }, [playingPlayerId, id, isPlaying]);
 
   // --- Sync sélection piste à nouvelle playlist ---
-useEffect(() => {
-  if (playlist.length === 0) {
-    setCurrentTrack(null);
-    setIsPlaying(false);
-    setProgress(0);
-    setCurrentTime(0);
-    setSelectedTrackIndex(null);
-    return;
-  }
+  useEffect(() => {
+    if (playlist.length === 0) {
+      setCurrentTrack(null);
+      setIsPlaying(false);
+      setProgress(0);
+      setCurrentTime(0);
+      setSelectedTrackIndex(null);
+      return;
+    }
 
-  const validIndex = playlist.findIndex(t => (t.isLocalPreview && t.audioFile) || t.src);
+    const validIndex = playlist.findIndex(t => (t.isLocalPreview && t.audioFile) || t.src);
 
-  if (validIndex === -1) {
-    setCurrentTrack(null);
-    setSelectedTrackIndex(null);
-    setCurrentTrackIndex(0);
-    return;
-  }
+    if (validIndex === -1) {
+      setCurrentTrack(null);
+      setSelectedTrackIndex(null);
+      setCurrentTrackIndex(0);
+      return;
+    }
 
-  const currentIndexInPlaylist = playlist.findIndex(t => t.title === currentTrack?.title);
-  if (currentIndexInPlaylist === -1 || !((playlist[currentIndexInPlaylist].isLocalPreview && playlist[currentIndexInPlaylist].audioFile) || playlist[currentIndexInPlaylist].src)) {
-    setCurrentTrack(playlist[validIndex]);
-    setCurrentTrackIndex(validIndex);
-    setSelectedTrackIndex(validIndex);
-  } else {
-    setSelectedTrackIndex(currentIndexInPlaylist);
-    setCurrentTrackIndex(currentIndexInPlaylist);
-  }
-}, [playlist]); // eslint-disable-line react-hooks/exhaustive-deps
+    const currentIndexInPlaylist = playlist.findIndex(t => t.title === currentTrack?.title);
+    if (currentIndexInPlaylist === -1 || !((playlist[currentIndexInPlaylist].isLocalPreview && playlist[currentIndexInPlaylist].audioFile) || playlist[currentIndexInPlaylist].src)) {
+      setCurrentTrack(playlist[validIndex]);
+      setCurrentTrackIndex(validIndex);
+      setSelectedTrackIndex(validIndex);
+    } else {
+      setSelectedTrackIndex(currentIndexInPlaylist);
+      setCurrentTrackIndex(currentIndexInPlaylist);
+    }
+  }, [playlist]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Nettoyer l'aperçu temporaire quand on change de piste sélectionnée
   useEffect(() => {
@@ -253,43 +272,42 @@ useEffect(() => {
   };
 
   // --- Clic sur une piste de la liste (play/pause toggle) ---
-  const handleTrackClick = (track, index = null) => {
-    if (!track) return;
+const handleTrackClick = (track, index = null) => {
+  if (!track) return;
 
-    setAudioError(null);
+  setAudioError(null);
 
-    // si la même piste et déjà en lecture -> pause
-    if (currentTrack?.title === track.title && isPlaying) {
-      try { audioRef.current.pause(); } catch (e) { }
-      setIsPlaying(false);
-      if (typeof setPlayingPlayerId === 'function') setPlayingPlayerId(null);
-    } else {
-      // sinon on change la piste et on tente de jouer
-      setCurrentTrack(track);
-      if (index !== null) {
-        setCurrentTrackIndex(index);
-        setSelectedTrackIndex(index);
-      }
-      setAnimationKey(k => k + 1);
-
-      // Attendre que l'audio soit chargé puis jouer
-      setTimeout(() => {
-        if (audioRef.current && audioRef.current.src) {
-          audioRef.current.play().then(() => {
-            setIsPlaying(true);
-            if (typeof setPlayingPlayerId === 'function') setPlayingPlayerId(id);
-            if (typeof setActivePlayerId === 'function') setActivePlayerId(id);
-          }).catch(err => {
-            // Ne pas afficher d'erreur si c'est juste un problème d'autoplay
-            if (!err.message.includes('user didn\'t interact')) {
-              setAudioError(`Erreur lecture: ${err?.message || err}`);
-            }
-            setIsPlaying(false);
-          });
-        }
-      }, 100);
+  if (currentTrack?.title === track.title && isPlaying) {
+    try { audioRef.current.pause(); } catch (e) {}
+    setIsPlaying(false);
+    if (typeof setPlayingPlayerId === 'function') setPlayingPlayerId(null);
+  } else {
+    setCurrentTrack(track);
+    if (index !== null) {
+      setCurrentTrackIndex(index);
+      setSelectedTrackIndex(index);
     }
-  };
+    setAnimationKey(k => k + 1);
+
+    // ⚡ D'abord on définit quel player est actif
+    if (typeof setPlayingPlayerId === 'function') setPlayingPlayerId(id);
+    if (typeof setActivePlayerId === 'function') setActivePlayerId(id);
+
+    // Puis seulement après, on lance play()
+    requestAnimationFrame(() => {
+      if (audioRef.current && audioRef.current.src) {
+        audioRef.current.play().then(() => {
+          setIsPlaying(true);
+        }).catch(err => {
+          if (!err.message.includes("user didn't interact")) {
+            setAudioError(`Erreur lecture: ${err?.message || err}`);
+          }
+          setIsPlaying(false);
+        });
+      }
+    });
+  }
+};
 
   // --- Bouton play/pause principal (icône) ---
   const handlePlayButton = () => {
@@ -376,42 +394,42 @@ useEffect(() => {
     const selectedTrack = playlist[selectedTrackIndex];
     if (!selectedTrack) return;
 
-    // Créer un aperçu temporaire immédiatement
-    const tempUrl = URL.createObjectURL(file);
-    setTempImagePreview(tempUrl);
+    console.log('Upload image pour:', selectedTrack.title, 'isPreview:', selectedTrack.isLocalPreview);
 
     try {
-      // Si c'est une preview locale, on utilise onUpdatePreviewImage
       if (selectedTrack.isLocalPreview && onUpdatePreviewImage) {
+        // Pour les fichiers en attente, on met à jour via le parent
+        console.log('Appel onUpdatePreviewImage avec:', selectedTrack.title);
         onUpdatePreviewImage(selectedTrack.title, file);
-      }
-      // Si c'est une piste déjà uploadée, on utilise onUpdateTrackImage
-      else if (!selectedTrack.isLocalPreview && onUpdateTrackImage) {
-        await onUpdateTrackImage(selectedTrack.title, file);
-        // Pour les pistes uploadées, on nettoie seulement après un délai
+
+        // Force un re-render après un petit délai pour laisser l'état se mettre à jour
         setTimeout(() => {
-          URL.revokeObjectURL(tempUrl);
-          setTempImagePreview(null);
-        }, 1000);
+          // Trigger un re-render en modifiant une valeur quelconque
+          setAnimationKey(k => k + 1);
+        }, 50);
+
+      } else if (!selectedTrack.isLocalPreview && onUpdateTrackImage) {
+        // Pour les fichiers déjà uploadés
+        await onUpdateTrackImage(selectedTrack.title, file);
       }
     } catch (err) {
-      // En cas d'erreur, on garde l'aperçu temporaire
+      console.error('Erreur upload image:', err);
       alert('Erreur upload image: ' + err.message);
     }
   };
 
   // URL image à afficher : priorité à l'aperçu temporaire, sinon l'image de la piste
   const displayedImageUrl = (() => {
-    // priorité à l'aperçu temporaire
-    if (tempImagePreview) return tempImagePreview;
-
     if (selectedTrackIndex === null) return null;
     const track = playlist[selectedTrackIndex];
     if (!track) return null;
 
-    // si c'est une nouvelle piste sans imgSrc, on renvoie null pour case vide
-    if (track.isLocalPreview && !track.imgSrc) return null;
+    // Pour les preview (fichiers en attente), priorité à imgSrc qui contient l'URL blob
+    if (track.isLocalPreview && track.imgSrc) {
+      return track.imgSrc;
+    }
 
+    // Pour les fichiers uploadés, utiliser imgSrc normalement
     return track.imgSrc || null;
   })();
 
@@ -504,6 +522,10 @@ useEffect(() => {
           {playlist.map((track, index) => (
             <div
               key={`${track.title}-${index}`}
+              draggable
+              onDragStart={(e) => handleDragStart(e, index)}
+              onDragOver={handleDragOver}
+              onDrop={(e) => handleDrop(e, index)}
               className={`music-player-artist-list-container ${selectedTrackIndex === index ? 'selected' : ''} ${track.isLocalPreview ? 'preview-track' : ''}`}
               style={{
                 display: 'flex',

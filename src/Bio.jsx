@@ -26,16 +26,17 @@ const Bio = () => {
     scrolledRef.current = scrolled;
   }, [scrolled]);
 
-  const toggleLanguage = () => {
-
-    setLang((prev) => (prev === 'fr' ? 'en' : 'fr'));
-  };
+  const toggleLanguage = () => setLang(prev => prev === 'fr' ? 'en' : 'fr');
 
   const closeCooperation = () => {
     setCooperationFading(true);
     setTimeout(() => {
       setShowCooperation(false);
       setCooperationFading(false);
+
+      // Après fermeture, afficher le paragraphe principal
+      setScrolled(true);
+      setShowParagraph(true);
     }, 300);
   };
 
@@ -44,17 +45,37 @@ const Bio = () => {
     setTimeout(() => {
       setShowVideo(false);
       setVideoFading(false);
+
+      // Après fermeture, afficher le paragraphe principal
+      setScrolled(true);
+      setShowParagraph(true);
     }, 300);
   };
 
-  const handleClickOutside = useCallback((e) => {
-    if (!isInitialized || !scrolledRef.current) return;
-    if (bioMainRef.current && !bioMainRef.current.contains(e.target)) {
+  // --- Gestion clic global pour ouvrir/fermer le paragraphe ---
+  const handleGlobalClick = useCallback((e) => {
+    if (!isInitialized) return;
+
+    // clic dans le paragraphe -> rien
+    if (bioMainRef.current && bioMainRef.current.contains(e.target)) return;
+
+    // paragraphe ouvert et clic à l'extérieur -> fermer
+    if (scrolledRef.current) {
       setScrolled(false);
       setShowParagraph(false);
+      return;
+    }
+
+    // sinon, clic sur titre ou section -> ouvrir
+    const clickedOnTitle = e.target.closest('.bio-titles');
+    const clickedInSection = e.target.closest('.bio-section');
+    if (clickedOnTitle || clickedInSection) {
+      setScrolled(true);
+      setShowParagraph(true);
     }
   }, [isInitialized]);
 
+  // --- Autres handlers (scroll, touch, clavier) ---
   const handleWheel = useCallback((e) => {
     if (!isInitialized) return;
     if (e.target.closest(SCROLLABLE_SELECTOR)) {
@@ -130,6 +151,7 @@ const Bio = () => {
     e.preventDefault();
   }, []);
 
+  // --- Initialisation des listeners ---
   useEffect(() => {
     const initTimeout = setTimeout(() => {
       originalStyles.current = {
@@ -170,7 +192,7 @@ const Bio = () => {
       document.addEventListener('touchstart', wrappedTouchStart, { passive: false, capture: true });
       document.addEventListener('touchmove', wrappedTouchMove, { passive: false, capture: true });
       document.addEventListener('keydown', handleKeyDown, { passive: false, capture: true });
-      document.addEventListener('click', handleClickOutside, { passive: false, capture: true });
+      document.addEventListener('click', handleGlobalClick, { passive: false, capture: true });
       window.addEventListener('scroll', preventScroll, { passive: false, capture: true });
     };
 
@@ -193,11 +215,12 @@ const Bio = () => {
       document.removeEventListener('touchstart', wrappedTouchStart, { capture: true });
       document.removeEventListener('touchmove', wrappedTouchMove, { capture: true });
       document.removeEventListener('keydown', handleKeyDown, { capture: true });
-      document.removeEventListener('click', handleClickOutside, { capture: true });
+      document.removeEventListener('click', handleGlobalClick, { capture: true });
       window.removeEventListener('scroll', preventScroll, { capture: true });
     };
-  }, [handleWheel, handleKeyDown, handleTouchStart, handleTouchMove, preventScroll, handleClickOutside]);
+  }, [handleWheel, handleKeyDown, handleTouchStart, handleTouchMove, preventScroll, handleGlobalClick]);
 
+  // --- ESC pour fermer vidéo/coop ---
   useEffect(() => {
     const closeOnEsc = (e) => {
       if (e.key === 'Escape') {
@@ -214,13 +237,14 @@ const Bio = () => {
       <div className={`bio-container ${showCooperation ? 'collab-open' : ''}`}>
         <div className={`bio-picture ${(scrolled || showCooperation || showVideo) ? 'blurred' : ''}`} style={{ backgroundImage: `url('/bio.jpg')` }} />
 
-        {/* ----- Overlay Collaboration (réorganisé) ----- */}
+        {/* ----- Overlay Collaboration ----- */}
         {showCooperation && (
           <div className={`bio-overlay collaboration-overlay ${cooperationFading ? 'fade-out' : ''}`} onClick={(e) => {
             if (e.target.classList.contains('bio-overlay')) closeCooperation();
           }}>
             <div className="bio-popup-wrapper">
               <div className="bio-cooperation-content scrollable">
+
                 {cooperationData[lang].map(({ category, items }) => (
                   <section key={category} className="cooperation-category">
                     <h4>{category}</h4>

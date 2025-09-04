@@ -29,6 +29,46 @@ const JukeboxAdd = () => {
 
   const navigate = useNavigate();
 
+  // État pour suivre si l'ordre a changé 
+  const [hasOrderChanged, setHasOrderChanged] = useState([false, false, false]);
+
+  // Fonction pour sauvegarder l'ordre coté serveur
+  const savePlaylistOrder = async (playerIndex) => {
+    try {
+      const lecteurName = `lecteur${playerIndex + 1}`;
+      const tracksToSave = uploadedFiles[playerIndex].map(track => ({
+        audio: track.src,
+        title: track.title,
+        artist: track.artist,
+        type: track.type,
+        image: track.imgSrc || null,
+        uploadedAt: new Date().toISOString(),
+      }));
+
+      const res = await fetchApi('/api/tracks', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lecteur: lecteurName, tracks: tracksToSave, replace: true }),
+      });
+
+      if (!res.ok) throw new Error('Erreur sauvegarde de l’ordre');
+
+      // Remettre le bouton à l’état initial
+      setHasOrderChanged(prev => {
+        const updated = [...prev];
+        updated[playerIndex] = false;
+        return updated;
+      });
+
+      setModalMessage(`Ordre du Lecteur ${playerIndex + 1} sauvegardé !`);
+      setShowModal(true);
+
+    } catch (err) {
+      console.error(err);
+      alert(`Erreur lors de la sauvegarde de l’ordre : ${err.message}`);
+    }
+  };
+
   // --- Déconnexion ---
   const handleLogout = () => {
     try {
@@ -55,7 +95,7 @@ const JukeboxAdd = () => {
             if (res.ok && res.data?.tracks?.length) {
               const formattedTracks = res.data.tracks.map(track => ({
                 src: track.audio,
-                title: track.title || 'Sans titre',
+                title: (track.title || 'Sans titre').replace(/\.[^/.]+$/, ""), // <-- nettoyage
                 artist: track.artist || '',
                 type: track.type || 'audio/mpeg',
                 imgSrc: track.image || null,
@@ -83,59 +123,68 @@ const JukeboxAdd = () => {
     return () => {
       filesToUploadByPlayer.forEach(files => {
         files.forEach(pair => {
+          // Ne nettoyer que si on quitte vraiment le composant
           if (pair.audioPreviewUrl) URL.revokeObjectURL(pair.audioPreviewUrl);
           if (pair.imgPreviewUrl) URL.revokeObjectURL(pair.imgPreviewUrl);
         });
       });
     };
-  }, [filesToUploadByPlayer]);
+  }, []); // Dépendance vide pour ne s'exécuter qu'au démontage
 
   // Ajout fichiers audio sélectionnés, création preview blobs
   const handleAudioSelection = (playerIndex, e) => {
-  const files = Array.from(e.target.files);
-  if (files.length === 0) return;
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
 
-  console.log(`Sélection de ${files.length} fichier(s) pour lecteur ${playerIndex + 1}`);
+    console.log(`Sélection de ${files.length} fichier(s) pour lecteur ${playerIndex + 1}`);
 
-  const newPairs = files.map(file => ({
-    audioFile: file,
-    imgFile: null,              // ✅ forcer à null pour chaque nouveau morceau
-    audioPreviewUrl: URL.createObjectURL(file),
-    imgPreviewUrl: null,        // ✅ forcer à null pour la preview
-  }));
+    const newPairs = files.map(file => ({
+      audioFile: file,
+      imgFile: null,
+      audioPreviewUrl: URL.createObjectURL(file),
+      imgPreviewUrl: null,
+      // on stocke aussi le titre nettoyé ici si besoin
+      cleanTitle: file.name.replace(/\.[^/.]+$/, ""),
+    }));
 
-  setFilesToUploadByPlayer(prev => {
-    const updated = [...prev];
-    // Ajouter les nouveaux fichiers aux fichiers existants
-    updated[playerIndex] = [...updated[playerIndex], ...newPairs];
-    console.log(`Total fichiers en attente pour lecteur ${playerIndex + 1}:`, updated[playerIndex].length);
-    return updated;
-  });
-};
-
-  // Mise à jour de l'image d'une preview
-  const updatePreviewImage = (playerIndex, pendingIndex, imageFile) => {
     setFilesToUploadByPlayer(prev => {
       const updated = [...prev];
-      if (!updated[playerIndex] || !updated[playerIndex][pendingIndex]) {
-        console.error('Preview non trouvée:', playerIndex, pendingIndex);
-        return prev;
-      }
-
-      const targetPair = { ...updated[playerIndex][pendingIndex] };
-
-      // revoke ancienne image preview si existante
-      if (targetPair.imgPreviewUrl) {
-        URL.revokeObjectURL(targetPair.imgPreviewUrl);
-      }
-
-      targetPair.imgFile = imageFile;
-      targetPair.imgPreviewUrl = URL.createObjectURL(imageFile);
-
-      updated[playerIndex][pendingIndex] = targetPair;
+      // Ajouter les nouveaux fichiers aux fichiers existants
+      updated[playerIndex] = [...updated[playerIndex], ...newPairs];
+      console.log(`Total fichiers en attente pour lecteur ${playerIndex + 1}:`, updated[playerIndex].length);
       return updated;
     });
   };
+
+  // Mise à jour de l'image d'une preview
+const updatePreviewImage = (playerIndex, pendingIndex, imageFile) => {
+  console.log('updatePreviewImage appelée:', { playerIndex, pendingIndex, imageFile: imageFile?.name });
+
+  setFilesToUploadByPlayer(prev => {
+    const updated = [...prev];
+    if (!updated[playerIndex] || !updated[playerIndex][pendingIndex]) {
+      console.error('Preview non trouvée:', playerIndex, pendingIndex);
+      return prev;
+    }
+
+    const targetPair = { ...updated[playerIndex][pendingIndex] };
+
+    // revoke ancienne image preview si existante
+    if (targetPair.imgPreviewUrl) {
+      URL.revokeObjectURL(targetPair.imgPreviewUrl);
+    }
+
+    targetPair.imgFile = imageFile;
+    targetPair.imgPreviewUrl = URL.createObjectURL(imageFile);
+
+    console.log('Nouvelle image preview créée:', targetPair.imgPreviewUrl);
+
+    updated[playerIndex] = [...updated[playerIndex]]; // Force nouvel array
+    updated[playerIndex][pendingIndex] = targetPair;
+
+    return updated;
+  });
+};
 
   // Ouvrir dialogue sélection audio
   const handleAudioButtonClick = (playerIndex) => {
@@ -147,12 +196,11 @@ const JukeboxAdd = () => {
     input.click();
   };
 
-  // Upload fichiers audio+image vers serveur - VERSION CORRIGÉE
+  // Upload fichiers audio+image vers serveur - VERSION CORRIGÉE POUR GARDER LES APERÇUS
   const uploadFiles = async (playerIndex) => {
     if (filesToUploadByPlayer[playerIndex].length === 0) return;
-    if (isUploading[playerIndex]) return; // Empêcher uploads multiples
+    if (isUploading[playerIndex]) return;
 
-    // Marquer comme en cours d'upload
     setIsUploading(prev => {
       const updated = [...prev];
       updated[playerIndex] = true;
@@ -161,156 +209,119 @@ const JukeboxAdd = () => {
 
     const lecteurName = `lecteur${playerIndex + 1}`;
     const newTracks = [];
+    const pendingFiles = [...filesToUploadByPlayer[playerIndex]]; // snapshot
     let successCount = 0;
 
     try {
-      console.log(`Début upload de ${filesToUploadByPlayer[playerIndex].length} fichier(s) pour ${lecteurName}`);
-
-      for (const [index, pair] of filesToUploadByPlayer[playerIndex].entries()) {
+      for (const [index, pair] of pendingFiles.entries()) {
         if (!pair.audioFile) continue;
 
-        try {
-          console.log(`Upload ${index + 1}/${filesToUploadByPlayer[playerIndex].length}: ${pair.audioFile.name}`);
+        // --- Upload Audio ---
+        const audioParams = new URLSearchParams({
+          lecteur: lecteurName,
+          filename: pair.audioFile.name,
+          type: 'audio',
+          contentType: pair.audioFile.type || 'audio/mpeg',
+        });
 
-          // URL upload audio avec timeout plus long
-          const audioParams = new URLSearchParams({
+        const audioRes = await fetchApi(`/api/upload-url?${audioParams.toString()}`);
+        if (!audioRes.ok) throw new Error('Erreur URL audio');
+
+        const { uploadUrl: audioUploadUrl, fileUrl: audioFileUrl } = audioRes.data;
+        const audioUploadRes = await fetch(audioUploadUrl, {
+          method: 'PUT',
+          headers: { 'Content-Type': pair.audioFile.type || 'audio/mpeg' },
+          body: pair.audioFile,
+        });
+        if (!audioUploadRes.ok) throw new Error('Erreur upload audio');
+
+        // --- Upload Image (si présente) ---
+        let imgFileUrl = null;
+        if (pair.imgFile) {
+          const imgParams = new URLSearchParams({
             lecteur: lecteurName,
-            filename: pair.audioFile.name,
-            type: 'audio',
-            contentType: pair.audioFile.type || 'audio/mpeg',
+            filename: pair.imgFile.name,
+            type: 'image',
+            contentType: pair.imgFile.type || 'image/jpeg',
           });
 
-          const audioRes = await fetchApi(`/api/upload-url?${audioParams.toString()}`, {
-            headers: { 'Content-Type': 'application/json' },
-          });
-
-          if (!audioRes.ok) {
-            // audioRes est déjà un objet avec { error: "..."} si ton API renvoie un JSON
-            throw new Error(`Erreur récupération URL audio: ${audioRes.error || 'unknown error'}`);
+          const imgRes = await fetchApi(`/api/upload-url?${imgParams.toString()}`);
+          if (imgRes.ok && imgRes.data) {
+            const { uploadUrl: imgUploadUrl, fileUrl: uploadedImgUrl } = imgRes.data;
+            const imgUploadRes = await fetch(imgUploadUrl, {
+              method: 'PUT',
+              headers: { 'Content-Type': pair.imgFile.type || 'image/jpeg' },
+              body: pair.imgFile,
+            });
+            if (imgUploadRes.ok) imgFileUrl = uploadedImgUrl;
           }
-
-          const { uploadUrl: audioUploadUrl, fileUrl: audioFileUrl } = audioRes.data;
-
-          // Upload audio avec timeout personnalisé
-          const audioUploadRes = await fetch(audioUploadUrl, {
-            method: 'PUT',
-            headers: { 'Content-Type': pair.audioFile.type || 'audio/mpeg' },
-            body: pair.audioFile,
-          });
-
-          if (!audioUploadRes.ok) {
-            throw new Error(`Erreur upload audio (${audioUploadRes.status}): ${audioUploadRes.statusText}`);
-          }
-
-          // Upload image si présente
-          let imgFileUrl = null;
-
-          if (pair.imgFile) {
-            try {
-              const imgParams = new URLSearchParams({
-                lecteur: lecteurName,
-                filename: pair.imgFile.name,
-                type: 'image',
-                contentType: pair.imgFile.type || 'image/jpeg',
-              });
-
-              const imgRes = await fetchApi(`/api/upload-url?${imgParams.toString()}`, {
-                headers: { 'Content-Type': 'application/json' },
-              });
-
-              if (imgRes.ok && imgRes.data) {
-                // Déstructuration correcte
-                const { uploadUrl: imgUploadUrl, fileUrl: uploadedImgUrl } = imgRes.data;
-
-                const imgUploadRes = await fetch(imgUploadUrl, {
-                  method: 'PUT',
-                  headers: { 'Content-Type': pair.imgFile.type || 'image/jpeg' },
-                  body: pair.imgFile,
-                });
-
-                if (imgUploadRes.ok) {
-                  imgFileUrl = uploadedImgUrl; // ✅ variable correctement assignée
-                } else {
-                  console.warn('Erreur upload image, continuons sans image');
-                }
-              }
-            } catch (imgErr) {
-              console.warn('Erreur image:', imgErr.message);
-            }
-          }
-
-          // Créer l'objet track pour la sauvegarde
-          newTracks.push({
-            audio: audioFileUrl,
-            title: pair.audioFile.name,
-            artist: '',
-            type: pair.audioFile.type || 'audio/mpeg',
-            image: imgFileUrl,
-            uploadedAt: new Date().toISOString(),
-          });
-
-          // Revoke blob URLs uniquement après upload réussi
-          if (pair.audioPreviewUrl) URL.revokeObjectURL(pair.audioPreviewUrl);
-          if (pair.imgPreviewUrl) URL.revokeObjectURL(pair.imgPreviewUrl);
-
-          successCount++;
-
-        } catch (fileErr) {
-          console.error(`Erreur upload ${pair.audioFile.name}:`, fileErr);
-          // Continue avec les autres fichiers même si un échoue
         }
+
+        // --- Créer l'objet track complet ---
+        newTracks.push({
+          audio: audioFileUrl,
+          title: pair.cleanTitle || pair.audioFile.name.replace(/\.[^/.]+$/, ""),
+          artist: '',
+          type: pair.audioFile.type || 'audio/mpeg',
+          image: imgFileUrl,
+          uploadedAt: new Date().toISOString(),
+        });
+
+        // ⚠️ NE PAS RÉVOQUER LES URLs BLOB ICI - gardons les aperçus !
+        // Les URLs seront nettoyées automatiquement quand on vide filesToUploadByPlayer
+
+        successCount++;
       }
 
-      if (newTracks.length === 0) {
-        throw new Error('Aucun fichier n\'a pu être uploadé');
-      }
+      if (newTracks.length === 0) throw new Error('Aucun fichier uploadé');
 
-      // Sauvegarder les nouvelles pistes dans tracks.json - APPEND MODE
+      console.log('Tracks à sauvegarder:', newTracks.map(t => ({
+        title: t.title,
+        hasImage: !!t.image,
+        imageUrl: t.image
+      })));
+
+      // --- Sauvegarde côté serveur (append) ---
       const saveRes = await fetchApi('/api/tracks', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ lecteur: lecteurName, tracks: newTracks, replace: false }),
       });
+      if (!saveRes.ok) throw new Error('Erreur sauvegarde tracks.json');
 
-      if (!saveRes.ok) {
-        throw new Error(`Erreur sauvegarde tracks.json: ${saveRes.error || 'unknown error'}`);
-      }
-
-      // Mettre à jour l'état local avec les nouvelles pistes
-      const formattedNewFiles = newTracks.map(track => ({
-        src: track.audio,
-        title: track.title,
-        artist: track.artist || '',
-        type: track.type,
-        imgSrc: track.image,
-      }));
-
+      // --- Mettre à jour état local ---
       setUploadedFiles(prev => {
         const updated = [...prev];
-        updated[playerIndex] = [...(updated[playerIndex] || []), ...formattedNewFiles];
+        updated[playerIndex] = [...(updated[playerIndex] || []), ...newTracks.map(t => ({
+          src: t.audio,
+          title: t.title,
+          artist: t.artist,
+          type: t.type,
+          imgSrc: t.image,
+        }))];
         return updated;
       });
 
-      // Vider la liste des fichiers en attente
+      // --- Nettoyer les previews SEULEMENT après succès complet ---
+      pendingFiles.forEach(pair => {
+        if (pair.audioPreviewUrl) URL.revokeObjectURL(pair.audioPreviewUrl);
+        if (pair.imgPreviewUrl) URL.revokeObjectURL(pair.imgPreviewUrl);
+      });
+
+      // --- Vider les previews ---
       setFilesToUploadByPlayer(prev => {
         const updated = [...prev];
         updated[playerIndex] = [];
         return updated;
       });
 
-      // Afficher modal succès
-      const message = successCount === filesToUploadByPlayer[playerIndex].length
-        ? `${successCount} fichier(s) uploadé(s) avec succès pour Lecteur ${playerIndex + 1} !`
-        : `${successCount}/${filesToUploadByPlayer[playerIndex].length} fichier(s) uploadé(s) pour Lecteur ${playerIndex + 1}`;
-
-      setModalMessage(message);
+      setModalMessage(`${successCount} fichier(s) uploadé(s) avec succès pour Lecteur ${playerIndex + 1} !`);
       setShowModal(true);
 
     } catch (err) {
       console.error('Erreur upload complète:', err);
       alert(`Erreur upload : ${err.message}`);
     } finally {
-      // Retirer le flag d'upload
       setIsUploading(prev => {
         const updated = [...prev];
         updated[playerIndex] = false;
@@ -320,10 +331,11 @@ const JukeboxAdd = () => {
   };
 
   // Supprimer un fichier en attente (preview)
+  // Supprimer un fichier en attente (preview)
   const removePendingFile = (playerIndex, trackTitle) => {
     setFilesToUploadByPlayer(prev => {
       const updated = [...prev];
-      const index = updated[playerIndex].findIndex(pair => pair.audioFile.name === trackTitle);
+      const index = updated[playerIndex].findIndex(pair => pair.cleanTitle === trackTitle); // <-- cleanTitle
 
       if (index !== -1) {
         const pair = updated[playerIndex][index];
@@ -548,17 +560,29 @@ const JukeboxAdd = () => {
             <div className='jukebox-add-players'>
               {[1, 2, 3].map((id, playerIndex) => {
                 // Combine uploaded + local previews
+                // Combine uploaded + local previews
                 const previewFiles = [
                   ...(uploadedFiles[playerIndex] || []),
-                  ...filesToUploadByPlayer[playerIndex].map(pair => ({
-                    src: pair.audioPreviewUrl || null,
-                    title: pair.audioFile.name,
-                    artist: '',
-                    type: pair.audioFile.type || 'audio/mpeg',
-                    isLocalPreview: true,
-                    imgSrc: pair.imgPreviewUrl || null,
-                    audioFile: pair.audioFile,
-                  })),
+                  ...filesToUploadByPlayer[playerIndex].map((pair, idx) => {
+                    const mappedFile = {
+                      ...pair,
+                      src: pair.audioPreviewUrl,
+                      title: pair.cleanTitle || pair.audioFile.name.replace(/\.[^/.]+$/, ""),
+                      artist: '',
+                      type: pair.audioFile.type || 'audio/mpeg',
+                      isLocalPreview: true,
+                      imgSrc: pair.imgPreviewUrl, // Utilise directement l'URL blob de l'image
+                      audioFile: pair.audioFile, // Garde la référence pour MusicPlayer
+                    };
+
+                    console.log(`Preview file ${idx}:`, {
+                      title: mappedFile.title,
+                      hasImgPreview: !!pair.imgPreviewUrl,
+                      imgSrc: mappedFile.imgSrc
+                    });
+
+                    return mappedFile;
+                  }),
                 ];
 
                 return (
@@ -583,6 +607,39 @@ const JukeboxAdd = () => {
                       ref={playerRefs[playerIndex]}
                       uploadedFile={previewFiles}
                       playerIndex={playerIndex}
+                      enableDragDrop={true} // <-- active drag & drop uniquement ici
+                      onUpdatePlaylist={(newOrder) => {
+                        // Séparer uploaded et previews
+                        const newUploaded = newOrder.filter(t => !t.isLocalPreview);
+                        const newPreview = newOrder.filter(t => t.isLocalPreview);
+
+                        // Mettre à jour l'état uploadedFiles
+                        setUploadedFiles(prev => {
+                          const updated = [...prev];
+                          updated[playerIndex] = newUploaded;
+                          return updated;
+                        });
+
+                        // Mettre à jour l'état filesToUploadByPlayer
+                        setFilesToUploadByPlayer(prev => {
+                          const updated = [...prev];
+                          updated[playerIndex] = newPreview.map(p => ({
+                            ...p,
+                            audioFile: p.audioFile,
+                            audioPreviewUrl: p.src,
+                            imgPreviewUrl: p.imgSrc,
+                            cleanTitle: p.title,
+                          }));
+                          return updated;
+                        });
+
+                        // 🔹 Mettre à jour hasOrderChanged pour afficher le bouton
+                        setHasOrderChanged(prev => {
+                          const updated = [...prev];
+                          updated[playerIndex] = true;
+                          return updated;
+                        });
+                      }}
                       onRemoveTrack={(track) => {
                         if (track?.isLocalPreview) {
                           removePendingFile(playerIndex, track.title);
@@ -594,12 +651,38 @@ const JukeboxAdd = () => {
                         updateTrackImage(playerIndex, trackTitle, imageFile);
                       }}
                       onUpdatePreviewImage={(trackTitle, imageFile) => {
-                        // Trouver le bon index basé sur le titre
-                        const pairIndex = filesToUploadByPlayer[playerIndex].findIndex(
-                          pair => pair.audioFile.name === trackTitle
+                        console.log('onUpdatePreviewImage appelée:', { trackTitle, imageFile: imageFile?.name });
+                        console.log('filesToUploadByPlayer[playerIndex]:', filesToUploadByPlayer[playerIndex].map(p => ({
+                          cleanTitle: p.cleanTitle,
+                          audioFileName: p.audioFile.name,
+                        })));
+
+                        // Essayer plusieurs méthodes de recherche
+                        let pairIndex = filesToUploadByPlayer[playerIndex].findIndex(
+                          pair => (pair.cleanTitle || pair.audioFile.name.replace(/\.[^/.]+$/, "")) === trackTitle
                         );
+
+                        // Si pas trouvé, essayer avec le nom complet du fichier
+                        if (pairIndex === -1) {
+                          pairIndex = filesToUploadByPlayer[playerIndex].findIndex(
+                            pair => pair.audioFile.name === trackTitle
+                          );
+                        }
+
+                        // Si toujours pas trouvé, essayer une recherche partielle
+                        if (pairIndex === -1) {
+                          pairIndex = filesToUploadByPlayer[playerIndex].findIndex(
+                            pair => pair.audioFile.name.includes(trackTitle) || trackTitle.includes(pair.audioFile.name.replace(/\.[^/.]+$/, ""))
+                          );
+                        }
+
+                        console.log('pairIndex trouvé:', pairIndex);
+
                         if (pairIndex !== -1) {
                           updatePreviewImage(playerIndex, pairIndex, imageFile);
+                        } else {
+                          console.error('Preview pair non trouvée pour:', trackTitle);
+                          console.error('Paires disponibles:', filesToUploadByPlayer[playerIndex].map(p => p.cleanTitle || p.audioFile.name));
                         }
                       }}
                     />
@@ -630,6 +713,15 @@ const JukeboxAdd = () => {
                           : `Confirmer l'envoi${filesToUploadByPlayer[playerIndex].length > 0 ? ` (${filesToUploadByPlayer[playerIndex].length})` : ''}`
                         }
                       </button>
+
+                      {hasOrderChanged[playerIndex] && (
+                        <button
+                          className="save-order-button"
+                          onClick={() => savePlaylistOrder(playerIndex)}
+                        >
+                          Enregistrer l’ordre
+                        </button>
+                      )}
                     </div>
                   </div>
                 );

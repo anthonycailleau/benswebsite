@@ -34,6 +34,29 @@ const Home = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // --- Gestion clic global pour ouvrir/fermer le paragraphe ---
+  const handleGlobalClick = useCallback((e) => {
+    if (!isInitialized) return;
+
+    // clic dans le paragraphe -> rien
+    if (homeMainRef.current && homeMainRef.current.contains(e.target)) return;
+
+    // paragraphe ouvert et clic à l'extérieur -> fermer
+    if (scrolledRef.current) {
+      setScrolled(false);
+      setShowParagraph(false);
+      return;
+    }
+
+    // sinon, clic sur titre ou section -> ouvrir
+    const clickedOnTitle = e.target.closest('.home-titles');
+    const clickedInSection = e.target.closest('#home');
+    if (clickedOnTitle || clickedInSection) {
+      setScrolled(true);
+      setShowParagraph(true);
+    }
+  }, [isInitialized]);
+
   // Gérer scroll souris
   const handleWheel = useCallback(
     (e) => {
@@ -147,17 +170,17 @@ const Home = () => {
     [isInitialized]
   );
 
-  // Gestion click en dehors pour retour titre
-  const handleClickOutside = useCallback(
-    (e) => {
-      if (!isInitialized || !scrolledRef.current) return;
-      if (homeMainRef.current && !homeMainRef.current.contains(e.target)) {
-        setScrolled(false);
-        setShowParagraph(false);
-      }
-    },
-    [isInitialized]
-  );
+  // Ancien gestionnaire de clic (maintenant remplacé par handleGlobalClick)
+  // const handleClickOutside = useCallback(
+  //   (e) => {
+  //     if (!isInitialized || !scrolledRef.current) return;
+  //     if (homeMainRef.current && !homeMainRef.current.contains(e.target)) {
+  //       setScrolled(false);
+  //       setShowParagraph(false);
+  //     }
+  //   },
+  //   [isInitialized]
+  // );
 
   // Blocage scroll global **uniquement si scrolled est true**
   useEffect(() => {
@@ -242,16 +265,18 @@ const Home = () => {
     document.addEventListener('keydown', handleKeyDown, { passive: false, capture: true });
     document.addEventListener('touchstart', wrappedTouchStart, { passive: false, capture: true });
     document.addEventListener('touchmove', wrappedTouchMove, { passive: false, capture: true });
-    document.addEventListener('click', handleClickOutside, { passive: false, capture: true });
+    // Remplacer handleClickOutside par handleGlobalClick
+    document.addEventListener('click', handleGlobalClick, { passive: false, capture: true });
 
     return () => {
       document.removeEventListener('wheel', handleWheel, { capture: true });
       document.removeEventListener('keydown', handleKeyDown, { capture: true });
       document.removeEventListener('touchstart', wrappedTouchStart, { capture: true });
       document.removeEventListener('touchmove', wrappedTouchMove, { capture: true });
-      document.removeEventListener('click', handleClickOutside, { capture: true });
+      // Remplacer handleClickOutside par handleGlobalClick
+      document.removeEventListener('click', handleGlobalClick, { capture: true });
     };
-  }, [handleWheel, handleKeyDown, handleTouchStart, handleTouchMove, handleClickOutside]);
+  }, [handleWheel, handleKeyDown, handleTouchStart, handleTouchMove, handleGlobalClick]);
 
   return (
     <section id="home">
@@ -310,7 +335,7 @@ const Home = () => {
             </div>
 
             <div className="home-title-description" onClick={toggleLanguageDesc} style={{ justifyContent: 'flex-end' }}>
-                <h5>{langDesc === 'fr' ? 'Click here for English version' : 'Cliquez ici pour la version Française'}</h5>
+              <h5>{langDesc === 'fr' ? 'Click here for English version' : 'Cliquez ici pour la version Française'}</h5>
 
               <img
                 src={langDesc === 'fr' ? './english-logo.png' : './french-logo.png'}
