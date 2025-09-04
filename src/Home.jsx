@@ -319,8 +319,8 @@ const Home = () => {
 
           {/* Titre qui change automatiquement de langue */}
           <h3 className="fade-text">
-            <span className={lang === 'fr' ? 'active' : ''}>musicien compositeur arrangeur</span>
-            <span className={lang === 'en' ? 'active' : ''}>musician composer arranger</span>
+            <span className={lang === 'fr' ? 'active' : ''}>Musicien, compositeur et réalisateur musical</span>
+            <span className={lang === 'en' ? 'active' : ''}>Musician, composer, and music producer</span>
           </h3>
         </div>
 

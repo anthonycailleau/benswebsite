@@ -176,6 +176,11 @@
   }
 }
 @media (min-width: 1920px) {
+
+  .music-container {
+    color: $primary-font-color;
+    height: 120vh;
+  }
   .music-titles {
     h1 {
       font-size: 5rem;

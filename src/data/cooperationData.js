@@ -2,13 +2,13 @@
 const cooperationData = {
   fr: [
     {
-      category: "Pianiste / Groupes & Artistes",
+      category: "Pianiste pour les artistes et groupes musicaux",
       items: [
         "Chernobilly Boogie",
         "Gaume",
-        "Denis Agenet et Nolapsters",
+        "Denis Agenet & Nolapsters",
         "Bouskidou",
-        "Joey J Saye (tournée 2023)",
+        "Joey J Saye",
         "Bo Weavil",
         "Skyler Saufley",
         "Tom Holland",
@@ -26,8 +26,8 @@ const cooperationData = {
         "Silencers (feat.)",
         "Dïe Morg (feat.)",
         "Elmer Food Beat (feat.)",
-        "El Royce (feat.)"
-      ]
+        "El Royce (feat.)",
+      ],
     },
     {
       category: "Réalisations Studio",
@@ -57,6 +57,7 @@ const cooperationData = {
         "Marango",
         "Beryce",
         "Glenn Gibson",
+        "Stan Chris",
         "Jaäg",
         "Jeanne Byl",
         "Jérémie Paul",
@@ -64,43 +65,54 @@ const cooperationData = {
         "Echos in the Shed",
         "Suzanne Fischer",
         "Hacienda",
-        "Hooplamatic"
-      ]
+        "Hooplamatic",
+        "Stagecoach",
+        "Pauline Caron",
+      ],
     },
     {
-      category: "Spectacle Vivant",
+      category: "Pour le Spectacle Vivant",
       items: [
-        "Collectif Mordu – « La fable de l’Autruche »",
-        "Collectif Mordu – « Kramazü »",
-        "Plusieurs shows avec Bouskidou",
-        "Matchs d’impro – La Lina",
-        "« Planète Impro » – Juste Pour Rire"
-      ]
+        "Le Collectif Mordu – “La fable de l’Autruche”",
+        "Le Collectif Mordu – “Kramazü”",
+        "Quelques spectacles avec Bouskidou",
+        "Accompagnement des matchs d’impro – La LINA (Ligue d’Impro de Nantes)",
+        "“Planète Impro” – Festival Juste Pour Rire",
+      ],
     },
     {
       category: "Pratique Amateur",
-      items: ["Projet choral « Trafic d'Airs » – accompagnement"]
+      items: ["Accompagnement des chanteurs du projet « Trafic d'Airs »"],
     },
     {
-      category: "Audiovisuel",
-      items: [
-        "Habillage sonore : Radio Sun, EURadio",
-        "Musiques TV – EMI (Londres), Cézame (Paris)",
-        "Prod musicale : Crescendo Prod, HéHo, Gulfstream Prod",
-        "Voice-over : EURadio, Crescendo Prod, Transmedia, Detour Graphic, Ellipsanime, Jack and Me"
-      ]
-    }
+      category: "Pour les projets audiovisuels",
+items: [
+  "Habillage intégral – Radio Sun",
+  "Habillage intégral – EURadio",
+  "Musiques pour la télévision internationale – éditées par EMI (Londres)",
+  "Musiques pour la télévision internationale – éditées par Cézame (Paris)",
+  "Créations musicales occasionnelles – Crescendo Prod",
+  "Créations musicales occasionnelles – HéHo",
+  "Créations musicales occasionnelles – Gulfstream",
+  "Voix off (Anglais et Français) – EURadio",
+  "Voix off (Anglais et Français) – Crescendo Prod",
+  "Voix off (Anglais et Français) – Transmedia",
+  "Voix off (Anglais et Français) – Detour Graphic",
+  "Voix off (Anglais et Français) – Ellipsanime",
+  "Voix off (Anglais et Français) – Jack and Me"
+]
+    },
   ],
 
   en: [
     {
-      category: "Pianist / Bands & Artists",
+      category: "Pianist for Bands & Artists",
       items: [
         "Chernobilly Boogie",
         "Gaume",
         "Denis Agenet & Nolapsters",
         "Bouskidou",
-        "Joey J Saye (French tour 2023)",
+        "Joey J Saye",
         "Bo Weavil",
         "Skyler Saufley",
         "Tom Holland",
@@ -118,11 +130,11 @@ const cooperationData = {
         "Silencers (feat.)",
         "Dïe Morg (feat.)",
         "Elmer Food Beat (feat.)",
-        "El Royce (feat.)"
-      ]
+        "El Royce (feat.)",
+      ],
     },
     {
-      category: "Studio Productions",
+      category: "Studio Production",
       items: [
         "Silencers",
         "Biche Prod",
@@ -135,7 +147,7 @@ const cooperationData = {
         "Little Tom",
         "Didier Gustin",
         "Blanche",
-        "Couton & Fischer",
+        "Couton et Fischer",
         "Chernobilly Boogie",
         "Cristian Zarate",
         "Lilie Printemps",
@@ -149,6 +161,7 @@ const cooperationData = {
         "Marango",
         "Beryce",
         "Glenn Gibson",
+        "Stan Chris",
         "Jaäg",
         "Jeanne Byl",
         "Jérémie Paul",
@@ -156,33 +169,43 @@ const cooperationData = {
         "Echos in the Shed",
         "Suzanne Fischer",
         "Hacienda",
-        "Hooplamatic"
-      ]
+        "Hooplamatic",
+        "Stagecoach",
+        "Pauline Caron",
+      ],
     },
     {
-      category: "Theatre & Dance",
+      category: "Theatre and Dance",
       items: [
-        "Collectif Mordu – “La fable de l’Autruche”",
-        "Collectif Mordu – “Kramazü”",
-        "Several shows with Bouskidou",
-        "Improv matches – Lina (Nantes)",
-        "“Planète Impro” – Just For Laughs Festival"
-      ]
+        "Le Collectif Mordu – “La fable de l’Autruche” (“The Fable of the Ostrich”)",
+        "Le Collectif Mordu – “Kramazü”",
+        "Several live shows with Bouskidou",
+        "Musical accompaniment of improv matches – Lina (The Nantes League of Improv)",
+        "“Planète Impro” – Just For Laughs Festival (Nantes)",
+      ],
     },
     {
-      category: "Amateurs",
-      items: ["Choir project “Trafic d'Airs” – accompanist"]
+      category: "For Amateurs",
+      items: ["Vocal group “Trafic d’Airs“"],
     },
     {
       category: "Audio-visual",
       items: [
-        "Sonic branding: Radio Sun, EURadio",
-        "TV music – EMI (London), Cézame (Paris)",
-        "Music production: Crescendo Prod, HéHo, Gulfstream Prod",
-        "Voice-over: EURadio, Crescendo Prod, Transmedia, Detour Graphic, Ellipsanime, Jack and Me"
-      ]
-    }
-  ]
+        "Complete sound identities – “Sun - Le son unique”",
+        "Complete sound identities – “EURadio”",
+        "Music for TV – published by EMI (London), Cézame (Paris), distributed internationally",
+        "Occasional musical production – Crescendo Prod",
+        "Occasional musical production – HéHo",
+        "Occasional musical production – Gulfstream",
+        "Voice over work (English and French) – EURadio",
+        "Voice over work (English and French) – Crescendo Prod",
+        "Voice over work (English and French) – Transmedia",
+        "Voice over work (English and French) – Detour Graphic",
+        "Voice over work (English and French) – Ellipsanime",
+        "Voice over work (English and French) – Jack and Me",
+      ],
+    },
+  ],
 };
 
 export default cooperationData;

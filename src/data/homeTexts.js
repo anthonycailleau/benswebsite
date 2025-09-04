@@ -1,12 +1,15 @@
 const homeTexts = {
   fr: {
-    subtitle: 'musicien compositeur arrangeur',
-    paragraph: `25 ans d'expérience de création de disques de compositions originales, de musique pour
-l'audio-visuel (TV, radio, voix off), et de divers projets musicaux sur scène.`,
+    subtitle: "musicien compositeur arrangeur",
+    paragraph: `Pianiste sur scène et compositeur-réalisateur en studio, Ben Bridgen cumule 25 ans
+d’expérience dans la création musicale pour artistes, télévision, radio et spectacle vivant,
+explorant de nombreux styles et formats.`,
   },
   en: {
-    subtitle: 'musician composer arranger',
-    paragraph: `25 years of experience creating original music albums, composing for audiovisual media (TV, radio, voice-over), and performing in various live musical projects.`,
+    subtitle: "musician composer arranger",
+    paragraph: `Pianist, composer, and studio producer, Ben Bridgen brings 25 years of experience
+creating music for artists, television, radio, and live performance, exploring a wide range of
+styles and formats.`,
   },
 };
 

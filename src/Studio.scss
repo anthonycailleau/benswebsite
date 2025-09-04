@@ -73,6 +73,7 @@
   padding: 20px;
   margin: 2% 5%;
   overflow-y: auto;
+  max-height: 200px;
 
   p {
     font-size: 1.5rem;
@@ -292,7 +293,11 @@
   font-size: 1rem;
   padding: 10px 18px;
 }
-
+@media (min-width: 390px) and (orientation: portrait) {
+  .studio-paragraph {
+    max-height: 300px;
+  }
+}
 @media (min-width: 667px) and (orientation: landscape) {
   .thumbnail-carousel {
     .thumbnail {
@@ -465,8 +470,31 @@
     border: 1px solid white;
     display: block;
   }
+
+  // AJOUT INDISPENSABLE - Les éléments manquants pour afficher la scrollbar
+  .thumbnail-carousel::-webkit-scrollbar-track,
+  .thumbnail-scrollbar-desktop::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .thumbnail-carousel::-webkit-scrollbar-thumb,
+  .thumbnail-scrollbar-desktop::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.155);
+    border: 1px solid white;
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.8);
+    }
+  }
+  .studio-paragraph {
+    min-height: 250px;
+  }
 }
 @media (min-width: 1920px) {
+  .return-btn.diaporama-return {
+        margin-bottom: 5%;
+        display: block;
+    }
   .thumbnail-carousel {
     .thumbnail {
       height: 70px;
@@ -489,7 +517,7 @@
     }
   }
   .studio-paragraph {
-    height: 150px;
+
     padding: 40px;
     p {
       font-size: 2rem;

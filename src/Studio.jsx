@@ -20,7 +20,7 @@ const Studio = () => {
   const [fade, setFade] = useState(true);
   const [isAutoPlay, setIsAutoPlay] = useState(false);
   const [lang, setLang] = useState('fr');
-  const [isLoading, setIsLoading] = useState(true);
+  // Suppression de isLoading - la page s'affiche directement
 
   const intervalRef = useRef(null);
   const popupRef = useRef(null);
@@ -46,16 +46,13 @@ const Studio = () => {
     'Loic_Le_Moullec_04.jpg': '© Loïc Le Moullec',
   };
 
-  /* ---------- PRÉCHARGEMENT DES IMAGES ---------- */
+  /* ---------- PRÉCHARGEMENT OPTIONNEL EN ARRIÈRE-PLAN ---------- */
   useEffect(() => {
-    let loadedCount = 0;
+    // Préchargement en arrière-plan sans bloquer l'affichage
     images.forEach(src => {
       const img = new Image();
       img.src = `/${src}`;
-      img.onload = () => {
-        loadedCount++;
-        if (loadedCount === images.length) setIsLoading(false);
-      };
+      // Pas de callback onload nécessaire
     });
   }, []);
 
@@ -155,8 +152,7 @@ const Studio = () => {
   }, []);
 
   /* ---------- RENDER ---------- */
-  if (isLoading) return <div className="loader">Chargement des images…</div>;
-
+  // Suppression de la condition isLoading - affichage direct
   return (
     <div className={`studio-container ${view ? 'popup-open' : ''}`}>
       {/* Background */}
@@ -228,7 +224,7 @@ const Studio = () => {
                 </div>
 
                 <div className="thumbnail-carousel" ref={dragRef}>
-                                    {images.map((img, index) => (
+                  {images.map((img, index) => (
                     <img
                       key={index}
                       src={img}

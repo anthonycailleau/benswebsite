@@ -1,7 +1,7 @@
 const equipmentData = {
   fr: [
     {
-      category: "Control Room",
+      category: "Régie",
       items: [
         "Console Toft Audio Designs ATB24",
         "Enceintes Neumann KH 310",
@@ -12,7 +12,7 @@ const equipmentData = {
     {
       category: "Microphones",
       items: [
-        "Microphone à lampe Rode Classic II",
+        "Rode Classic II",
         "Townsend Sphere",
         "2x AKG C414",
         "2x Neumann KM184",
@@ -24,7 +24,7 @@ const equipmentData = {
         "Audio Technica AE2500",
         "Yamaha Subkik",
         "2x Shure sm57",
-        "Set complet de micros Audix batterie (d6, d4, d2)",
+        "Valise de micros pour batterie Audix (d6, d4, d2)",
       ],
     },
     {
@@ -73,10 +73,10 @@ const equipmentData = {
     {
       category: "Control Room",
       items: [
-        "Toft Audio Designs ATB24 Console",
-        "Neumann KH 310 Monitors",
-        "Mac Studio running Logic Pro",
-        "Various analog preamps and compressors",
+        "Desk: Toft Audio Designs ATB24",
+        "Speakers : Neumann KH 310",
+        "Mac Studio with Logic Pro",
+        "Various preamps and compressors",
       ],
     },
     {
@@ -94,14 +94,14 @@ const equipmentData = {
         "Audio Technica AE2500",
         "Yamaha Subkik",
         "2x Shure sm57",
-        "Full set of Audix drum mics (d6, d4, d2)",
+        "Audix drum mics (d6, d4, d2)",
       ],
     },
     {
       category: "Instruments and Amps",
       items: [
-        "Pleyel Upright Piano",
-        "Martin HD 28 Guitar",
+        "Pleyel upright Piano",
+        "Martin HD 28 guitar",
         "Fender Telecaster (American Standard)",
         "Gibson Les Paul",
         "Takamine",
@@ -113,10 +113,10 @@ const equipmentData = {
         "Nord Lead",
         "Juno 106",
         "Access Virus",
-        "Various percussions",
-        "Dusty Keys Hammered Dulcimer",
+        "Various percussion",
+        "Hammered Dulcimer (Dusty Keys)",
         "Vox AC30 Blue Alinco Amp",
-        "Fender Bassman Silverface Amp (1975)",
+        "Fender Bassman Silverface (1975) amp",
         "Fender Twin Reverb Amp",
         "Trace Eliot GP12 Amp",
       ],
@@ -125,13 +125,13 @@ const equipmentData = {
       category: "Plugins",
       items: [
         "UAD (many!)",
-        "Soundtoys (full collection)",
+        "Soundtoys (complete)",
         "Waves",
         "Native Instruments Komplete",
-        "Arturia (full collection)",
+        "Arturia (complete)",
         "Oeksound",
         "Melodyne",
-        "Fabfilter (full collection)",
+        "Fabfilter (complete)",
         "Izzotope RX10",
         "Pianoteq",
         "Musio",
