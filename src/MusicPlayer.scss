@@ -466,7 +466,7 @@
   .music-player-title-list,
   .music-player-track-list,
   .music-player-duration-list {
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin: 10px 0;
   }
   .scroll-bar {
@@ -488,7 +488,7 @@
   }
   .music-player-contain {
     width: 900px;
-    height: 450px;
+    height: 700px;
     margin-bottom: 15px;
   }
   .music-player-container {
@@ -501,7 +501,7 @@
 @media (min-width: 1366px) and (orientation: landscape) {
   .music-player-contain {
     width: 950px;
-    height: 500px;
+
     padding: 40px;
   }
 }

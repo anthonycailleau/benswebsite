@@ -166,6 +166,9 @@
   }
 }
 @media (min-width: 1280px) {
+  .music-container {
+    height: 120vh;
+  }
   .music-player-music-contain {
     display: flex;
     align-items: center;

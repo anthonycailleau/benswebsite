@@ -9,8 +9,8 @@ const images = [
   'Ernest_Mandap_04.jpg', 'Ernest_Mandap_05.jpg',
   'Goulwen_Gélin_01.jpg', 'Goulwen_Gélin_02.jpg', 'Goulwen_Gélin_03.jpg',
   'Laetitia_Lopez_01.jpg',
-  'Loic_Le_Moullec_01.jpg', 'Loic_Le_Moullec_02.jpg', 'Loic_Le_Moullec_03.jpg', 'Loic_Le_Moullec_04.jpg',
-  '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg', '11.jpg'
+  'Loic_Le_Moullec_01.jpg', 'Loic_Le_Moullec_02.jpg', 'Loic_Le_Moullec_03.jpg', 'Loic_Le_Moullec_04.jpg', 'monsieurguitare.jpg',
+  '1.jpg', '2.jpg', '3.jpg','cablages.jpg', '4.jpg', 'batterie.jpg',  '5.jpg', 'mancheguitare.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg', '11.jpg'
 ];
 
 const Studio = () => {
