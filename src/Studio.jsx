@@ -213,36 +213,40 @@ const Studio = () => {
 
             {view === 'diaporama' && (
               <div className="studio-carousel-wrapper" ref={carouselRef}>
-                <div className="main-image-container">
-                  <img
-                    src={images[currentIndex]}
-                    alt={`carrousel ${currentIndex + 1}`}
-                    className={fade ? 'fade-in' : 'fade-out'}
-                  />
-                  {imageCredits[images[currentIndex]] && (
-                    <div className="image-credit">{imageCredits[images[currentIndex]]}</div>
-                  )}
-                </div>
+{/* Image principale */}
+<div className="main-image-container">
+  <img
+    src={images[currentIndex]}
+    alt={`carrousel ${currentIndex + 1}`}
+    className={fade ? 'fade-in' : 'fade-out'}
+    onContextMenu={(e) => e.preventDefault()} // 🚫 bloque clic droit
+  />
+  {imageCredits[images[currentIndex]] && (
+    <div className="image-credit">{imageCredits[images[currentIndex]]}</div>
+  )}
+</div>
 
-                <div className="thumbnail-carousel" ref={dragRef}>
-                  {images.map((img, index) => (
-                    <img
-                      key={index}
-                      src={img}
-                      alt={`thumbnail ${index + 1}`}
-                      className={`thumbnail ${index === currentIndex ? 'active' : ''}`}
-                      loading="lazy" // lazy loading pour optimiser
-                      onClick={() => {
-                        clearInterval(intervalRef.current);
-                        setFade(false);
-                        setTimeout(() => {
-                          setCurrentIndex(index);
-                          setFade(true);
-                        }, 150);
-                      }}
-                    />
-                  ))}
-                </div>
+{/* Vignettes */}
+<div className="thumbnail-carousel" ref={dragRef}>
+  {images.map((img, index) => (
+    <img
+      key={index}
+      src={img}
+      alt={`thumbnail ${index + 1}`}
+      className={`thumbnail ${index === currentIndex ? 'active' : ''}`}
+      loading="lazy"
+      onClick={() => {
+        clearInterval(intervalRef.current);
+        setFade(false);
+        setTimeout(() => {
+          setCurrentIndex(index);
+          setFade(true);
+        }, 150);
+      }}
+      onContextMenu={(e) => e.preventDefault()} // 🚫 bloque clic droit
+    />
+  ))}
+</div>
 
                 <div className="thumbnail-scrollbar-desktop"></div>
               </div>
