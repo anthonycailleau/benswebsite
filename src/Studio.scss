@@ -10,7 +10,7 @@
   flex-direction: column;
   justify-content: center;
   height: 100vh;
-  padding-bottom: 20px;
+  padding-bottom: 80px;
 }
 
 .studio-picture {
@@ -349,6 +349,11 @@
   }
 }
 @media (min-width: 768px) and (orientation: portrait) {
+  .studio-container {
+    margin-top: 0;
+    padding-bottom: 0;
+  }
+  .studio
   .thumbnail-carousel {
     .thumbnail {
       height: 50px;

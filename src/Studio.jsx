@@ -195,7 +195,7 @@ const Studio = () => {
           }}
         >
           <div ref={popupRef} className={`studio-popup-wrapper scrollable ${view === 'equipment' ? 'no-padding' : ''}`}
->
+          >
             {view === 'equipment' && (
               <div
                 className="equipment-wrapper"
