@@ -15,6 +15,8 @@ const MusicPlayer = forwardRef((
     onUpdateTrackImage, // fonction (trackTitle, imageFile) => mise à jour image pour piste uploadée
     onUpdatePreviewImage, // fonction (trackTitle, imageFile) => mise à jour image pour preview
     hideImageInput = false, // prop pour cacher l'input image
+    enableSelectionHighlight = false, // ✅ défaut : false
+    enableDragDrop = false,           // ✅ idem pour le drag
     onUpdatePlaylist
   },
   ref
@@ -272,42 +274,42 @@ const MusicPlayer = forwardRef((
   };
 
   // --- Clic sur une piste de la liste (play/pause toggle) ---
-const handleTrackClick = (track, index = null) => {
-  if (!track) return;
+  const handleTrackClick = (track, index = null) => {
+    if (!track) return;
 
-  setAudioError(null);
+    setAudioError(null);
 
-  if (currentTrack?.title === track.title && isPlaying) {
-    try { audioRef.current.pause(); } catch (e) {}
-    setIsPlaying(false);
-    if (typeof setPlayingPlayerId === 'function') setPlayingPlayerId(null);
-  } else {
-    setCurrentTrack(track);
-    if (index !== null) {
-      setCurrentTrackIndex(index);
-      setSelectedTrackIndex(index);
-    }
-    setAnimationKey(k => k + 1);
-
-    // ⚡ D'abord on définit quel player est actif
-    if (typeof setPlayingPlayerId === 'function') setPlayingPlayerId(id);
-    if (typeof setActivePlayerId === 'function') setActivePlayerId(id);
-
-    // Puis seulement après, on lance play()
-    requestAnimationFrame(() => {
-      if (audioRef.current && audioRef.current.src) {
-        audioRef.current.play().then(() => {
-          setIsPlaying(true);
-        }).catch(err => {
-          if (!err.message.includes("user didn't interact")) {
-            setAudioError(`Erreur lecture: ${err?.message || err}`);
-          }
-          setIsPlaying(false);
-        });
+    if (currentTrack?.title === track.title && isPlaying) {
+      try { audioRef.current.pause(); } catch (e) { }
+      setIsPlaying(false);
+      if (typeof setPlayingPlayerId === 'function') setPlayingPlayerId(null);
+    } else {
+      setCurrentTrack(track);
+      if (index !== null) {
+        setCurrentTrackIndex(index);
+        setSelectedTrackIndex(index);
       }
-    });
-  }
-};
+      setAnimationKey(k => k + 1);
+
+      // ⚡ D'abord on définit quel player est actif
+      if (typeof setPlayingPlayerId === 'function') setPlayingPlayerId(id);
+      if (typeof setActivePlayerId === 'function') setActivePlayerId(id);
+
+      // Puis seulement après, on lance play()
+      requestAnimationFrame(() => {
+        if (audioRef.current && audioRef.current.src) {
+          audioRef.current.play().then(() => {
+            setIsPlaying(true);
+          }).catch(err => {
+            if (!err.message.includes("user didn't interact")) {
+              setAudioError(`Erreur lecture: ${err?.message || err}`);
+            }
+            setIsPlaying(false);
+          });
+        }
+      });
+    }
+  };
 
   // --- Bouton play/pause principal (icône) ---
   const handlePlayButton = () => {
@@ -526,8 +528,9 @@ const handleTrackClick = (track, index = null) => {
               onDragStart={(e) => handleDragStart(e, index)}
               onDragOver={handleDragOver}
               onDrop={(e) => handleDrop(e, index)}
-              className={`music-player-artist-list-container ${selectedTrackIndex === index ? 'selected' : ''} ${track.isLocalPreview ? 'preview-track' : ''}`}
-              style={{
+              className={`music-player-artist-list-container 
+   ${enableSelectionHighlight && selectedTrackIndex === index ? 'selected' : ''} 
+   ${track.isLocalPreview ? 'preview-track' : ''}`} style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',

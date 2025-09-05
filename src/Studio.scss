@@ -10,6 +10,7 @@
   flex-direction: column;
   justify-content: center;
   height: 100vh;
+  padding-bottom: 20px;
 }
 
 .studio-picture {
@@ -130,6 +131,7 @@
 }
 
 .studio-popup-wrapper {
+
   width: 95%;
   display: flex;
   flex-direction: column; /* empile contenu + bouton */
@@ -147,6 +149,9 @@
 
   .return-btn {
     width: 100%;
+  }
+  &.no-padding {
+    padding-bottom: 0; // ✅ écrase le padding si equipment
   }
 }
 

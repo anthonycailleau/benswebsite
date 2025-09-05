@@ -157,34 +157,34 @@ const JukeboxAdd = () => {
   };
 
   // Mise à jour de l'image d'une preview
-const updatePreviewImage = (playerIndex, pendingIndex, imageFile) => {
-  console.log('updatePreviewImage appelée:', { playerIndex, pendingIndex, imageFile: imageFile?.name });
+  const updatePreviewImage = (playerIndex, pendingIndex, imageFile) => {
+    console.log('updatePreviewImage appelée:', { playerIndex, pendingIndex, imageFile: imageFile?.name });
 
-  setFilesToUploadByPlayer(prev => {
-    const updated = [...prev];
-    if (!updated[playerIndex] || !updated[playerIndex][pendingIndex]) {
-      console.error('Preview non trouvée:', playerIndex, pendingIndex);
-      return prev;
-    }
+    setFilesToUploadByPlayer(prev => {
+      const updated = [...prev];
+      if (!updated[playerIndex] || !updated[playerIndex][pendingIndex]) {
+        console.error('Preview non trouvée:', playerIndex, pendingIndex);
+        return prev;
+      }
 
-    const targetPair = { ...updated[playerIndex][pendingIndex] };
+      const targetPair = { ...updated[playerIndex][pendingIndex] };
 
-    // revoke ancienne image preview si existante
-    if (targetPair.imgPreviewUrl) {
-      URL.revokeObjectURL(targetPair.imgPreviewUrl);
-    }
+      // revoke ancienne image preview si existante
+      if (targetPair.imgPreviewUrl) {
+        URL.revokeObjectURL(targetPair.imgPreviewUrl);
+      }
 
-    targetPair.imgFile = imageFile;
-    targetPair.imgPreviewUrl = URL.createObjectURL(imageFile);
+      targetPair.imgFile = imageFile;
+      targetPair.imgPreviewUrl = URL.createObjectURL(imageFile);
 
-    console.log('Nouvelle image preview créée:', targetPair.imgPreviewUrl);
+      console.log('Nouvelle image preview créée:', targetPair.imgPreviewUrl);
 
-    updated[playerIndex] = [...updated[playerIndex]]; // Force nouvel array
-    updated[playerIndex][pendingIndex] = targetPair;
+      updated[playerIndex] = [...updated[playerIndex]]; // Force nouvel array
+      updated[playerIndex][pendingIndex] = targetPair;
 
-    return updated;
-  });
-};
+      return updated;
+    });
+  };
 
   // Ouvrir dialogue sélection audio
   const handleAudioButtonClick = (playerIndex) => {
@@ -606,6 +606,7 @@ const updatePreviewImage = (playerIndex, pendingIndex, imageFile) => {
                       setPlayingPlayerId={setPlayingPlayerId}
                       ref={playerRefs[playerIndex]}
                       uploadedFile={previewFiles}
+                      enableSelectionHighlight={true}
                       playerIndex={playerIndex}
                       enableDragDrop={true} // <-- active drag & drop uniquement ici
                       onUpdatePlaylist={(newOrder) => {

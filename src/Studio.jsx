@@ -194,7 +194,8 @@ const Studio = () => {
             if (!touchedInside) closeOverlay();
           }}
         >
-          <div ref={popupRef} className="studio-popup-wrapper scrollable">
+          <div ref={popupRef} className={`studio-popup-wrapper scrollable ${view === 'equipment' ? 'no-padding' : ''}`}
+>
             {view === 'equipment' && (
               <div
                 className="equipment-wrapper"
