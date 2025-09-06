@@ -233,16 +233,24 @@
   white-space: nowrap;
   overflow: hidden;
 
-  .scrolling-text,
-  span {
+  .scrolling-text {
     display: inline-block;
-    transform: translateX(10);
-    animation: marquee 5s linear infinite;
     padding-left: 100%;
+    transform: translateX(0); // état par défaut
+    animation: none; // pas d'anim si pas playing
   }
 
-  span {
-    animation-delay: 2s;
+  .scrolling-text.scrolling-active {
+    animation: marquee 5s linear infinite;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
   }
 }
 
@@ -506,7 +514,6 @@
   }
 }
 @media (min-width: 1920px) {
-  
   .music-player-contain {
     width: 1200px;
     height: 700px;

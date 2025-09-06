@@ -182,6 +182,21 @@ const MusicPlayer = forwardRef((
     return () => audio.removeEventListener('timeupdate', updateProgress);
   }, [currentTrack]);
 
+  // --- Empêcher le scroll de la page pendant qu'on drag la timeline (tactile) ---
+useEffect(() => {
+  const timeline = document.querySelector('.music-player-timeline');
+  if (!timeline) return;
+
+  const handleTouchMovePrevent = (e) => {
+    if (isDragging) e.preventDefault(); // bloque le scroll natif
+  };
+
+  timeline.addEventListener('touchmove', handleTouchMovePrevent, { passive: false });
+  return () => {
+    timeline.removeEventListener('touchmove', handleTouchMovePrevent);
+  };
+}, [isDragging]);
+
   // --- Sync lecture/pause si un autre player joue (ou si parent change playingPlayerId) ---
   useEffect(() => {
     const audio = audioRef.current;
@@ -352,10 +367,14 @@ const MusicPlayer = forwardRef((
     audio.currentTime = newTime;
     setProgress((clickX / width) * 100);
   };
+  const handleMouseDown = (e) => {
+    e.preventDefault(); // empêche sélection/scroll
+    setIsDragging(true);
+  };
 
-  const handleMouseDown = () => setIsDragging(true);
   const handleMouseMove = (e) => {
     if (!isDragging) return;
+    e.preventDefault(); // bloque le scroll horizontal/vertical
     const audio = audioRef.current;
     if (!audio || isNaN(audio.duration)) return;
 
@@ -478,7 +497,10 @@ const MusicPlayer = forwardRef((
               {playlist[selectedTrackIndex]?.artist || currentTrack?.artist || ''}
             </div>
             <div className='music-player-track-title'>
-              <span key={animationKey} className="scrolling-text">
+              <span
+                key={animationKey}
+                className={`scrolling-text ${isPlaying ? 'scrolling-active' : ''}`}
+              >
                 {playlist[selectedTrackIndex]?.title || currentTrack?.title || ''}
               </span>
             </div>
