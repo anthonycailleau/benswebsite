@@ -2,7 +2,7 @@
 import { useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const useAutoLogout = (inactivityTime = 1 * 60 * 1000) => { // 1 minute par défaut
+const useAutoLogout = (inactivityTime = 5 * 60 * 1000) => { // 5 minute par défaut
     const navigate = useNavigate();
 
     const logout = useCallback(() => {

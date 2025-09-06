@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { fetchApi } from './fetchApi.js';
 
 const JukeboxAdd = () => {
-  // ← AJOUT : Déconnexion automatique après 1 minute d'inactivité
-  const autoLogout = useAutoLogout(1 * 60 * 1000); // 1 minute
+  // ← AJOUT : Déconnexion automatique après 5 minute d'inactivité
+  const autoLogout = useAutoLogout(5 * 60 * 1000); // 5 minute
 
   const [activePlayerId, setActivePlayerId] = useState(null);
   const [playingPlayerId, setPlayingPlayerId] = useState(null);

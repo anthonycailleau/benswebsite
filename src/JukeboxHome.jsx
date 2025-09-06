@@ -10,8 +10,8 @@ const JukeboxHome = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    // Déconnexion automatique après 1 minute d'inactivité
-    const manualLogout = useAutoLogout(1 * 60 * 1000);
+    // Déconnexion automatique après 5 minute d'inactivité
+    const manualLogout = useAutoLogout(5 * 60 * 1000);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
